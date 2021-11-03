@@ -1,0 +1,43 @@
+
+.MuiAppBar-colorPrimary{
+    background-color: #f7f9fa !important;
+    color: black !important;
+
+}
+.MuiToolbar-regular{
+    min-height: 50px !important; 
+}
+/* .react-flow__node-output.selected {
+    box-shadow: 0 0 0 1.5px #ff0072 !important;
+} */
+
+.react-flow__node-output.selected, .react-flow__node-output.selected:hover {
+    box-shadow: 0 0 0 1.5px #ff0072 !important;
+}
+.react-flow__node-input.selected, .react-flow__node-input.selected:hover {
+    box-shadow: 0 0 0 1.5px #0041d0 !important;
+}
+.react-flow__node-default.selected, .react-flow__node-input.selected:hover {
+    box-shadow: 0 0 0 1.5px #1a192b !important;
+}
+.right_icons{
+    cursor: pointer;
+}
+.ming_map{
+flex-grow: 1;
+}
+.hidden_checkbox{
+ position: absolute;
+ left: 350px;
+ top: 10px;
+ z-index: 4;
+}
+.edit_icon{
+    margin-right: 5px;
+}
+.edit_icon:hover{
+ border: 1px solid black;
+ padding: 4px;
+ cursor: pointer;
+ border-radius: 2px;
+}
