@@ -1,16 +1,20 @@
-import React, { useContext } from "react";
-import TextField from "@material-ui/core/TextField";
+import React, { useContext, useState } from "react";
+import { TextField, Switch } from "@material-ui/core";
 import "./SideBar.css";
 import DragAbleNodes from "./DragAbleNodes";
 import Curved from "../assets/images/curved_arrow.PNG";
 import Smooth from "../assets/images/smooth_arrow.PNG";
 import Straight from "../assets/images/straight_arrow.PNG";
 import NodeContext from "../Context/auth/authContext";
+import MultiTabContext from "../Context/multiTab/MultiTabContext";
 import line from "../assets/images/straight_line2.png";
 import doted from "../assets/images/doted.png";
-import Switch from "@material-ui/core/Switch";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import FlowChartData, {
+  arrowLabelColor,
+  transformFont,
+  nodeTransparentData,
+} from "./FlowChartData";
 import {
   faBold,
   faItalic,
@@ -18,15 +22,33 @@ import {
   faStrikethrough,
   faFont,
 } from "@fortawesome/free-solid-svg-icons";
-import Button from "@material-ui/core/Button";
+import Button from "@mui/material/Button";
 import capital from "../assets/images/capital.png";
 import upper from "../assets/images/upper.png";
 import check from "../assets/images/check.png";
 import click from "../assets/images/click.jpg";
+import { SketchPicker } from "react-color";
+import MenuItem from "@mui/material/MenuItem";
 
 const MindMapSideBar = (props) => {
+  console.log("hiiiii", props.selectedTab);
   const nodeContext = useContext(NodeContext);
+  const multitabContext = useContext(MultiTabContext);
+   const [hidden, setHidden] = useState(false);
+    const [selectedColor,setSelectedColor]=useState("#ccc")
+     const [hiddenText, setHiddenText] = useState(false);
+    
+  const {
+    data: { nodeName, selectedNodeName,borderColor,nodeFontColor, nodeTransparent },
+    bgColorHandler,
+    nodeNameHandler,
+    borderColorHandler,
+    textColorHandler,
+    nodeTransparentHandler
+  } = multitabContext;
   const { showEdit, showFormat } = nodeContext.data;
+  const [color, setColor] = useState("primary");
+  const [hiddenBorder, setHiddenBorder,] = useState(false);
 
   const changeSmoothArray = () => {
     props.setArrowTypeName("smoothstep");
@@ -89,74 +111,113 @@ const MindMapSideBar = (props) => {
 
   const borderSizeIncrease = () => {
     props.setBorderSize(props.borderSize + 1);
-    
   };
   const borderSizeDecrease = () => {
-    if(props.borderSize > 0){
-    props.setBorderSize(props.borderSize - 1);
-    }
-    else
-    {
-      props.setBorderSize(0)
+    if (props.borderSize > 0) {
+      props.setBorderSize(props.borderSize - 1);
+    } else {
+      props.setBorderSize(0);
     }
   };
   const borderRadiosIncrease = () => {
     props.setBorderRadios(props.borderRadios + 1);
-  }
+  };
   const borderRadiosDecrease = () => {
-    if(props.borderRadios > 0)
-    {
-      props.setBorderRadios(props.borderRadios - 1)
+    if (props.borderRadios > 0) {
+      props.setBorderRadios(props.borderRadios - 1);
+    } else {
+      props.borderRadios(0);
     }
-    else
-    {
-      props.borderRadios(0)
-    }
-  } 
+  };
+
   // className="sidebar_bg"
   return (
-    <div >
+    <div>
       {showFormat ? (
         <div className="text_bg">
-          <label>Node Name</label>
           <TextField
             className="node_label"
-            value={props.nodeName}
-            name={props.nodeName}
-            onChange={(evt) => props.setNodeName(evt.target.value)}
-            label={props.nodeName}
+            value={nodeName}
+            onChange={(evt) => {
+              nodeNameHandler(evt.target.value, props.selectedTab);
+            }}
+            label={selectedNodeName}
             size="small"
             variant="outlined"
           />
           <input type="file" onChange={imageHandler} name="image" id="input" />
-
-          <label>Background Color</label>
-          <input
-            type="color"
-            className="bg_color"
-            value={props.nodeBg}
-            name="color"
-            onChange={(evt) => props.setNodeBg(evt.target.value)}
-          />
-          <label>Border Color</label>
-          <input
-            type="color"
-            className="bg_color"
-            value={props.borderColor}
-            name="color"
-            onChange={(evt) => props.setBorderColor(evt.target.value)}
-          />
-          <label>Border size</label>
-          {/* <TextField
-            className="node_label"
-            value={props.borderSize}
-            onChange={(evt) => props.setBorderSize(evt.target.value)}
-            // onClick={(evt) => props.setBorderSize(props.borderSize + 1) }
-            label="Border Thickness"
-            size="small"
+           <label> Background color </label>
+          {hidden && (
+            <SketchPicker
+              color={selectedColor}
+             // title={nodeBackground}
+              onChange={(updatedColor) => {
+                setSelectedColor(updatedColor.hex)
+                 bgColorHandler(updatedColor.hex,props.selectedTab)
+                 }}
+            />
+          )}
+           <Button
+            color={color}
             variant="outlined"
-            type="number"
-          /> */}
+            size="small"
+            onClick={() => setHidden(!hidden)}
+          >
+            {hidden ? `Close Background Color` : "Background Color"}{" "}
+          </Button>
+
+           <label>Border color</label>
+          {hiddenBorder && (
+            <SketchPicker
+              color={borderColor}
+              onChange={(updatedColor) => { 
+                borderColorHandler(updatedColor.hex,props.selectedTab)}}
+            />
+          )}
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setHiddenBorder(!hiddenBorder)}
+          >
+            {hiddenBorder ? `Close Border Color` : "border Color"}{" "}
+          </Button>
+          <label>Font color</label>
+          {hiddenText && (
+            <SketchPicker
+              color={nodeFontColor}
+              onChange={(updatedColor) => textColorHandler(updatedColor.hex,props.selectedTab)}
+            />
+          )}
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => setHiddenText(!hiddenText)}
+          >
+            {hiddenText ? `Close Text Color` : "Text Color"}{" "}
+          </Button>
+           <div className="upper_lower">
+            <TextField
+              className="node_label"
+              select
+              value={nodeTransparent}
+              name={nodeTransparent}
+              onChange={(evt) => { nodeTransparentHandler(evt.target.value,props.selectedTab)}}
+              // onChange={(evt) => props.setTransparentNode(evt.target.value)}
+              label="Transparent Node"
+              size="small"
+              variant="outlined"
+              fullWidth
+            >
+              {nodeTransparentData.map((option) => (
+                <MenuItem key={option.label} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+
+
+          <label>Border size</label>
 
           <label>font Color</label>
           <input
@@ -167,17 +228,22 @@ const MindMapSideBar = (props) => {
             onChange={(evt) => props.setTextColor(evt.target.value)}
           />
           <div>
-          <button onClick={borderSizeIncrease}> + </button>
-          <h3>{props.borderSize}px</h3>
-          <button onClick={borderSizeDecrease}> - </button>
+            <button onClick={borderSizeIncrease}> + </button>
+            <h3>{props.borderSize}px</h3>
+            <button onClick={borderSizeDecrease}> - </button>
           </div>
           <div>
-          <button onClick={borderRadiosIncrease}> + </button>
-          <h3>{props.borderRadios}px</h3>
-          <button onClick={borderRadiosDecrease}> - </button>
+            <button onClick={borderRadiosIncrease}> + </button>
+            <h3>{props.borderRadios}px</h3>
+            <button onClick={borderRadiosDecrease}> - </button>
           </div>
           <div className="font_style">
-          <FontAwesomeIcon icon={faBold} lassName="edit_text_style" onClick={fontBold} size="lg"/>
+            <FontAwesomeIcon
+              icon={faBold}
+              lassName="edit_text_style"
+              onClick={fontBold}
+              size="lg"
+            />
             <FontAwesomeIcon
               icon={faItalic}
               className="edit_text_style"
@@ -264,7 +330,8 @@ const MindMapSideBar = (props) => {
         </div>
       ) : null}
 
-      {showEdit ? <DragAbleNodes /> : null}
+      {/* {showEdit ? <DragAbleNodes /> : null} */}
+
       {props.showArrow ? (
         <>
           <div>
@@ -323,6 +390,13 @@ const MindMapSideBar = (props) => {
           </div>
         </>
       ) : null}
+      <DragAbleNodes />
+      <img className="captureImage" src={props.screenCapture} />
+      {props.screenCapture && (
+        <Button onClick={props.handleSave} fullWidth variant="contained">
+          Download
+        </Button>
+      )}
     </div>
   );
 };

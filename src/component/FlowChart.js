@@ -11,30 +11,28 @@ import "./SideBar.css";
 import Header from "./Header";
 import MindMapSideBar from "./SideBar";
 import "./Header.css";
-import DragAbleNodes from "./DragAbleNodes";
-import Node, { nodesData } from "./FlowChartData";
 import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
-import click from '../assets/images/check.png'
-import { SoapOutlined } from "@mui/icons-material";
-
+import { ScreenCapture } from "react-screen-capture";
+import { useReactToPrint } from "react-to-print";
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
   const FlowChart = () => {
   const reactFlowWrapper = useRef(null);
+  const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const containerContext=useContext(ContainerData)
-  const {data:{dataset, selectedNode},addTabHandler,updateDataSetHandler,nodeBgColorHandler,onElementClickHandler}=containerContext
+  const {data:{dataset, selectedNode},addTabHandler,updateDataSetHandler,nodeBgColorHandler,onElementClickHandler, onDragHandler}=containerContext
   const [selectedTab,setSelectedTab]=useState(0)
   console.log({dataset:dataset[selectedTab]})
   const [elements, setElements] = useState(dataset[selectedTab]);
-  const [nodeName, setNodeName] = useState("Node name");
+  // const [nodeName, setNodeName] = useState('');
   const [uploadImage, setUploadImage] = useState([])
   const [nodeBg, setNodeBg] = useState("");
-  const [borderColor, setBorderColor] = useState("");
-  const [textColor, setTextColor] =useState("");
+  // const [borderColor, setBorderColor] = useState("");
+  // const [textColor, setTextColor] =useState("");
   const [textSize, setTextSize] = useState('');
   const [textTransform, setTextTransform] = useState('')
   const [fontStyle, setFontStyle] = useState('');
@@ -51,7 +49,24 @@ const getId = () => `dndnode_${id++}`;
   const [labelColor, setLabelColor] = useState("");
   const [nodeHidden, setNodeHidden] = useState(false);
   const [hideArrow, setHideArrow] = useState(false);
+  const [screenCapture, setScreenCapture] = useState("");
   const [counter,setCounter]=useState([0])
+   const { tabs } = nodeContext.data;
+    const handleScreenCapture = (screenCapture) => {
+    setScreenCapture(screenCapture);
+  };
+   const handleSave = () => {
+    const screenCaptureSource = screenCapture;
+    const downloadLink = document.createElement("a");
+    const fileName = "react-screen-capture.png";
+    downloadLink.href = screenCaptureSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
 
 
   const onElementsRemove = (elementsToRemove) =>
@@ -89,22 +104,30 @@ updateDataSetHandler(selectedTab, generatedEdge)
     event.dataTransfer.dropEffect = "move";
   };
   const onDrop = (event) => {
+   
+    // const nodeDrag = () =>{
     event.preventDefault();
-
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
     const type = event.dataTransfer.getData("application/reactflow");
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    const newNode = {
+    const   newNode = {
       id: getId(),
       type,
       position,
       data: { label: `${type} node` },
     };
+   
+    // }
 
-    setElements((es) => es.concat(newNode));
+    let finalData=[...dataset[selectedTab],newNode]
+
+    
+    onDragHandler(selectedTab, finalData)
+
+    // setElements((es) => es.concat(newNode));
   };
 
   const onEdgeDoubleClick = (event, edge) => {
@@ -150,17 +173,17 @@ updateDataSetHandler(selectedTab, generatedEdge)
 
   //  ***********Format Node color******************
 
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === selectedNode) {
-          el.data = { ...el.data, label: nodeName };    
-        }
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((el) => {
+  //       if (el.id === selectedNode) {
+  //         el.data = { ...el.data, label: nodeName };    
+  //       }
 
-        return el;
-      })
-    );
-  }, [nodeName, setElements]);
+  //       return el;
+  //     })
+  //   );
+  // }, [nodeName, setElements]);
 
   useEffect(() => {
     setElements((els) =>
@@ -178,23 +201,23 @@ updateDataSetHandler(selectedTab, generatedEdge)
 
 
  
- useEffect(() => {
-   const nodeColor = dataset[selectedTab].map((el) => {
-        if (el.id === selectedNode) {
-          el.style = { ...el.style, backgroundColor: nodeBg };
-        }
-        return el;
-      })
-   nodeBgColorHandler(selectedTab, nodeColor)
+//  useEffect(() => {
+  //  const nodeColor = dataset[selectedTab].map((el) => {
+  //       if (el.id === selectedNode) {
+  //         el.style = { ...el.style, backgroundColor: nodeBg };
+  //       }
+  //       return el;
+  //     })
+  //  nodeBgColorHandler(selectedTab, nodeColor)
    
- }, [nodeBg])
+//  }, [nodeBg])
   useEffect(() => {
     setElements((els) =>
       els.map((el) => {
         if (el.id === selectedNode) {
           // el.style = { ...el.style, backgroundColor: nodeBg };
-          el.style = { ...el.style, color: textColor};
-          el.style = { ...el.style, borderColor: borderColor };
+          // el.style = { ...el.style, color: textColor};
+          // el.style = { ...el.style, borderColor: borderColor };
           el.style = { ...el.style, borderStyle: 'solid', borderWidth: borderSize};
           el.style = {...el.style, borderRadius: borderRadios}
           el.style = { ...el.style, fontStyle: fontStyle, textDecoration: fontStyle , fontWeight: fontStyle};
@@ -206,7 +229,7 @@ updateDataSetHandler(selectedTab, generatedEdge)
         return el;
       })
     );
-  }, [ textColor, borderColor, fontStyle, textSize, textTransform, borderSize, borderRadios, setElements]);
+  }, [  fontStyle, textSize, textTransform, borderSize, borderRadios, setElements]);
 
   useEffect(() => {
     setElements((els) =>
@@ -250,10 +273,14 @@ const tabGenerator= ()=>{
 }
   return (
     <div>
-      <Header />
+      <ScreenCapture onEndCapture={handleScreenCapture}>
+        {({ onStartCapture }) => (
+           <div>
+      <Header onStartCapture={onStartCapture} handlePrint={handlePrint}/>
       <Grid container spacing={12}>
+      {tabs ? (
        <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
-
+          
          <button onClick={()=>{
            
            setCounter([...counter,8]);
@@ -265,12 +292,20 @@ const tabGenerator= ()=>{
             {tabGenerator()}
          {/* generated tabs */}
        </Grid>
-        <Grid item lg={8} md={8} sm={8} xs={12}>
+       ):null}
+        <Grid
+                item
+                lg={tabs ? 8 : 10}
+                md={tabs ? 8 : 10}
+                sm={tabs ? 8 : 10}
+                xs={12}
+              >
         <div>
           tab container # {selectedTab}
         </div>
-          <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
+          <div style={{ height: "93vh" }} ref={reactFlowWrapper} >
             <ReactFlow
+              ref={componentRef}
               elements={dataset[selectedTab]}
               onElementClick={onElementClick}
               onLoad={onLoad}
@@ -291,8 +326,9 @@ const tabGenerator= ()=>{
         </Grid>
         <Grid item lg={2} md={2} sm={2} className="sidebar">
           <MindMapSideBar
-            nodeName={nodeName}
-            setNodeName={setNodeName}
+          selectedTab={selectedTab}
+            // nodeName={nodeName}
+            // setNodeName={setNodeName}
             nodeBg={nodeBg}
             setNodeBg={setNodeBg}
             showArrow={showArrow}
@@ -310,10 +346,10 @@ const tabGenerator= ()=>{
             setIsHidden={setIsHidden}
             hideArrrow={hideArrow}
             setHideArrow={setHideArrow}
-            borderColor = {borderColor}
-            setBorderColor = {setBorderColor}
-            textColor = {textColor}
-            setTextColor = {setTextColor}
+            // borderColor = {borderColor}
+            // setBorderColor = {setBorderColor}
+            // textColor = {textColor}
+            // setTextColor = {setTextColor}
             borderSize = {borderSize}
             setBorderSize = { setBorderSize}
             fontStyle = {fontStyle}
@@ -326,10 +362,15 @@ const tabGenerator= ()=>{
             setUploadImage={setUploadImage}
             borderRadios = {borderRadios}
             setBorderRadios ={ setBorderRadios}
+            handleSave={handleSave}
+            screenCapture={screenCapture}
             
           />
         </Grid>
       </Grid>
+      </div>
+        )}
+      </ScreenCapture>
     </div>
   );
 };

@@ -168,3 +168,18 @@ padding-top: 5px;
 padding-bottom: 5px;
 justify-content: center;
 }
+.captureImage{
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 3px;
+  }
+  .upper_lower {
+    margin-top: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .node_label {
+    margin-bottom: 10px !important;
+    margin-top: 5px !important;
+  }
+  

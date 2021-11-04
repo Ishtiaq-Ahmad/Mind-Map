@@ -106,6 +106,43 @@ export const nodesData = [
     labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
   },
 ];
+export const nodeTransparentData = [
+  {
+    label: '0.0',
+  },
+ 
+  {
+    label: '0.1',
+  },
+  {
+    label: '0.2',
+  },
+  {
+    label: '0.3',
+  },
+  {
+    label: '0.4',
+  },
+  {
+    label: '0.5',
+  },
+  {
+    label: '0.6',
+  },
+  {
+    label: '0.7',
+  },
+  {
+    label: '0.8',
+  },
+  {
+    label: '0.9',
+  },
+  {
+    label: '1',
+  },
+  
+];
 const FlowChartData = (props) => {
   return <div></div>;
 };

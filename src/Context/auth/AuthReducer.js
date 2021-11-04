@@ -3,6 +3,7 @@ import {
   CHANGE_DOTED_LINE_ANIMATED,
   CHANGE_LINE_ANIMATED,
   FORMAT_NODE,
+  MULTI_TAB
 } from "../types";
 
 const authReducer = (state, action) => {
@@ -27,6 +28,11 @@ const authReducer = (state, action) => {
         ...state,
         smoothArrow: !state.smoothArrow,
       };
+    case MULTI_TAB:
+    return{
+      ...state,
+      tabs: !state.tabs
+    }
 
     default:
       return state;
