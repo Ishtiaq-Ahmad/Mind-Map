@@ -16,20 +16,35 @@ const NodeState = (props) => {
     selectedNodeName:'',
     borderColor:'',
     nodeFontColor:'',
-    nodeTransparent:1
+    nodeTransparent:1,
+     borderRadios: 3,
+     borderWidth: 1,
+     nodeFont:13,
+    nodeText: "",
+    _hideAllNodes: false,
+    nodeHide: false,
+    hideTree: false,
+    multiTree: [],
+    edgeLabelColor: "",
+    arrowColor: "",
+    arrowWidth: 1,
+    reactFlowInstance: null,
+    multipleSelect: [],
+    selectArrow: "",
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  // const {selectedNode, selectedNodeName} = state;
-  const onElementClickHandler = (element) => {
+  const {selectedNode, selectedNodeName ,dataset,borderRadios, borderWidth,nodeFont} = state;
+
+  const onElementClickHandler = (element,treeDataUpdate) => {
     let multiLabel = "";
     if (element.source === undefined && element.target === undefined) {
       multiLabel = element.data.label;
-  
     }
+
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
-      payload:{element, multiLabel}
+      payload:{element, multiLabel,treeDataUpdate}
     })
   }
   const onDragHandler = (selectedTab,updatedNodeData) => {
@@ -47,12 +62,7 @@ const NodeState = (props) => {
       payload: { currentTab, generatedEdge },
     });
   };
-  // const nodeBgColorHandler = (selectedTab, nodeColor) => {
-  //   dispatch({
-  //     type: actionTypes.UPDATE_NODE_COLOR,
-  //     payload:{selectedTab, nodeColor}
-  //   })
-  // }
+
   const activeTabHandler = (activeTab)=>{
      dispatch({
       type: actionTypes.SELECTED_TAB,
@@ -90,6 +100,129 @@ const nodeNameHandler = (nodeName, selectedTab) => {
       payload:{updatedColor, selectedTab}
       })
   }
+  //  const nodeBorder = () => {
+  //   return dataset.map((el) => {
+  //     if (el.id === selectedNode) {
+  //       el.style = { ...el.style, borderRadius: borderRadios };
+  //     }
+  //     return el;
+      
+  //   });
+    
+  // };
+ 
+  const borderRadiosDecreaseHandler = (selectedTab) =>{
+    let radiosDec= 0
+     if(state.borderRadios > 0){
+      radiosDec = state.borderRadios - 1
+     }else{
+       radiosDec = state.borderRadios = 0
+     }
+   
+    dispatch({
+      type: actionTypes.BORDER_RADIOS_DECREASE,
+      payload: {selectedTab, radiosDec} 
+    });
+  }
+  
+   const borderRadiosIncreaseHandler = (selectedTab) => {
+     let radiosInc = borderRadios + 1;
+    dispatch({
+      type: actionTypes.BORDER_RADIOS_INCREASE,
+      payload:  {selectedTab, radiosInc}
+    });
+  };
+   const borderWidthIncreaseHandler = (selectedTab) => {
+    
+    let  width = borderWidth+1;
+    dispatch({
+      type: actionTypes.BORDER_WIDTH_INCREASE,
+      payload: { selectedTab, width  },
+    });
+  };
+  const borderWidthDecreaseHandler = (selectedTab) => {
+     let width2= 0
+     if(state.borderWidth > 0){
+      width2 = state.borderWidth - 1
+     }else{
+       width2 = state.borderWidth = 0
+     }
+    dispatch({
+      type: actionTypes.BORDER_WIDTH_DECREASE,
+      payload: { selectedTab, width2 },
+    });
+  };
+  const fontSizeIncreaseHandler = (selectedTab) => {
+    let nodeTextInc = nodeFont + 1
+    dispatch({
+      type: actionTypes.FONT_SIZE_INCREASE,
+      payload: { selectedTab, nodeTextInc },
+    });
+  };
+  const fontSizeDecreaseHandler = (selectedTab) => {
+    let nodeTextDec= 0
+     if(state.nodeFont > 0){
+      nodeTextDec = state.nodeFont - 1
+     }else{
+       nodeTextDec = state.nodeFont = 0
+     }
+    dispatch({
+      type: actionTypes.FONT_SIZE_DECREASE,
+      payload: {selectedTab, nodeTextDec },
+    });
+  };
+  const borderStyleHandler = (e,selectedTab) => {
+     const nodeBorderStyle = e.target.id;
+     
+    dispatch({
+      type: actionTypes.NODE_BORDER_STYLE,
+      payload: { selectedTab,nodeBorderStyle },
+    });
+  };
+   const fontStyleHandler = (e, selectedTab) => {
+    console.log(e.target.id);
+    const fontStyle = e.target.id  
+    dispatch({ 
+      type: actionTypes.NODE_FONT_STYLE, 
+      payload: { selectedTab, fontStyle } });
+  };
+   const nodeShapeHandler = (e, selectedTab) => {
+     const nodeShape = e.target.id
+    dispatch({ type: actionTypes.NODE_SHAPE, payload: {selectedTab, nodeShape } });
+  };
+    const nodeTextTransform = (e,selectedTab) => {
+    dispatch({
+      type: actionTypes.NODE_TEXT_TRANSFORM,
+      payload: { e, selectedTab },
+    })}
+    const hideAllNodesHandler = (e, selectedTab) => {
+    console.log(("hello", e));
+    // const hideAllNodes = elements.map((el) => {
+    //   el.isHidden = e;
+    //   return e;
+    // });
+    dispatch({
+      type: actionTypes.HIDE_ALL_NODES,
+      payload: { e, selectedTab },
+    });
+  };
+  const hideNodeHandler = (e, selectedTab) => {
+      dispatch({ type: actionTypes.HIDE_NODE, payload: { e, selectedTab } });
+  }
+    const hideTreeHandler = (e, selectedTab) => {
+    // let clonedElements = [...elements];
+    // clonedElements.map((multiple) => {
+    //   if (multiTree.includes(multiple.id)) {
+    //     multiple.isHidden = e;
+    //   }
+    //   return multiple;
+    // });
+    // setElements([...clonedElements]);
+    dispatch({
+      type: actionTypes.HIDE_ALL_TREE,
+      payload: { e, selectedTab },
+    });
+  };
 
   return (
     <MultiTabContext.Provider
@@ -105,7 +238,20 @@ const nodeNameHandler = (nodeName, selectedTab) => {
         nodeNameHandler,
         borderColorHandler,
         textColorHandler,
-        nodeTransparentHandler
+        nodeTransparentHandler,
+        borderRadiosDecreaseHandler,
+        borderRadiosIncreaseHandler,
+        borderWidthDecreaseHandler,
+        borderWidthIncreaseHandler,
+        fontSizeDecreaseHandler,
+     fontSizeIncreaseHandler,
+     borderStyleHandler,
+     fontStyleHandler,
+     nodeShapeHandler,
+     nodeTextTransform,
+     hideAllNodesHandler,
+     hideNodeHandler,
+     hideTreeHandler
       }}
     >
       {props.children}

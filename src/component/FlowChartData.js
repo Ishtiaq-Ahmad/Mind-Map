@@ -143,6 +143,20 @@ export const nodeTransparentData = [
   },
   
 ];
+export const transformFont = [
+  {
+    label: 'UPPERCASE',
+  },
+ 
+  {
+    label: 'lowercase',
+  },
+  {
+    label: 'Capitalize',
+  },
+  
+];
+
 const FlowChartData = (props) => {
   return <div></div>;
 };

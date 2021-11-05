@@ -29,27 +29,62 @@ import check from "../assets/images/check.png";
 import click from "../assets/images/click.jpg";
 import { SketchPicker } from "react-color";
 import MenuItem from "@mui/material/MenuItem";
+import solidLine from "../assets/images/solid-line.jpg";
+import dottedLine from "../assets/images/dotted-line.jpg";
+import dashedLine from "../assets/images/dashed-line.png";
+import doubleLine from "../assets/images/double-line.png";
+import normal from "../assets/images/normal.png";
+import Oval from "../assets/images/oval-bold-shape.png";
+import rectangleRound from "../assets/images/rounded-rectangle.png";
+import rectangle from "../assets/images/rectangular-shape-outline.png";
+// import smoothStep from "../assets/images/smoothStep.png";
+import shape from "../assets/images/shape.PNG";
 
 const MindMapSideBar = (props) => {
   console.log("hiiiii", props.selectedTab);
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);
-   const [hidden, setHidden] = useState(false);
-    const [selectedColor,setSelectedColor]=useState("#ccc")
-     const [hiddenText, setHiddenText] = useState(false);
-    
+  const [hidden, setHidden] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("#ccc");
+  const [hiddenText, setHiddenText] = useState(false);
+
   const {
-    data: { nodeName, selectedNodeName,borderColor,nodeFontColor, nodeTransparent },
+    data: {
+      nodeName,
+      selectedNodeName,
+      borderColor,
+      hideTree,
+      _hideAllNodes,
+      nodeHide,
+      nodeFontColor,
+      nodeText,
+      nodeTransparent,
+      borderRadios,
+      borderWidth,
+      nodeFont,
+    },
     bgColorHandler,
     nodeNameHandler,
     borderColorHandler,
     textColorHandler,
-    nodeTransparentHandler
+    nodeTransparentHandler,
+    borderRadiosDecreaseHandler,
+    borderRadiosIncreaseHandler,
+    borderWidthDecreaseHandler,
+    borderWidthIncreaseHandler,
+    fontSizeDecreaseHandler,
+    fontSizeIncreaseHandler,
+    borderStyleHandler,
+    fontStyleHandler,
+    nodeShapeHandler,
+    nodeTextTransform,
+    hideAllNodesHandler,
+    hideNodeHandler,
+    hideTreeHandler,
   } = multitabContext;
   const { showEdit, showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
-  const [hiddenBorder, setHiddenBorder,] = useState(false);
-
+  const [hiddenBorder, setHiddenBorder] = useState(false);
   const changeSmoothArray = () => {
     props.setArrowTypeName("smoothstep");
   };
@@ -146,18 +181,18 @@ const MindMapSideBar = (props) => {
             variant="outlined"
           />
           <input type="file" onChange={imageHandler} name="image" id="input" />
-           <label> Background color </label>
+          <label> Background color </label>
           {hidden && (
             <SketchPicker
               color={selectedColor}
-             // title={nodeBackground}
+              // title={nodeBackground}
               onChange={(updatedColor) => {
-                setSelectedColor(updatedColor.hex)
-                 bgColorHandler(updatedColor.hex,props.selectedTab)
-                 }}
+                setSelectedColor(updatedColor.hex);
+                bgColorHandler(updatedColor.hex, props.selectedTab);
+              }}
             />
           )}
-           <Button
+          <Button
             color={color}
             variant="outlined"
             size="small"
@@ -166,12 +201,13 @@ const MindMapSideBar = (props) => {
             {hidden ? `Close Background Color` : "Background Color"}{" "}
           </Button>
 
-           <label>Border color</label>
+          <label>Border color</label>
           {hiddenBorder && (
             <SketchPicker
               color={borderColor}
-              onChange={(updatedColor) => { 
-                borderColorHandler(updatedColor.hex,props.selectedTab)}}
+              onChange={(updatedColor) => {
+                borderColorHandler(updatedColor.hex, props.selectedTab);
+              }}
             />
           )}
           <Button
@@ -185,7 +221,9 @@ const MindMapSideBar = (props) => {
           {hiddenText && (
             <SketchPicker
               color={nodeFontColor}
-              onChange={(updatedColor) => textColorHandler(updatedColor.hex,props.selectedTab)}
+              onChange={(updatedColor) =>
+                textColorHandler(updatedColor.hex, props.selectedTab)
+              }
             />
           )}
           <Button
@@ -195,13 +233,15 @@ const MindMapSideBar = (props) => {
           >
             {hiddenText ? `Close Text Color` : "Text Color"}{" "}
           </Button>
-           <div className="upper_lower">
+          <div className="upper_lower">
             <TextField
               className="node_label"
               select
               value={nodeTransparent}
               name={nodeTransparent}
-              onChange={(evt) => { nodeTransparentHandler(evt.target.value,props.selectedTab)}}
+              onChange={(evt) => {
+                nodeTransparentHandler(evt.target.value, props.selectedTab);
+              }}
               // onChange={(evt) => props.setTransparentNode(evt.target.value)}
               label="Transparent Node"
               size="small"
@@ -215,93 +255,194 @@ const MindMapSideBar = (props) => {
               ))}
             </TextField>
           </div>
-
-
-          <label>Border size</label>
-
-          <label>font Color</label>
-          <input
-            type="color"
-            className="bg_color"
-            value={props.textColor}
-            name="color"
-            onChange={(evt) => props.setTextColor(evt.target.value)}
-          />
-          <div>
-            <button onClick={borderSizeIncrease}> + </button>
-            <h3>{props.borderSize}px</h3>
-            <button onClick={borderSizeDecrease}> - </button>
+          <div className="border">
+            <label>Border Radius</label>
+            <span className="borderWidth">
+              <button
+                onClick={() => borderRadiosDecreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>-</strong>
+              </button>
+              <h4 className="borderFont">{borderRadios}px</h4>
+              <button
+                onClick={() => borderRadiosIncreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>+</strong>
+              </button>
+            </span>
           </div>
-          <div>
-            <button onClick={borderRadiosIncrease}> + </button>
-            <h3>{props.borderRadios}px</h3>
-            <button onClick={borderRadiosDecrease}> - </button>
+          <div className="border">
+            <label>Border Thickness</label>
+            <br />
+            <span className="borderWidth">
+              <button
+                onClick={() => borderWidthDecreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>-</strong>
+              </button>
+              <h4 className="borderFont">{borderWidth}px</h4>
+              <button
+                onClick={() => borderWidthIncreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                {" "}
+                <strong>+</strong>{" "}
+              </button>
+            </span>
           </div>
+          <div className="border">
+            <label>Font Size</label>
+            <br />
+            <span className="borderWidth">
+              <button
+                onClick={() => fontSizeDecreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>-</strong>
+              </button>
+              <h4 className="borderFont">{nodeFont}px</h4>
+              <button
+                onClick={() => fontSizeIncreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                {" "}
+                <strong>+</strong>{" "}
+              </button>
+            </span>
+          </div>
+          <label>Border Style</label>
           <div className="font_style">
+            <img
+              src={dottedLine}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              id="dotted"
+              // value={props.borderStyle}
+            />
+            <img
+              src={dashedLine}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              id="dashed"
+            />
+            <img
+              src={doubleLine}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              id="double"
+            />
+            <img
+              src={solidLine}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              id="solid"
+            />
+          </div>
+
+          <label>Font Style</label>
+          <div className="font_style">
+            <img
+              src={normal}
+              alt="captial A "
+              className="normal"
+              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              id="normal"
+            />
             <FontAwesomeIcon
               icon={faBold}
-              lassName="edit_text_style"
-              onClick={fontBold}
+              className="edit_text_style"
+              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
               size="lg"
+              id="bold"
             />
             <FontAwesomeIcon
               icon={faItalic}
               className="edit_text_style"
-              onClick={fontItalic}
+              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
               size="lg"
+              id="italic"
             />
             <FontAwesomeIcon
               icon={faUnderline}
               className="edit_text_style"
-              onClick={fontUnderLine}
+              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
               size="lg"
+              id="underLine"
             />
             <FontAwesomeIcon
               icon={faStrikethrough}
               className="edit_text_style"
-              onClick={fontStrikeThrough}
+              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
               size="lg"
-            />
-          </div>
-          <div className="font_size">
-            <FontAwesomeIcon
-              icon={faFont}
-              className="edit_text_size"
-              onClick={smallFont}
-              size="xs"
-            />
-            <FontAwesomeIcon
-              icon={faFont}
-              className="edit_text_size"
-              onClick={mediumFont}
-              size="lg"
-            />
-            <FontAwesomeIcon
-              icon={faFont}
-              className="edit_text_size"
-              onClick={largeFont}
-              size="2x"
+              id="line-through"
             />
           </div>
           <div className="upper_lower">
+            <TextField
+              className="node_label"
+              select
+              value={nodeText}
+              name={nodeText}
+              onChange={(evt) =>
+                nodeTextTransform(evt.target.value, props.selectedTab)
+              }
+              label="Select Text Transfrom"
+              size="small"
+              variant="outlined"
+              fullWidth
+            >
+              {transformFont.map((option) => (
+                <MenuItem key={option.label} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div>
+          <label>Node Shape</label>
+          <div className="font_style">
             <img
-              src={upper}
-              alt="captial A"
-              className="capital"
-              onClick={upperFont}
+              src={shape}
+              alt="dottedLine "
+              className="lineStyle1"
+              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              id="15px 0px 15px 0px"
             />
             <img
-              src={capital}
-              alt="capital a"
-              className="capital"
-              onClick={lowerFont}
+              src={Oval}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              id="116px / 24px"
+            />
+            <img
+              src={rectangleRound}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              id="13px"
+            />
+            <img
+              src={rectangle}
+              alt="dottedLine "
+              className="lineStyle"
+              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              id="0px"
             />
           </div>
           <div className="hideElements">
-            <label>Hide all elements:</label>
+            <label>Hide all Nodes:</label>
             <Switch
-              checked={props.isHidden}
-              onChange={(evt) => props.setIsHidden(evt.target.checked)}
+              checked={_hideAllNodes}
+              onChange={(evt) =>
+                hideAllNodesHandler(evt.target.checked, props.selectedTab)
+              }
               color="primary"
               name="checkedB"
               className="switchHide"
@@ -309,22 +450,29 @@ const MindMapSideBar = (props) => {
             />
           </div>
           <div className="hideElements">
-            <label>Hide one element:</label>
+            <label>Hide Node or Edge:</label>
             <Switch
-              checked={props.nodeHidden}
-              onChange={(evt) => props.setNodeHidden(evt.target.checked)}
+              checked={nodeHide}
+              onChange={(evt) =>
+                hideNodeHandler(evt.target.checked, props.selectedTab)
+              }
               color="primary"
               name="checkedB"
               className="switchHide"
               inputProps={{ "aria-label": "primary checkbox" }}
             />
           </div>
-          <div>
-            <img
-              src={click}
-              alt="curved arrow"
-              className="curved"
-              onClick={selectImage}
+          <div className="hideElements">
+            <label>Hide a Tree:</label>
+            <Switch
+              checked={hideTree}
+              onChange={(evt) =>
+                hideTreeHandler(evt.target.checked, props.selectedTab)
+              }
+              color="primary"
+              name="checkedB"
+              className="switchHide"
+              inputProps={{ "aria-label": "primary checkbox" }}
             />
           </div>
         </div>

@@ -4,6 +4,8 @@ import ReactFlow, {
   addEdge,
   Controls,
   Background,
+  getOutgoers,
+  getConnectedEdges,
 } from "react-flow-renderer";
 import Minimap from "./Minimap";
 import { Grid } from "@material-ui/core";
@@ -19,25 +21,32 @@ import { useReactToPrint } from "react-to-print";
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-  const FlowChart = () => {
+const FlowChart = () => {
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const containerContext=useContext(ContainerData)
-  const {data:{dataset, selectedNode},addTabHandler,updateDataSetHandler,nodeBgColorHandler,onElementClickHandler, onDragHandler}=containerContext
-  const [selectedTab,setSelectedTab]=useState(0)
-  console.log({dataset:dataset[selectedTab]})
+  const containerContext = useContext(ContainerData);
+  const {
+    data: { dataset, selectedNode },
+    addTabHandler,
+    updateDataSetHandler,
+    nodeBgColorHandler,
+    onElementClickHandler,
+    onDragHandler,
+  } = containerContext;
+  const [selectedTab, setSelectedTab] = useState(0);
+  console.log({ dataset: dataset[selectedTab] });
   const [elements, setElements] = useState(dataset[selectedTab]);
   // const [nodeName, setNodeName] = useState('');
-  const [uploadImage, setUploadImage] = useState([])
+  const [uploadImage, setUploadImage] = useState([]);
   const [nodeBg, setNodeBg] = useState("");
   // const [borderColor, setBorderColor] = useState("");
   // const [textColor, setTextColor] =useState("");
-  const [textSize, setTextSize] = useState('');
-  const [textTransform, setTextTransform] = useState('')
-  const [fontStyle, setFontStyle] = useState('');
-  const [borderSize, setBorderSize] = useState(1);
-  const [borderRadios, setBorderRadios] = useState(1);
+  // const [textSize, setTextSize] = useState('');
+  // const [textTransform, setTextTransform] = useState('')
+  // const [fontStyle, setFontStyle] = useState('');
+  // const [borderSize, setBorderSize] = useState(1);
+  // const [borderRadios, setBorderRadios] = useState(1);
   // const [selectedNode, setSelectedNode] = useState("");
   const nodeContext = useContext(NodeContext);
   const [showArrow, setShowArrow] = useState(false);
@@ -50,12 +59,12 @@ const getId = () => `dndnode_${id++}`;
   const [nodeHidden, setNodeHidden] = useState(false);
   const [hideArrow, setHideArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
-  const [counter,setCounter]=useState([0])
-   const { tabs } = nodeContext.data;
-    const handleScreenCapture = (screenCapture) => {
+  const [counter, setCounter] = useState([0]);
+  const { tabs } = nodeContext.data;
+  const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
   };
-   const handleSave = () => {
+  const handleSave = () => {
     const screenCaptureSource = screenCapture;
     const downloadLink = document.createElement("a");
     const fileName = "react-screen-capture.png";
@@ -67,33 +76,41 @@ const getId = () => `dndnode_${id++}`;
     content: () => componentRef.current,
   });
 
-
-
   const onElementsRemove = (elementsToRemove) =>
     setElements((els) => removeElements(elementsToRemove, els));
   const onConnect = (params) => {
-  const generatedEdge=   addEdge({ ...params, type: "buttonedge", label: "label" },dataset[selectedTab])
-  // dispatch action to store for data updation
-      // send addEdge to dispatch
-// const generatedEdge=addEdgeHandler(params)
-console.log(generatedEdge)
-updateDataSetHandler(selectedTab, generatedEdge)
+    const generatedEdge = addEdge(
+      { ...params, type: "buttonedge", label: "label" },
+      dataset[selectedTab]
+    );
+    // dispatch action to store for data updation
+    // send addEdge to dispatch
+    // const generatedEdge=addEdgeHandler(params)
+    console.log(generatedEdge);
+    updateDataSetHandler(selectedTab, generatedEdge);
     // setElements((els) =>
     //   addEdge({ ...params, type: "buttonedge", label: "label" }, els)
     // );
   };
 
-   const onElementClick = (event, element) => {
-     onElementClickHandler(element)
+  const onElementClick = (event, element) => {
+    const _data = getOutgoers(element, elements);
+    const treeData = _data.map((item) => item.id);
+    let __edges = elements.filter((item) => item.source && item.target);
+    let treeDataUpdate = "";
+    const edgesConnect = getConnectedEdges([element], __edges);
+    const edgesId = edgesConnect.map((item) => item.id);
+    const hi = [...edgesId, element.id];
+    treeDataUpdate = [...treeData, ...hi];
+    onElementClickHandler(element, treeDataUpdate);
   };
 
-
-  const addEdgeHandler=(...params)=>{
-    console.log({params});
+  const addEdgeHandler = (...params) => {
+    console.log({ params });
     // console.log( addEdge({ ...params, type: "buttonedge", label: "label" }));
     // return  addEdge({ ...params, type: "buttonedge", label: "label" })
     return true;
-  }
+  };
   const onLoad = (reactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
@@ -104,7 +121,6 @@ updateDataSetHandler(selectedTab, generatedEdge)
     event.dataTransfer.dropEffect = "move";
   };
   const onDrop = (event) => {
-   
     // const nodeDrag = () =>{
     event.preventDefault();
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
@@ -113,19 +129,18 @@ updateDataSetHandler(selectedTab, generatedEdge)
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    const   newNode = {
+    const newNode = {
       id: getId(),
       type,
       position,
       data: { label: `${type} node` },
     };
-   
+
     // }
 
-    let finalData=[...dataset[selectedTab],newNode]
+    let finalData = [...dataset[selectedTab], newNode];
 
-    
-    onDragHandler(selectedTab, finalData)
+    onDragHandler(selectedTab, finalData);
 
     // setElements((es) => es.concat(newNode));
   };
@@ -133,7 +148,6 @@ updateDataSetHandler(selectedTab, generatedEdge)
   const onEdgeDoubleClick = (event, edge) => {
     setShowArrow(true);
     setSelectArrow(edge.id);
-    
   };
 
   useEffect(() => {
@@ -169,15 +183,13 @@ updateDataSetHandler(selectedTab, generatedEdge)
     }
   }, [edgeLabel, selectArrow]);
 
- 
-
   //  ***********Format Node color******************
 
   // useEffect(() => {
   //   setElements((els) =>
   //     els.map((el) => {
   //       if (el.id === selectedNode) {
-  //         el.data = { ...el.data, label: nodeName };    
+  //         el.data = { ...el.data, label: nodeName };
   //       }
 
   //       return el;
@@ -189,19 +201,15 @@ updateDataSetHandler(selectedTab, generatedEdge)
     setElements((els) =>
       els.map((el) => {
         if (el.id === selectedNode) {
-          el.data = { ...el.data, label:  uploadImage};    
+          el.data = { ...el.data, label: uploadImage };
         }
 
         return el;
-        
       })
     );
   }, [uploadImage, setElements]);
- 
 
-
- 
-//  useEffect(() => {
+  //  useEffect(() => {
   //  const nodeColor = dataset[selectedTab].map((el) => {
   //       if (el.id === selectedNode) {
   //         el.style = { ...el.style, backgroundColor: nodeBg };
@@ -209,39 +217,38 @@ updateDataSetHandler(selectedTab, generatedEdge)
   //       return el;
   //     })
   //  nodeBgColorHandler(selectedTab, nodeColor)
-   
-//  }, [nodeBg])
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === selectedNode) {
-          // el.style = { ...el.style, backgroundColor: nodeBg };
-          // el.style = { ...el.style, color: textColor};
-          // el.style = { ...el.style, borderColor: borderColor };
-          el.style = { ...el.style, borderStyle: 'solid', borderWidth: borderSize};
-          el.style = {...el.style, borderRadius: borderRadios}
-          el.style = { ...el.style, fontStyle: fontStyle, textDecoration: fontStyle , fontWeight: fontStyle};
-          el.style = { ...el.style, fontSize: textSize };
-          el.style = { ...el.style, textTransform: textTransform };
-          
-        }
 
-        return el;
-      })
-    );
-  }, [  fontStyle, textSize, textTransform, borderSize, borderRadios, setElements]);
+  //  }, [nodeBg])
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((el) => {
+  //       if (el.id === selectedNode) {
+  //         // el.style = { ...el.style, backgroundColor: nodeBg };
+  //         // el.style = { ...el.style, color: textColor};
+  //         // el.style = { ...el.style, borderColor: borderColor };
+  //         // el.style = { ...el.style, borderStyle: 'solid', borderWidth: borderSize};
+  //         // el.style = {...el.style, borderRadius: borderRadios}
+  //         // el.style = { ...el.style, fontStyle: fontStyle, textDecoration: fontStyle , fontWeight: fontStyle};
+  //         // el.style = { ...el.style, fontSize: textSize };
+  //         // el.style = { ...el.style, textTransform: textTransform };
+
+  //       }
+
+  //       return el;
+  //     })
+  //   );
+  // }, [  textTransform, setElements]);
 
   useEffect(() => {
     setElements((els) =>
       els.map((el) => {
         if (el.id === selectedNode) {
           el.isHidden = nodeHidden;
-        } 
+        }
         return el;
       })
     );
   }, [nodeHidden, setElements]);
-
 
   useEffect(() => {
     setElements((els) =>
@@ -264,111 +271,111 @@ updateDataSetHandler(selectedTab, generatedEdge)
     );
   }, [isHidden]);
 
-const tabGenerator= ()=>{
-  return (
-    counter.map((element,index)=>{
-  return   <div key={index} onClick={()=>setSelectedTab(index)}>tab {index}</div>
-    })
-  )
-}
+  const tabGenerator = () => {
+    return counter.map((element, index) => {
+      return (
+        <div key={index} onClick={() => setSelectedTab(index)}>
+          tab {index}
+        </div>
+      );
+    });
+  };
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
         {({ onStartCapture }) => (
-           <div>
-      <Header onStartCapture={onStartCapture} handlePrint={handlePrint}/>
-      <Grid container spacing={12}>
-      {tabs ? (
-       <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
-          
-         <button onClick={()=>{
-           
-           setCounter([...counter,8]);
-           addTabHandler()
-           
-           }}>add tab</button>
+          <div>
+            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} />
+            <Grid container spacing={12}>
+              {tabs ? (
+                <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
+                  <button
+                    onClick={() => {
+                      setCounter([...counter, 8]);
+                      addTabHandler();
+                    }}
+                  >
+                    add tab
+                  </button>
 
-          {/* using map */}
-            {tabGenerator()}
-         {/* generated tabs */}
-       </Grid>
-       ):null}
-        <Grid
+                  {/* using map */}
+                  {tabGenerator()}
+                  {/* generated tabs */}
+                </Grid>
+              ) : null}
+              <Grid
                 item
                 lg={tabs ? 8 : 10}
                 md={tabs ? 8 : 10}
                 sm={tabs ? 8 : 10}
                 xs={12}
               >
-        <div>
-          tab container # {selectedTab}
-        </div>
-          <div style={{ height: "93vh" }} ref={reactFlowWrapper} >
-            <ReactFlow
-              ref={componentRef}
-              elements={dataset[selectedTab]}
-              onElementClick={onElementClick}
-              onLoad={onLoad}
-              onElementsRemove={onElementsRemove}
-              onConnect={onConnect}
-              deleteKeyCode={46}
-              zoomOnDoubleClick={false}
-              key="edges"
-              onDragOver={onDragOver}
-              onDrop={onDrop}
-              onEdgeDoubleClick={onEdgeDoubleClick}
-              edgeTypes
-            >
-              <Controls />
-              <Background color="#aaa" gap={16} />
-            </ReactFlow>
+                <div>tab container # {selectedTab}</div>
+                <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
+                  <ReactFlow
+                    ref={componentRef}
+                    elements={dataset[selectedTab]}
+                    onElementClick={onElementClick}
+                    onLoad={onLoad}
+                    onElementsRemove={onElementsRemove}
+                    onConnect={onConnect}
+                    deleteKeyCode={46}
+                    zoomOnDoubleClick={false}
+                    key="edges"
+                    onDragOver={onDragOver}
+                    onDrop={onDrop}
+                    onEdgeDoubleClick={onEdgeDoubleClick}
+                    edgeTypes
+                  >
+                    <Controls />
+                    <Background color="#aaa" gap={16} />
+                  </ReactFlow>
+                </div>
+              </Grid>
+              <Grid item lg={2} md={2} sm={2} className="sidebar">
+                <MindMapSideBar
+                  selectedTab={selectedTab}
+                  // nodeName={nodeName}
+                  // setNodeName={setNodeName}
+                  nodeBg={nodeBg}
+                  setNodeBg={setNodeBg}
+                  showArrow={showArrow}
+                  arrowTypeName={arrowTypeName}
+                  setArrowTypeName={setArrowTypeName}
+                  selectAnimation={selectAnimation}
+                  setSelectAnimation={setSelectAnimation}
+                  edgeLabel={edgeLabel}
+                  setEdgeLabel={setEdgeLabel}
+                  labelColor={labelColor}
+                  setLabelColor={setLabelColor}
+                  nodeHidden={nodeHidden}
+                  setNodeHidden={setNodeHidden}
+                  isHidden={isHidden}
+                  setIsHidden={setIsHidden}
+                  hideArrrow={hideArrow}
+                  setHideArrow={setHideArrow}
+                  // borderColor = {borderColor}
+                  // setBorderColor = {setBorderColor}
+                  // textColor = {textColor}
+                  // setTextColor = {setTextColor}
+                  // borderSize = {borderSize}
+                  // setBorderSize = { setBorderSize}
+                  // fontStyle = {fontStyle}
+                  // setFontStyle = {setFontStyle}
+                  // textSize={textSize}
+                  // setTextSize = {setTextSize}
+                  // textTransform= {textTransform}
+                  // setTextTransform ={ setTextTransform}
+                  uploadImage={uploadImage}
+                  setUploadImage={setUploadImage}
+                  // borderRadios = {borderRadios}
+                  // setBorderRadios ={ setBorderRadios}
+                  handleSave={handleSave}
+                  screenCapture={screenCapture}
+                />
+              </Grid>
+            </Grid>
           </div>
-        </Grid>
-        <Grid item lg={2} md={2} sm={2} className="sidebar">
-          <MindMapSideBar
-          selectedTab={selectedTab}
-            // nodeName={nodeName}
-            // setNodeName={setNodeName}
-            nodeBg={nodeBg}
-            setNodeBg={setNodeBg}
-            showArrow={showArrow}
-            arrowTypeName={arrowTypeName}
-            setArrowTypeName={setArrowTypeName}
-            selectAnimation={selectAnimation}
-            setSelectAnimation={setSelectAnimation}
-            edgeLabel={edgeLabel}
-            setEdgeLabel={setEdgeLabel}
-            labelColor={labelColor}
-            setLabelColor={setLabelColor}
-            nodeHidden={nodeHidden}
-            setNodeHidden={setNodeHidden}
-            isHidden={isHidden}
-            setIsHidden={setIsHidden}
-            hideArrrow={hideArrow}
-            setHideArrow={setHideArrow}
-            // borderColor = {borderColor}
-            // setBorderColor = {setBorderColor}
-            // textColor = {textColor}
-            // setTextColor = {setTextColor}
-            borderSize = {borderSize}
-            setBorderSize = { setBorderSize}
-            fontStyle = {fontStyle}
-            setFontStyle = {setFontStyle}
-            textSize={textSize}
-            setTextSize = {setTextSize}
-            textTransform= {textTransform}
-            setTextTransform ={ setTextTransform}
-            uploadImage={uploadImage}
-            setUploadImage={setUploadImage}
-            borderRadios = {borderRadios}
-            setBorderRadios ={ setBorderRadios}
-            handleSave={handleSave}
-            screenCapture={screenCapture}
-            
-          />
-        </Grid>
-      </Grid>
-      </div>
         )}
       </ScreenCapture>
     </div>

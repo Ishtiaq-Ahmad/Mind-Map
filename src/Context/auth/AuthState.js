@@ -29,6 +29,7 @@ const NodeState = (props) => {
   const multiTabHandler = () => {
     dispatch({type: MULTI_TAB});
   }
+  
 
   return (
     <AuthContext.Provider
@@ -38,7 +39,8 @@ const NodeState = (props) => {
         formatNode,
         changeDotedLine,
         changeStraightLine,
-        multiTabHandler
+        multiTabHandler,
+        
       }}
     >
       {props.children}
