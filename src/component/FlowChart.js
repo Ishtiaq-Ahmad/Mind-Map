@@ -12,6 +12,7 @@ import { Grid } from "@material-ui/core";
 import "./SideBar.css";
 import Header from "./Header";
 import MindMapSideBar from "./SideBar";
+import MultiTab from './MultiTab';
 import "./Header.css";
 import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
@@ -33,7 +34,8 @@ const FlowChart = () => {
     nodeBgColorHandler,
     onElementClickHandler,
     onDragHandler,
-    onEdgeHandler
+    onEdgeHandler,
+    removeElementHandler
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
   console.log({ dataset: dataset[selectedTab] });
@@ -60,7 +62,7 @@ const FlowChart = () => {
   const [nodeHidden, setNodeHidden] = useState(false);
   const [hideArrow, setHideArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
-  const [counter, setCounter] = useState([0]);
+  // const [counter, setCounter] = useState([0]);
   const { tabs } = nodeContext.data;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
@@ -77,17 +79,18 @@ const FlowChart = () => {
     content: () => componentRef.current,
   });
 
-  const onElementsRemove = (elementsToRemove) =>
-    setElements((els) => removeElements(elementsToRemove, els));
+  const onElementsRemove = (elementsToRemove) =>{
+    // let deleteElement  = ''
+  const deleteElement = removeElements(elementsToRemove, dataset[selectedTab])
+    // setElements((els) => removeElements(elementsToRemove, els))
+    removeElementHandler(selectedTab,deleteElement)
+    }
+    ;
   const onConnect = (params) => {
     const generatedEdge = addEdge(
       { ...params, type: "buttonedge", label: "label" },
       dataset[selectedTab]
     );
-    // dispatch action to store for data updation
-    // send addEdge to dispatch
-    // const generatedEdge=addEdgeHandler(params)
-    console.log(generatedEdge);
     updateDataSetHandler(selectedTab, generatedEdge);
     // setElements((els) =>
     //   addEdge({ ...params, type: "buttonedge", label: "label" }, els)
@@ -241,47 +244,47 @@ const FlowChart = () => {
   //   );
   // }, [  textTransform, setElements]);
 
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === selectedNode) {
-          el.isHidden = nodeHidden;
-        }
-        return el;
-      })
-    );
-  }, [nodeHidden, setElements]);
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((el) => {
+  //       if (el.id === selectedNode) {
+  //         el.isHidden = nodeHidden;
+  //       }
+  //       return el;
+  //     })
+  //   );
+  // }, [nodeHidden, setElements]);
 
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === selectArrow) {
-          el.isHidden = hideArrow;
-        }
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((el) => {
+  //       if (el.id === selectArrow) {
+  //         el.isHidden = hideArrow;
+  //       }
 
-        return el;
-      })
-    );
-  }, [hideArrow, setElements]);
+  //       return el;
+  //     })
+  //   );
+  // }, [hideArrow, setElements]);
 
-  useEffect(() => {
-    setElements((els) =>
-      els.map((e) => {
-        e.isHidden = isHidden;
-        return e;
-      })
-    );
-  }, [isHidden]);
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((e) => {
+  //       e.isHidden = isHidden;
+  //       return e;
+  //     })
+  //   );
+  // }, [isHidden]);
 
-  const tabGenerator = () => {
-    return counter.map((element, index) => {
-      return (
-        <div key={index} onClick={() => setSelectedTab(index)}>
-          tab {index}
-        </div>
-      );
-    });
-  };
+  // const tabGenerator = () => {
+  //   return counter.map((element, index) => {
+  //     return (
+  //       <div key={index} onClick={() => setSelectedTab(index)}>
+  //         Tab {index}
+  //       </div>
+  //     );
+  //   });
+  // };
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -291,17 +294,18 @@ const FlowChart = () => {
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
-                  <button
+                <MultiTab setSelectedTab ={setSelectedTab}/>
+                  {/* <button
                     onClick={() => {
                       setCounter([...counter, 8]);
                       addTabHandler();
                     }}
                   >
                     add tab
-                  </button>
+                  </button> */}
 
                   {/* using map */}
-                  {tabGenerator()}
+                  {/* {tabGenerator()} */}
                   {/* generated tabs */}
                 </Grid>
               ) : null}

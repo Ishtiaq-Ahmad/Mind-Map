@@ -58,8 +58,20 @@ const authReducer = (state, action) => {
         ...state,
         dataset: [...clonedData],
       };
+case actionTypes.DELETE_ELEMENT:
+let { selectedTab: tabSelect, deleteElement } = action.payload;
+      let cloneDelete = [...state.dataset];
+      cloneDelete = cloneDelete.map((element, index) => {
+        if (tabSelect === index) {
+          return deleteElement;
+        }
+        return element;
+      });
 
-  
+      return {
+        ...state,
+        dataset: [...cloneDelete]
+      }
   case actionTypes.CHANGE_NODE_NAME:
       let { nodeName, selectedTab: _selectedTab2 } = action.payload;
       let targetName = [...state.dataset[_selectedTab2]];

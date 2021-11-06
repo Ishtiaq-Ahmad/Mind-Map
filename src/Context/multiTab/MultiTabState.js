@@ -37,7 +37,7 @@ const NodeState = (props) => {
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {selectedNode, selectedNodeName ,dataset,arrowWidth,arrowType,borderRadios, borderWidth,nodeFont,selectArrow} = state;
+  const {arrowWidth,arrowType,borderRadios, borderWidth,nodeFont} = state;
 
   const onElementClickHandler = (element,treeDataUpdate) => {
     let multiLabel = "";
@@ -50,12 +50,18 @@ const NodeState = (props) => {
       payload:{element, multiLabel,treeDataUpdate}
     })
   }
-  console.log('hmmmmm', selectArrow);
+  
   const onEdgeHandler = (edge) => {
     let _edge = edge.id;
     dispatch({
       type:actionTypes.ON_EDGE_DOUBLE_CLICK,
       payload:{_edge}
+    })
+  }
+  const removeElementHandler = (selectedTab,deleteElement)=>{
+    dispatch({
+      type:actionTypes.DELETE_ELEMENT,
+      payload:{selectedTab,deleteElement}
     })
   }
   const onDragHandler = (selectedTab,updatedNodeData) => {
@@ -319,7 +325,8 @@ let head = e.target.id;
      arrowColorHandler,
      arrowHeadHandler,
      arrowWidthDecreaseHandler,
-    arrowWidthIncreaseHandler
+    arrowWidthIncreaseHandler,
+    removeElementHandler
       }}
     >
       {props.children}

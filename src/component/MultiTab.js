@@ -1,31 +1,32 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState} from "react";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import "./Header.css";
+import "./SideBar.css";
 import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
-import multipletabContext from "../Context/multipleTab/multipletabContext";
+import ContainerData from "../Context/multiTab/MultiTabContext";
 
-const MultiTabs = (props) => {
-  const nodeContext = useContext(multipletabContext);
-  const {
-    data: { tabs: Tabs, counter },
-    tabsHandler,
-    parentGenerator,
-    tabHandler,
-    onConnectHandler,
-    parentRemover,
-  } = nodeContext;
-
-  // console.log({data})
+const MultiTab = (props) => {
   const [color, setColor] = useState("primary");
   const [iconColor, setIconColor] = useState("primary");
+  const containerContext = useContext(ContainerData);
+  const [counter, setCounter] = useState([0]);
+const {data: { dataset },addTabHandler} = containerContext;
 
+ const tabGenerator = () => {
+    return counter.map((element, index) => {
+      return (
+        <div key={index} onClick={() => props.setSelectedTab(index)}>
+          Tab {index}
+        </div>
+      );
+    });
+  };
+  
   return (
-    <div className="multiTabs">
+    <div>
       <Stack
         direction="row"
         spacing={1}
@@ -35,23 +36,24 @@ const MultiTabs = (props) => {
         <IconButton
           color={color}
           component="span"
-          onClick={
-         () =>  parentGenerator( )
+          onClick={() =>{
+           setCounter([...counter, 8])
+            addTabHandler()}
           }
         >
-        <CreateNewFolderIcon fontSize="medium" className="create_button" />
+          <CreateNewFolderIcon fontSize="medium" className="create_button" />
         </IconButton>
         <IconButton
           color={iconColor}
           component="span"
-          onClick={() => parentRemover()}
+        //   onClick={() => parentRemover()}
         >
           <DeleteForeverIcon fontSize="medium" className="delete_button" />
         </IconButton>
       </Stack>
-      <Box sx={{ width: "100%" }}>{tabsHandler()}</Box>
+      <Box sx={{ width: "100%" }}>{tabGenerator()}</Box>
     </div>
   );
 };
 
-export default MultiTabs;
+export default MultiTab;
