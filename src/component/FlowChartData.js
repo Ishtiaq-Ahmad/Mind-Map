@@ -156,6 +156,27 @@ export const transformFont = [
   },
   
 ];
+export const arrowLabelColor = [
+  {
+    label: '100',
+  },
+ 
+  {
+    label: '400',
+  },
+  {
+    label: '500',
+  },
+  {
+    label: '700',
+  },
+  {
+    label: '800',
+  },
+  {
+    label: '900',
+  },
+];
 
 const FlowChartData = (props) => {
   return <div></div>;

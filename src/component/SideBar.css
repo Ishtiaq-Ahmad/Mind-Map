@@ -84,8 +84,8 @@
   flex-direction: column;
 }
 .node_label {
-  margin-bottom: 10px !important;
-  margin-top: 5px !important;
+  margin-bottom: 1px !important;
+  margin-top: 1px !important;
 }
 .bg_color {
   width: 100%;
@@ -263,3 +263,40 @@
   .switchHide {
     top: -6px !important;
   }
+  .arrow {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .curved {
+    width: 21%;
+    height: auto;
+  }
+  .curved:hover {
+    transform: scale(1.1);
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+  .animation {
+    text-align: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .line {
+    width: 30%;
+    height: auto;
+    border: 1px solid black;
+    border-radius: 3px;
+  }
+  .line:hover {
+    transform: scale(1.1);
+    border: 2px solid black;
+  }
+  
+  .arrow_head:hover{
+      cursor: pointer;
+  }
+  
+  

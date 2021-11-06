@@ -2,9 +2,6 @@ import React, { useContext, useState } from "react";
 import { TextField, Switch } from "@material-ui/core";
 import "./SideBar.css";
 import DragAbleNodes from "./DragAbleNodes";
-import Curved from "../assets/images/curved_arrow.PNG";
-import Smooth from "../assets/images/smooth_arrow.PNG";
-import Straight from "../assets/images/straight_arrow.PNG";
 import NodeContext from "../Context/auth/authContext";
 import MultiTabContext from "../Context/multiTab/MultiTabContext";
 import line from "../assets/images/straight_line2.png";
@@ -37,8 +34,14 @@ import normal from "../assets/images/normal.png";
 import Oval from "../assets/images/oval-bold-shape.png";
 import rectangleRound from "../assets/images/rounded-rectangle.png";
 import rectangle from "../assets/images/rectangular-shape-outline.png";
-// import smoothStep from "../assets/images/smoothStep.png";
 import shape from "../assets/images/shape.PNG";
+import EdgeCustomization from './EdgeCustomization';
+import Curved from "../assets/images/curved_arrow.PNG";
+import Smooth from "../assets/images/smooth_arrow.PNG";
+import Straight from "../assets/images/straight_arrow.PNG";
+import smoothStep from "../assets/images/smoothStep.png";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const MindMapSideBar = (props) => {
   console.log("hiiiii", props.selectedTab);
@@ -62,6 +65,11 @@ const MindMapSideBar = (props) => {
       borderRadios,
       borderWidth,
       nodeFont,
+      edgeLabelName,
+      edgeLabelFont,
+      edgeLabelColor,
+      arrowColor,
+      arrowWidth
     },
     bgColorHandler,
     nodeNameHandler,
@@ -81,10 +89,22 @@ const MindMapSideBar = (props) => {
     hideAllNodesHandler,
     hideNodeHandler,
     hideTreeHandler,
+    changeArrowType,
+    changeLineHandler,
+    edgeLabelNameHandler,
+    labelFontWeightHandler,
+    edgeLabelColorHandler,
+    arrowColorHandler,
+    arrowHeadHandler,
+    arrowWidthDecreaseHandler,
+    arrowWidthIncreaseHandler
   } = multitabContext;
   const { showEdit, showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
   const [hiddenBorder, setHiddenBorder] = useState(false);
+  const [labelColorHide, setLabelColoHide] = useState(false);
+    const [arrowColorHide, setArrowColorHide] = useState(false);
+
   const changeSmoothArray = () => {
     props.setArrowTypeName("smoothstep");
   };
@@ -482,60 +502,151 @@ const MindMapSideBar = (props) => {
 
       {props.showArrow ? (
         <>
+        {/* <EdgeCustomization/> */}
           <div>
-            <h4>Select Arrow</h4>
+              <h4>Select Arrow</h4>
             <span className="arrow">
               <img
                 src={Curved}
                 alt="curved arrow"
                 className="curved"
-                onClick={changeCurvedArray}
+                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                id='curved'
               />
               <img
                 src={Smooth}
+                alt="step arrow"
+                className="curved"
+                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                 id='step'
+              />
+              <img
+                src={smoothStep}
                 alt="smooth arrow"
                 className="curved"
-                onClick={changeSmoothArray}
+                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                  id='smoothstep'
               />
               <img
                 src={Straight}
                 alt="straight arrow"
                 className="curved"
-                onClick={changStraightArray}
+                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                id='straight'
               />
             </span>
-          </div>
-          <div>
+              <div>
             <h4>Select Animation</h4>
             <span className="animation">
               <img
                 src={line}
                 alt="straight line"
                 className="line"
-                onClick={changeStraightLine}
+                onClick={() => changeLineHandler(props.selectedTab)}
               />
               <img
                 src={doted}
                 alt="Doted line"
                 className="line"
-                onClick={changeDotedLine}
+                onClick={() => changeLineHandler(props.selectedTab)}
               />
             </span>
           </div>
+          <h4>Change Label Name</h4>
+          <TextField
+            className="node_label"
+            value={edgeLabelName}
+            name={edgeLabelName}
+            onChange={(evt) => edgeLabelNameHandler(evt.target.value,props.selectedTab)}
+            label="Label Name"
+            size="small"
+            variant="outlined"
+          />
           <div>
-            <h4>Change Label Name</h4>
             <TextField
               className="node_label"
-              value={props.edgeLabel}
-              name={props.edgeLabel}
-              onChange={(evt) => props.setEdgeLabel(evt.target.value)}
-              label={props.edgeLabel}
+              select
+              value={edgeLabelFont}
+              name={edgeLabelFont}
+              onChange={(evt) => labelFontWeightHandler(evt.target.value, props.selectedTab)}
+              label="Font Weight"
               size="small"
               variant="outlined"
-            />
-            {/* <label>Node Color</label>  */}
-            {/* <input type="color" className="bg_color" value={props.labelColor} name ='color' onChange={(evt) => props.setLabelColor(evt.target.value)}/> */}
+              helperText="Select Font weight for Label"
+              fullWidth
+            >
+              {arrowLabelColor.map((option) => (
+                <MenuItem key={option.label} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <div style={{ marginBottom: "10px" }}>
+            <label>Change Label Color</label>
+            <Button
+              variant="outlined"
+              fullWidth
+              size="small"
+              onClick={() => setLabelColoHide(!labelColorHide)}
+            >
+              {labelColorHide ? `Close label color` : "Open label color"}{" "}
+            </Button>
+            {labelColorHide && (
+              <SketchPicker
+                color={edgeLabelColor}
+                title={edgeLabelColor}
+                onChange={(updatedColor) =>
+                  edgeLabelColorHandler(updatedColor.hex,props.selectedTab)
+                  // bgColorHandler(updatedColor.hex, props.selectedTab);
+                }
+              />
+            )}
           </div>
+
+          </div>
+          <label>Change Arrow Color</label>
+          <Button
+            variant="outlined"
+            fullWidth
+            size="small"
+            onClick={() => setArrowColorHide(!arrowColorHide)}
+          >
+            {arrowColorHide ? `Close Arrow Color` : "Open Arrow Color"}{" "}
+          </Button>
+          {arrowColorHide && (
+            <SketchPicker
+              color={arrowColor}
+              title={arrowColor}
+              onChange={(updatedColor) => arrowColorHandler(updatedColor.hex,props.selectedTab)}
+            />
+          )}
+           <div className="font_style">
+            <KeyboardArrowRightIcon 
+            className="arrow_head"
+             onClick={(e) => arrowHeadHandler(e,props.selectedTab)}
+             id ='arrow' />
+            <ArrowRightIcon 
+            
+            onClick={(e) => arrowHeadHandler(e,props.selectedTab)}
+            className="arrow_head"
+             id='arrowclosed' />
+          </div>
+           <div className="border">
+            <label>Arrow width</label>
+            <span className="borderWidth">
+              <button onClick={() => arrowWidthDecreaseHandler(props.selectedTab)} className="borderWidthButton">
+                <strong>-</strong>
+              </button>
+              <h4 className="borderFont">{arrowWidth}px</h4>
+              <button
+                onClick={() => arrowWidthIncreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>+</strong>
+              </button>
+            </span>
+          </div>
+           </div>
         </>
       ) : null}
       <DragAbleNodes />

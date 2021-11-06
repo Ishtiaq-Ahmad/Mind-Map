@@ -10,6 +10,11 @@ const authReducer = (state, action) => {
         selectedNodeName: action.payload.multiLabel,
         multiTree:action.payload.treeDataUpdate
       };
+      case actionTypes.ON_EDGE_DOUBLE_CLICK:
+      return{
+        ...state,
+        selectArrow: action.payload._edge
+      }
     case actionTypes.ADD_TAB:
       return {
         ...state,
@@ -54,19 +59,7 @@ const authReducer = (state, action) => {
         dataset: [...clonedData],
       };
 
-    // case actionTypes.UPDATE_NODE_COLOR:
-    //   let { selectedTab, nodeColor } = action.payload;
-    //   let bgData = [...state.dataset];
-    //   bgData = bgData.map((element, index) => {
-    //     if (selectedTab === index) {
-    //       return nodeColor;
-    //     }
-    //     return element;
-    //   });
-    //   return {
-    //     ...state,
-    //     dataset: [...bgData],
-    //   };
+  
   case actionTypes.CHANGE_NODE_NAME:
       let { nodeName, selectedTab: _selectedTab2 } = action.payload;
       let targetName = [...state.dataset[_selectedTab2]];
@@ -93,8 +86,8 @@ const authReducer = (state, action) => {
       // check for index to be updated
       // receive addEge
       let { bgColor, selectedTab: _selectedTab } = action.payload;
-      let targetTab = [...state.dataset[_selectedTab]];
-      const nodes = targetTab.map((el) => {
+      let targetEdgeLabelColor = [...state.dataset[_selectedTab]];
+      const _edge = targetEdgeLabelColor.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, backgroundColor: bgColor };
         }
@@ -103,7 +96,7 @@ const authReducer = (state, action) => {
       let _clonedData = [...state.dataset];
       _clonedData = _clonedData.map((tab, index) => {
         if (_selectedTab === index) {
-          return nodes;
+          return _edge;
         } else {
           return tab;
         }
@@ -494,6 +487,199 @@ const authReducer = (state, action) => {
        hideTree:selectTree,
        dataset:[...cloneHideTreeHandle]
      }
+
+    //  ************Arrow Customization*********************
+    case actionTypes.ARROW_TYPE:
+    let { arrowTypeId , selectedTab: _selectedTab20 } = action.payload;
+       let targetArrowType = [...state.dataset[_selectedTab20]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowType.findIndex((item) => item.id === state.selectArrow);
+         targetArrowType[index].type = arrowTypeId;
+       }
+      let cloneArrowType = [...state.dataset];
+      cloneArrowType = cloneArrowType.map((tab, index) => {
+        if (_selectedTab20 === index) {
+          return targetArrowType;
+        } else {
+          return tab;
+        }
+      });
+        return{
+       ...state,
+       dataset:[...cloneArrowType]
+     }
+     case actionTypes.CHANGE_ARROW_LINE:
+    let { arrow, selectedTab: _selectedTab21 } = action.payload;
+       let targetArrowAnimation = [...state.dataset[_selectedTab21]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowAnimation.findIndex((item) => item.id === state.selectArrow);
+         targetArrowAnimation[index].animated = arrow;
+       }
+      let cloneArrowAnimation = [...state.dataset];
+      cloneArrowAnimation = cloneArrowAnimation.map((tab, index) => {
+        if (_selectedTab21 === index) {
+          return targetArrowAnimation;
+        } else {
+          return tab;
+        }
+      });
+        return{
+       ...state,
+       arrowType: !state.arrowType,
+       dataset:[...cloneArrowAnimation]
+     }
+
+    case actionTypes.EDGE_LABEL_NAME:
+    let { evt:name, selectedTab: _selectedTab22 } = action.payload;
+       let targetArrowLabelName = [...state.dataset[_selectedTab22]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowLabelName.findIndex((item) => item.id === state.selectArrow);
+         targetArrowLabelName[index]["label"] = name;
+       }
+      let cloneArrowLabelName = [...state.dataset];
+      cloneArrowLabelName = cloneArrowLabelName.map((tab, index) => {
+        if (_selectedTab22 === index) {
+          return targetArrowLabelName;
+        } else {
+          return tab;
+        }
+      });
+        return{
+       ...state,
+       edgeLabelName: name,
+       dataset:[...cloneArrowLabelName]
+     }
+     case actionTypes.EDGE_LABEL_FONT:
+      let { evt:labelFont, selectedTab: _selectedTab23 } = action.payload;
+       let targetArrowLabelFont = [...state.dataset[_selectedTab23]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowLabelFont.findIndex((item) => item.id === state.selectArrow);
+         targetArrowLabelFont[index].labelStyle = { fontWeight: labelFont };
+       }
+      let cloneArrowLabelFont = [...state.dataset];
+      cloneArrowLabelFont = cloneArrowLabelFont.map((tab, index) => {
+        if (_selectedTab23 === index) {
+          return targetArrowLabelFont;
+        } else {
+          return tab;
+        }
+      });
+        return{
+       ...state,
+       edgeLabelFont: labelFont,
+       dataset:[...cloneArrowLabelFont]
+     }
+
+  case actionTypes.EDGE_LABEL_COLOR:
+  let { bgColor: edgeColor, selectedTab: _selectedTab24 } = action.payload;
+      let targetTab = [...state.dataset[_selectedTab24]];
+       if(state.selectArrow)
+       {
+         const index = targetTab.findIndex((item) => item.id === state.selectArrow);
+         targetTab[index].labelStyle = { fill: edgeColor,};
+       }
+      let cloneEdgeLabelColor = [...state.dataset];
+      cloneEdgeLabelColor = cloneEdgeLabelColor.map((tab, index) => {
+        if (_selectedTab24 === index) {
+          return targetTab;
+        } else {
+          return tab;
+        }
+      });
+      return {
+        ...state,
+        edgeLabelColor:edgeColor,
+        dataset: [...cloneEdgeLabelColor],
+      };
+      case actionTypes.EDGE_ARROW_COLOR:
+      let { bgColor: arrowColor, selectedTab: _selectedTab25 } = action.payload;
+      let targetArrowColor = [...state.dataset[_selectedTab25]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowColor.findIndex((item) => item.id === state.selectArrow);
+         targetArrowColor[index].style = { stroke: arrowColor,};
+       }
+      let cloneArrowColor = [...state.dataset];
+      cloneArrowColor = cloneArrowColor.map((tab, index) => {
+        if (_selectedTab25 === index) {
+          return targetArrowColor;
+        } else {
+          return tab;
+        }
+      });
+      return {
+        ...state,
+        edgeLabelColor:arrowColor,
+        dataset: [...cloneArrowColor],
+      };
+        case actionTypes.ARROW_HEAD_STYLE:
+      let { head, selectedTab: _selectedTab26 } = action.payload;
+      let targetArrowHeadStyle = [...state.dataset[_selectedTab26]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowHeadStyle.findIndex((item) => item.id === state.selectArrow);
+         targetArrowHeadStyle[index].arrowHeadType = head;
+       }
+      let cloneArrowHead = [...state.dataset];
+      cloneArrowHead = cloneArrowHead.map((tab, index) => {
+        if (_selectedTab26 === index) {
+          return targetArrowHeadStyle;
+        } else {
+          return tab;
+        }
+      });
+       return {
+        ...state,
+        dataset: [...cloneArrowHead],
+      };
+      case actionTypes.ARROW_WIDTH_INCREASE:
+      let { arrowInc, selectedTab: _selectedTab27 } = action.payload;
+      let targetArrowIncrease = [...state.dataset[_selectedTab27]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowIncrease.findIndex((item) => item.id === state.selectArrow);
+         targetArrowIncrease[index].style = {strokeWidth: arrowInc} 
+        //  {strokeWidth: arrowInc};
+       }
+      let cloneArrowSizeInc = [...state.dataset];
+      cloneArrowSizeInc = cloneArrowSizeInc.map((tab, index) => {
+        if (_selectedTab27 === index) {
+          return targetArrowIncrease;
+        } else {
+          return tab;
+        }
+      });
+       return {
+        ...state,
+        arrowWidth: arrowInc,
+        dataset: [...cloneArrowSizeInc],
+      };
+      case actionTypes.ARROW_WIDTH_DECREASE:
+      let { arrowDec, selectedTab: _selectedTab28 } = action.payload;
+      let targetArrowDecrease = [...state.dataset[_selectedTab28]];
+       if(state.selectArrow)
+       {
+         const index = targetArrowDecrease.findIndex((item) => item.id === state.selectArrow);
+         targetArrowDecrease[index].style = {strokeWidth: arrowDec};
+       }
+      let cloneArrowSizeDecrease = [...state.dataset];
+      cloneArrowSizeDecrease = cloneArrowSizeDecrease.map((tab, index) => {
+        if (_selectedTab28 === index) {
+          return targetArrowDecrease;
+        } else {
+          return tab;
+        }
+      });
+       return {
+        ...state,
+      arrowWidth: arrowDec,
+        dataset: [...cloneArrowSizeDecrease]
+      };
+
     default:
       return state;
   }

@@ -33,6 +33,7 @@ const FlowChart = () => {
     nodeBgColorHandler,
     onElementClickHandler,
     onDragHandler,
+    onEdgeHandler
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
   console.log({ dataset: dataset[selectedTab] });
@@ -147,7 +148,8 @@ const FlowChart = () => {
 
   const onEdgeDoubleClick = (event, edge) => {
     setShowArrow(true);
-    setSelectArrow(edge.id);
+    onEdgeHandler(edge)
+    // setSelectArrow(edge.id);
   };
 
   useEffect(() => {

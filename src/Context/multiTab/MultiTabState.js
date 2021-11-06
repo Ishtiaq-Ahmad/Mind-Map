@@ -31,10 +31,13 @@ const NodeState = (props) => {
     reactFlowInstance: null,
     multipleSelect: [],
     selectArrow: "",
+    arrowType:false,
+    edgeLabelName:''
+    
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {selectedNode, selectedNodeName ,dataset,borderRadios, borderWidth,nodeFont} = state;
+  const {selectedNode, selectedNodeName ,dataset,arrowWidth,arrowType,borderRadios, borderWidth,nodeFont,selectArrow} = state;
 
   const onElementClickHandler = (element,treeDataUpdate) => {
     let multiLabel = "";
@@ -45,6 +48,14 @@ const NodeState = (props) => {
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
       payload:{element, multiLabel,treeDataUpdate}
+    })
+  }
+  console.log('hmmmmm', selectArrow);
+  const onEdgeHandler = (edge) => {
+    let _edge = edge.id;
+    dispatch({
+      type:actionTypes.ON_EDGE_DOUBLE_CLICK,
+      payload:{_edge}
     })
   }
   const onDragHandler = (selectedTab,updatedNodeData) => {
@@ -196,11 +207,6 @@ const nodeNameHandler = (nodeName, selectedTab) => {
       payload: { e, selectedTab },
     })}
     const hideAllNodesHandler = (e, selectedTab) => {
-    console.log(("hello", e));
-    // const hideAllNodes = elements.map((el) => {
-    //   el.isHidden = e;
-    //   return e;
-    // });
     dispatch({
       type: actionTypes.HIDE_ALL_NODES,
       payload: { e, selectedTab },
@@ -210,17 +216,69 @@ const nodeNameHandler = (nodeName, selectedTab) => {
       dispatch({ type: actionTypes.HIDE_NODE, payload: { e, selectedTab } });
   }
     const hideTreeHandler = (e, selectedTab) => {
-    // let clonedElements = [...elements];
-    // clonedElements.map((multiple) => {
-    //   if (multiTree.includes(multiple.id)) {
-    //     multiple.isHidden = e;
-    //   }
-    //   return multiple;
-    // });
-    // setElements([...clonedElements]);
     dispatch({
       type: actionTypes.HIDE_ALL_TREE,
       payload: { e, selectedTab },
+    });
+  };
+    const changeArrowType = (e,selectedTab) => {
+    let arrowTypeId = e.target.id
+    dispatch({ type: actionTypes.ARROW_TYPE, payload: { arrowTypeId, selectedTab } });
+  };
+   const changeLineHandler = (selectedTab) => {
+     let arrow = !arrowType
+    dispatch({ type: actionTypes.CHANGE_ARROW_LINE, payload: {arrow, selectedTab } });
+  };
+   const edgeLabelNameHandler = (evt, selectedTab) => {
+    dispatch({
+      type: actionTypes.EDGE_LABEL_NAME,
+      payload: { evt, selectedTab },
+    });
+  };
+  const labelFontWeightHandler = (evt,selectedTab) => {
+
+    dispatch({
+      type: actionTypes.EDGE_LABEL_FONT,
+      payload: { evt, selectedTab },
+    });
+  };
+  const edgeLabelColorHandler= (bgColor,selectedTab)=>{
+ dispatch({
+      type: actionTypes.EDGE_LABEL_COLOR,
+      payload:{bgColor,selectedTab}
+    })
+}
+ const arrowColorHandler= (bgColor,selectedTab)=>{
+ dispatch({
+      type: actionTypes.EDGE_ARROW_COLOR,
+      payload:{bgColor,selectedTab}
+    })
+}
+ const arrowHeadHandler= (e,selectedTab)=>{
+let head = e.target.id;
+ dispatch({
+      type: actionTypes.ARROW_HEAD_STYLE,
+      payload:{head,selectedTab}
+    })
+}
+ const arrowWidthIncreaseHandler = (selectedTab) => {
+    let arrowInc = arrowWidth + 1;
+    dispatch({
+      type: actionTypes.ARROW_WIDTH_INCREASE,
+      payload: { arrowInc, selectedTab },
+    });
+  };
+  const arrowWidthDecreaseHandler = (selectedTab) => {
+    let arrowDec = 0
+      if(arrowWidth > 1){
+        arrowDec = arrowWidth - 1
+      }
+      else{
+        arrowDec = arrowWidth
+      }
+    dispatch({
+      type: actionTypes.ARROW_WIDTH_DECREASE,
+      payload: { arrowDec, selectedTab },
     });
   };
 
@@ -251,7 +309,17 @@ const nodeNameHandler = (nodeName, selectedTab) => {
      nodeTextTransform,
      hideAllNodesHandler,
      hideNodeHandler,
-     hideTreeHandler
+     hideTreeHandler,
+     onEdgeHandler,
+     changeArrowType,
+     changeLineHandler,
+     edgeLabelNameHandler,
+     labelFontWeightHandler,
+     edgeLabelColorHandler,
+     arrowColorHandler,
+     arrowHeadHandler,
+     arrowWidthDecreaseHandler,
+    arrowWidthIncreaseHandler
       }}
     >
       {props.children}
