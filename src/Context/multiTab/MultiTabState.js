@@ -36,13 +36,22 @@ const NodeState = (props) => {
     imagePng:null,
     arrowHead:'',
     pngImage:'',
+    previousState:'',
+    multiSelectNode: []
     
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios, borderWidth,nodeFont, pngImage} = state;
-
+  const {arrowWidth,arrowType,borderRadios, borderWidth,nodeFont, previousState, multiSelectNode} = state;
+  console.log('multiSelectNode',multiSelectNode);
   const onElementClickHandler = (element,treeDataUpdate) => {
+
+    // let nodeState = ''
+    // if(previousState === null || previousState === ''){
+    //     nodeState = (element.id)
+    // }else if( previousState !== element.id){
+    //   nodeState(element.id)
+    // }
       // let imagePicture=''
     // if( element.data && element.data.label && element.data.label.props && element.data.props.children){
     //  let imgSrc = element.data.label.props.children[1];
@@ -324,7 +333,13 @@ dispatch({
   payload: {imageLoad, selectedTab}
 })
   }
-
+const multipleSelectNode = (multi) => {
+ 
+dispatch({
+  type:actionTypes.MULTI_NODE_ELEMENTS,
+  payload:{multi}
+})
+}
   return (
     <MultiTabContext.Provider
       value={{
@@ -365,7 +380,8 @@ dispatch({
      arrowWidthDecreaseHandler,
     arrowWidthIncreaseHandler,
     removeElementHandler,
-    imageHandler
+    imageHandler,
+    multipleSelectNode
       }}
     >
       {props.children}

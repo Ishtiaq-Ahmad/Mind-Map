@@ -4,13 +4,28 @@ import { nodesData } from "../../component/FlowChartData";
 const authReducer = (state, action) => {
   switch (action.type) {
     case actionTypes.ON_ELEMENT_CLICK_HANDLER:
+    let __previousData = ''
+    let previousLabel =''
+    if(state.previousState === null || state.previousState === ''){
+     __previousData= action.payload.element.id
+    } else if ( state.previousState !== action.payload.element.id ){
+      __previousData = action.payload.element.id;
+      previousLabel = action.payload.treeDataUpdate;
+    }
       return {
         ...state,
         selectedNode: action.payload.element.id,
         selectedNodeName: action.payload.multiLabel,
-        multiTree:action.payload.treeDataUpdate,
+        multiTree:previousLabel,
         pngImage: action.payload.imagePicture,
+        previousState: __previousData,
       };
+
+      case actionTypes.MULTI_NODE_ELEMENTS:
+      return{
+        ...state,
+        multiSelectNode: action.payload.multi,
+      }
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return{
         ...state,
@@ -137,16 +152,27 @@ console.log('i am source',{src})
         nodeName: nodeName,
       };
     case actionTypes.BG_COLOR:
-      // check for index to be updated
-      // receive addEge
       let { bgColor, selectedTab: _selectedTab } = action.payload;
+      let _edge = ''
+      if(bgColor !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["background"] = bgColor;
+          }
+          return multiple;
+        })
+        _edge = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && bgColor !== ""){
       let targetEdgeLabelColor = [...state.dataset[_selectedTab]];
-      const _edge = targetEdgeLabelColor.map((el) => {
+       _edge = targetEdgeLabelColor.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, backgroundColor: bgColor };
         }
         return el;
       });
+      }
       let _clonedData = [...state.dataset];
       _clonedData = _clonedData.map((tab, index) => {
         if (_selectedTab === index) {
@@ -159,15 +185,29 @@ console.log('i am source',{src})
         ...state,
         dataset: [..._clonedData],
       };
+
       case actionTypes.CHANGE_NODE_BORDER_COLOR:
        let { updatedColor, selectedTab: _selectedTab3 } = action.payload;
-      let targetBorder = [...state.dataset[_selectedTab3]];
-      const borderChange = targetBorder.map((el) => {
+      let borderChange = ''
+      if(updatedColor !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab3]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["borderColor"] = updatedColor;
+          }
+          return multiple;
+        })
+        borderChange = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && updatedColor !== ""){
+let targetBorder = [...state.dataset[_selectedTab3]];
+       borderChange = targetBorder.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderColor: updatedColor };
         }
         return el;
       });
+      }
       let _clonedBorderData = [...state.dataset];
       _clonedBorderData = _clonedBorderData.map((tab, index) => {
         if (_selectedTab3 === index) {
@@ -176,6 +216,7 @@ console.log('i am source',{src})
           return tab;
         }
       });
+      
       return {
         ...state,
         dataset: [..._clonedBorderData],
@@ -183,13 +224,26 @@ console.log('i am source',{src})
       };
       case actionTypes.CHANGE_NODE_FONT_COLOR:
       let { updatedColor: updateFontColor, selectedTab: _selectedTab4} = action.payload;
+       let textColorChange = ''
+      if(updateFontColor !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab4]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["color"] = updateFontColor;
+          }
+          return multiple;
+        })
+        textColorChange = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && updateFontColor !== ""){
       let targetTextColor = [...state.dataset[_selectedTab4]];
-      const textColorChange = targetTextColor.map((el) => {
+       textColorChange = targetTextColor.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, color: updateFontColor};
         }
         return el;
       });
+      } 
       let clonedNodeTextData = [...state.dataset];
       clonedNodeTextData = clonedNodeTextData.map((tab, index) => {
         if (_selectedTab4 === index) {
@@ -205,14 +259,27 @@ console.log('i am source',{src})
       };
       case actionTypes.TRANSPARENT_NODE:
       let { updatedColor: updateTransparentNode, selectedTab: _selectedTab5} = action.payload;
-      let targetNodeTransparent = [...state.dataset[_selectedTab5]];
-      const nodeTransparentChange = targetNodeTransparent.map((el) => {
+       let nodeTransparentChange = ''
+      if(updateTransparentNode !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab5]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["opacity"] = updateTransparentNode;
+          }
+          return multiple;
+        })
+        nodeTransparentChange = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && updateTransparentNode !== ""){
+           let targetNodeTransparent = [...state.dataset[_selectedTab5]];
+       nodeTransparentChange = targetNodeTransparent.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, opacity: updateTransparentNode };
           
         }
         return el;
       });
+      }
       let clonedNodeTransparent = [...state.dataset];
       clonedNodeTransparent = clonedNodeTransparent.map((tab, index) => {
         if (_selectedTab5 === index) {
@@ -229,13 +296,26 @@ console.log('i am source',{src})
 
        case actionTypes.BORDER_RADIOS_INCREASE:
        let { selectedTab: _selectedTab6, radiosInc} = action.payload;
-       let targetNodeBorderRadios = [...state.dataset[_selectedTab6]];
-      const nodeBorderRadios = targetNodeBorderRadios.map((el) => {
+        let nodeBorderRadios = ''
+      if(radiosInc !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab6]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["borderRadius"] = radiosInc;
+          }
+          return multiple;
+        })
+        nodeBorderRadios = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && radiosInc !== ""){
+ let targetNodeBorderRadios = [...state.dataset[_selectedTab6]];
+       nodeBorderRadios = targetNodeBorderRadios.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderRadius: radiosInc };    
         }
         return el;
       });
+      }
       let clonedNodeDataRadios = [...state.dataset];
       clonedNodeDataRadios = clonedNodeDataRadios.map((tab, index) => {
         if (_selectedTab6 === index) {
@@ -252,13 +332,27 @@ console.log('i am source',{src})
      }
       case actionTypes.BORDER_RADIOS_DECREASE:
        let { selectedTab: _selectedTab7, radiosDec} = action.payload;
-       let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
-      const nodeBorderRadiosDecrease = targetNodeBorderRadiosDecrease.map((el) => {
+        let nodeBorderRadiosDecrease = ''
+      if(radiosDec !== "" && state.multiSelectNode.length > 0){
+        let clonedElements = [...state.dataset[_selectedTab7]];
+        clonedElements.map((multiple) => {
+          if(state.multiSelectNode.includes(multiple.id)){
+            multiple["style"] ={...multiple["style"]};
+            multiple["style"]["borderRadius"] = radiosDec;
+          }
+          return multiple;
+        })
+        nodeBorderRadiosDecrease = [...clonedElements]
+      }else if(state.multiSelectNode !== "" && radiosDec !== ""){
+let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
+       nodeBorderRadiosDecrease = targetNodeBorderRadiosDecrease.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderRadius: radiosDec };    
         }
         return el;
       });
+      }
+       
       let clonedNodeDataRadiosDecrease = [...state.dataset];
       clonedNodeDataRadiosDecrease = clonedNodeDataRadiosDecrease.map((tab, index) => {
         if (_selectedTab7 === index) {
@@ -742,7 +836,7 @@ console.log('i am source',{src})
       let targetNodeImage = [...state.dataset[_selectedTab29]];
         const imagePng = targetNodeImage.map((el) => {
         if (el.id === state.selectedNode) {
-          let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>
+          // let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>
           el.data = { ...el.data, label: <span> <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>{state.selectedNodeName} </span>  };
           el.style = { ...el.style, borderRadius:'6px',
       width:100,

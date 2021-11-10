@@ -35,7 +35,8 @@ const FlowChart = () => {
     onElementClickHandler,
     onDragHandler,
     onEdgeHandler,
-    removeElementHandler
+    removeElementHandler,
+    multipleSelectNode
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
   console.log({ dataset: dataset[selectedTab] });
@@ -106,9 +107,19 @@ const FlowChart = () => {
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
+    console.log('multi data', treeDataUpdate)
     onElementClickHandler(element, treeDataUpdate);
   };
-
+  const onSelectionChange = (seletedElements) => {
+    if (seletedElements && seletedElements.length > 1) {
+      if (seletedElements) {
+        const multi = seletedElements.map((item) => item.id);
+        multipleSelectNode(multi)
+        // setMultipleSelect(multi);
+      
+      }
+    }
+  };
   const addEdgeHandler = (...params) => {
     console.log({ params });
     // console.log( addEdge({ ...params, type: "buttonedge", label: "label" }));
@@ -336,6 +347,7 @@ const FlowChart = () => {
                     onDragOver={onDragOver}
                     onDrop={onDrop}
                     onEdgeDoubleClick={onEdgeDoubleClick}
+                    onSelectionChange={onSelectionChange}
                     edgeTypes
                   >
                     <Controls />

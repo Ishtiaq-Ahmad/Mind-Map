@@ -153,7 +153,20 @@ const MindMapSideBar = (props) => {
                 if(selectImage && allowed_types.includes(selectImage.type)){
               let imageLoad =  URL.createObjectURL(selectImage)
                 imageHandler(e,imageLoad , props.selectedTab)
+                  //  let reader = new FileReader()
+                  //  let bsdk = '';
+                  //   reader.onloadend = () => {
+                    
+                  //     bsdk = reader.result
+                      
+                  //         imageHandler(e,bsdk , props.selectedTab)
+                  //       // setImage(reader.result)
+                  //   }
+                  //   reader.readAsDataURL(selectImage)
+                    // console.log('o bskd', bsdk)
+                   
                 }
+                
                 else{
                     alert('Only PNG file supported')
                 }
