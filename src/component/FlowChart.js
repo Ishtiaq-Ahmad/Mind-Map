@@ -62,7 +62,7 @@ const FlowChart = () => {
   const [nodeHidden, setNodeHidden] = useState(false);
   const [hideArrow, setHideArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
-  // const [counter, setCounter] = useState([0]);
+  const [counter, setCounter] = useState([0]);
   const { tabs } = nodeContext.data;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
@@ -88,7 +88,7 @@ const FlowChart = () => {
     ;
   const onConnect = (params) => {
     const generatedEdge = addEdge(
-      { ...params, type: "buttonedge", label: "label" },
+      { ...params, type: "buttonedge", label: "label",  arrowHeadType: "arrowclosed", },
       dataset[selectedTab]
     );
     updateDataSetHandler(selectedTab, generatedEdge);
@@ -294,7 +294,12 @@ const FlowChart = () => {
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
-                <MultiTab setSelectedTab ={setSelectedTab}/>
+                <MultiTab 
+                selectedTab = {selectedTab}
+                setSelectedTab ={setSelectedTab}
+                  setCounter = {setCounter}
+                  counter ={counter}
+                />
                   {/* <button
                     onClick={() => {
                       setCounter([...counter, 8]);
@@ -302,11 +307,11 @@ const FlowChart = () => {
                     }}
                   >
                     add tab
-                  </button> */}
+                  </button>  */}
 
                   {/* using map */}
                   {/* {tabGenerator()} */}
-                  {/* generated tabs */}
+                   {/* generated tabs */}
                 </Grid>
               ) : null}
               <Grid
@@ -316,7 +321,7 @@ const FlowChart = () => {
                 sm={tabs ? 8 : 10}
                 xs={12}
               >
-                <div>tab container # {selectedTab}</div>
+                <div>tab container ....# {selectedTab}</div>
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
                   <ReactFlow
                     ref={componentRef}

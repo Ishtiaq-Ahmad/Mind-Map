@@ -20,9 +20,6 @@ import {
   faFont,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
-import capital from "../assets/images/capital.png";
-import upper from "../assets/images/upper.png";
-import check from "../assets/images/check.png";
 import click from "../assets/images/click.jpg";
 import { SketchPicker } from "react-color";
 import MenuItem from "@mui/material/MenuItem";
@@ -97,97 +94,45 @@ const MindMapSideBar = (props) => {
     arrowColorHandler,
     arrowHeadHandler,
     arrowWidthDecreaseHandler,
-    arrowWidthIncreaseHandler
+    arrowWidthIncreaseHandler,
+    imageHandler
   } = multitabContext;
-  const { showEdit, showFormat } = nodeContext.data;
+  const {showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
   const [hiddenBorder, setHiddenBorder] = useState(false);
   const [labelColorHide, setLabelColoHide] = useState(false);
-    const [arrowColorHide, setArrowColorHide] = useState(false);
+  const [arrowColorHide, setArrowColorHide] = useState(false);
+  const [image, setImage] = useState(null)
 
-  const changeSmoothArray = () => {
-    props.setArrowTypeName("smoothstep");
-  };
 
-  const changeCurvedArray = () => {
-    props.setArrowTypeName("default");
-  };
-  const changStraightArray = () => {
-    props.setArrowTypeName("straight");
-  };
-  const changeStraightLine = () => {
-    props.setSelectAnimation(false);
-  };
-  const changeDotedLine = () => {
-    props.setSelectAnimation(true);
-  };
-  const fontItalic = () => {
-    props.setFontStyle("italic");
-  };
-  const fontBold = () => {
-    props.setFontStyle("bold");
-  };
-  const fontUnderLine = () => {
-    props.setFontStyle("underLine");
-  };
-  const fontStrikeThrough = () => {
-    props.setFontStyle("line-through");
-  };
-  const smallFont = () => {
-    props.setTextSize("small");
-  };
-  const mediumFont = () => {
-    props.setTextSize("medium");
-  };
-  const largeFont = () => {
-    props.setTextSize("large");
-  };
-  const upperFont = () => {
-    props.setTextTransform("uppercase");
-  };
-  const lowerFont = () => {
-    props.setTextTransform("lowercase");
-  };
-  const selectImage = () => {
-    props.setUploadImage({ click });
-  };
-  const imageHandler = (e) => {
-    console.log();
-    props.setUploadImage(
-      <img
-        style={{ width: "22px" }}
-        src={
-          "https://www.google.com/chrome/static/images/download-browser/big_pixel_phone.png"
-        }
-        alt="nodeIcon"
-      />
-    );
-  };
+//   const imageHandler = (e) => {
 
-  const borderSizeIncrease = () => {
-    props.setBorderSize(props.borderSize + 1);
-  };
-  const borderSizeDecrease = () => {
-    if (props.borderSize > 0) {
-      props.setBorderSize(props.borderSize - 1);
-    } else {
-      props.setBorderSize(0);
-    }
-  };
-  const borderRadiosIncrease = () => {
-    props.setBorderRadios(props.borderRadios + 1);
-  };
-  const borderRadiosDecrease = () => {
-    if (props.borderRadios > 0) {
-      props.setBorderRadios(props.borderRadios - 1);
-    } else {
-      props.borderRadios(0);
-    }
-  };
+//   const selectImage = e.target.files[0];
+// const ALLOWED_TYPES = ['image/png'];
+// if(selectImage && ALLOWED_TYPES.includes(selectImage.type)){
+// let hello =''
+// setImage(
+//  hello =  URL.createObjectURL(selectImage)
+// )
+// }
+// else{
+//     alert('Only PNG file supported')
+// }
+    // props.setUploadImage(
+    //   <img
+    //     style={{}}
+    //     src={
+    //       "https://www.google.com/chrome/static/images/download-browser/big_pixel_phone.png"
+    //     }
+    //     alt="nodeIcon"
+    //   />
+    // );
+  // };
 
-  // className="sidebar_bg"
   return (
     <div>
+  
+    
       {showFormat ? (
         <div className="text_bg">
           <TextField
@@ -200,7 +145,20 @@ const MindMapSideBar = (props) => {
             size="small"
             variant="outlined"
           />
-          <input type="file" onChange={imageHandler} name="image" id="input" />
+          {/* <input type="file" onChange={(e) => imageHandler(e)} name="image" id="input" accept="image/*" /> */}
+           <label> Upload an Image </label>
+            <input type="file" onChange={(e) =>{
+              const selectImage = e.target.files[0];
+                const allowed_types = ['image/png'];
+                if(selectImage && allowed_types.includes(selectImage.type)){
+              let imageLoad =  URL.createObjectURL(selectImage)
+                imageHandler(e,imageLoad , props.selectedTab)
+                }
+                else{
+                    alert('Only PNG file supported')
+                }
+              
+            } } name="image" id="input" accept="image/*" />
           <label> Background color </label>
           {hidden && (
             <SketchPicker

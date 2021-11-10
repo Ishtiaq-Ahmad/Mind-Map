@@ -32,14 +32,29 @@ const NodeState = (props) => {
     multipleSelect: [],
     selectArrow: "",
     arrowType:false,
-    edgeLabelName:''
+    edgeLabelName:'',
+    imagePng:null,
+    arrowHead:'',
+    pngImage:'',
     
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios, borderWidth,nodeFont} = state;
+  const {arrowWidth,arrowType,borderRadios, borderWidth,nodeFont, pngImage} = state;
 
   const onElementClickHandler = (element,treeDataUpdate) => {
+      // let imagePicture=''
+    // if( element.data && element.data.label && element.data.label.props && element.data.props.children){
+    //  let imgSrc = element.data.label.props.children[1];
+    //   const {props:{src}}= imgSrc;
+    //   src = URL.createObjectURL(src)
+    //   imagePicture = {src}
+    // }
+// console.log({src})
+// let imagePicture = {src}
+
+    console.log('i am element', element.data)
+
     let multiLabel = "";
     if (element.source === undefined && element.target === undefined) {
       multiLabel = element.data.label;
@@ -73,6 +88,11 @@ const NodeState = (props) => {
   const addTabHandler = () => {
     dispatch({ type: actionTypes.ADD_TAB });
   };
+  const tabRemover = (selectedTab) => {
+    dispatch({ 
+      type: actionTypes.REMOVE_TAB, 
+      payload:{selectedTab}})
+  }
   const updateDataSetHandler = (currentTab, generatedEdge) => {
     dispatch({
       type: actionTypes.UPDATE_DATA_SET,
@@ -94,6 +114,7 @@ const bgColorHandler= (bgColor,selectedTab)=>{
     })
 }
 const nodeNameHandler = (nodeName, selectedTab) => {
+  
     dispatch({
       type: actionTypes.CHANGE_NODE_NAME,
       payload:{nodeName, selectedTab}
@@ -285,14 +306,31 @@ let head = e.target.id;
     dispatch({
       type: actionTypes.ARROW_WIDTH_DECREASE,
       payload: { arrowDec, selectedTab },
+      
     });
   };
+const imageHandler = (e,imageLoad, selectedTab) => {
+// const selectImage = e.target.files[0];
+// const allowed_types = ['image/png'];
+// let imageLoad=''
+// if(selectImage && allowed_types.includes(selectImage.type)){
+// imageLoad =  URL.createObjectURL(selectImage)
+// }
+// else{
+//     alert('Only PNG file supported')
+// }
+dispatch({
+  type: actionTypes.ADD_PNG_IMAGE,
+  payload: {imageLoad, selectedTab}
+})
+  }
 
   return (
     <MultiTabContext.Provider
       value={{
         data: state,
         addTabHandler,
+        tabRemover,
         updateDataSetHandler,
         // nodeBgColorHandler,
         onElementClickHandler,
@@ -326,7 +364,8 @@ let head = e.target.id;
      arrowHeadHandler,
      arrowWidthDecreaseHandler,
     arrowWidthIncreaseHandler,
-    removeElementHandler
+    removeElementHandler,
+    imageHandler
       }}
     >
       {props.children}

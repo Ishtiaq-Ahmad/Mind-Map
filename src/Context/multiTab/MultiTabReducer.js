@@ -8,7 +8,8 @@ const authReducer = (state, action) => {
         ...state,
         selectedNode: action.payload.element.id,
         selectedNodeName: action.payload.multiLabel,
-        multiTree:action.payload.treeDataUpdate
+        multiTree:action.payload.treeDataUpdate,
+        pngImage: action.payload.imagePicture,
       };
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return{
@@ -20,6 +21,16 @@ const authReducer = (state, action) => {
         ...state,
         dataset: [...state.dataset, nodesData],
       };
+      case actionTypes.REMOVE_TAB:
+      let { selectedTab: removeSelectedTab} = action.payload;
+      let tabToBeRemoved = [...state.dataset]
+      tabToBeRemoved.splice(removeSelectedTab, 1)
+      return {
+        ...state,
+        dataset: [...tabToBeRemoved]
+      };
+      
+    
     case actionTypes.SELECTED_TAB:
       return {
         ...state,
@@ -32,8 +43,6 @@ const authReducer = (state, action) => {
       console.log({ selectedTab1 });
       drag = drag.map((element, index) => {
         if (selectedTab1 === index) {
-          // alert(selectedTab1,index)
-          // state.dataset.concat(newNode)
           return updatedNodeData;
         }
         return element;
@@ -76,8 +85,41 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
       let { nodeName, selectedTab: _selectedTab2 } = action.payload;
       let targetName = [...state.dataset[_selectedTab2]];
       const nameChange = targetName.map((el) => {
-        if (el.id === state.selectedNode) {
-          el.data = { ...el.data, label: nodeName };
+        if (el.id === state.selectedNode) {  
+          console.log('im a selceted', state.selectedNode);
+          // alert(JSON.stringify(el.data))
+          // console.log(el.data.label.props.children)
+
+
+  if(el.data && el.data.label && el.data.label.props && el.data.label.props.children &&  el.data.label.props.children.length!==2 ){
+    // alert("okayss")
+console.log('dataaaaa',el.data.label.props.children)
+
+
+let imgURI=null
+
+el.data.label.props.children.forEach((child,index)=>{
+  if(typeof child ==="object"){
+  imgURI = el.data.label.props.children[index];
+  }
+})
+
+
+console.log({imgURI});
+
+let {props:{src}}= imgURI;
+// let src="https://www.goodcore.co.uk/blog/wp-content/uploads/2019/08/what-is-coding.png"
+// // src = URL.createObjectURL(src)
+
+console.log('i am source',{src})
+
+// console.log('picccccc',state.pngImage);
+ let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={src} alt="nodeImage"/>
+          el.data = {...el.data,label:<span>{ImageView}{nodeName}</span>};
+  }else{
+
+   el.data = { ...el.data, label: nodeName };
+  }
         }
         return el;
       });
@@ -570,7 +612,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
        if(state.selectArrow)
        {
          const index = targetArrowLabelFont.findIndex((item) => item.id === state.selectArrow);
-         targetArrowLabelFont[index].labelStyle = { fontWeight: labelFont };
+         targetArrowLabelFont[index].labelStyle = { fontWeight: labelFont, fill: state.edgeLabelColor };
        }
       let cloneArrowLabelFont = [...state.dataset];
       cloneArrowLabelFont = cloneArrowLabelFont.map((tab, index) => {
@@ -592,7 +634,9 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
        if(state.selectArrow)
        {
          const index = targetTab.findIndex((item) => item.id === state.selectArrow);
-         targetTab[index].labelStyle = { fill: edgeColor,};
+         targetTab[index].labelStyle = { fill: edgeColor,fontWeight: state.edgeLabelFont};
+
+         
        }
       let cloneEdgeLabelColor = [...state.dataset];
       cloneEdgeLabelColor = cloneEdgeLabelColor.map((tab, index) => {
@@ -613,7 +657,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
        if(state.selectArrow)
        {
          const index = targetArrowColor.findIndex((item) => item.id === state.selectArrow);
-         targetArrowColor[index].style = { stroke: arrowColor,};
+         targetArrowColor[index].style = { stroke: arrowColor, arrowHeadType:state.arrowHead, strokeWidth:state.arrowWidth};
        }
       let cloneArrowColor = [...state.dataset];
       cloneArrowColor = cloneArrowColor.map((tab, index) => {
@@ -646,6 +690,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
       });
        return {
         ...state,
+        arrowHead:head,
         dataset: [...cloneArrowHead],
       };
       case actionTypes.ARROW_WIDTH_INCREASE:
@@ -654,7 +699,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
        if(state.selectArrow)
        {
          const index = targetArrowIncrease.findIndex((item) => item.id === state.selectArrow);
-         targetArrowIncrease[index].style = {strokeWidth: arrowInc} 
+         targetArrowIncrease[index].style = {strokeWidth: arrowInc, stroke: state.edgeLabelColor, arrowHeadType:state.arrowHead} 
         //  {strokeWidth: arrowInc};
        }
       let cloneArrowSizeInc = [...state.dataset];
@@ -676,7 +721,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
        if(state.selectArrow)
        {
          const index = targetArrowDecrease.findIndex((item) => item.id === state.selectArrow);
-         targetArrowDecrease[index].style = {strokeWidth: arrowDec};
+         targetArrowDecrease[index].style = {strokeWidth: arrowDec, stroke: state.edgeLabelColor, arrowHeadType:state.arrowHead};
        }
       let cloneArrowSizeDecrease = [...state.dataset];
       cloneArrowSizeDecrease = cloneArrowSizeDecrease.map((tab, index) => {
@@ -686,12 +731,38 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
           return tab;
         }
       });
+
        return {
         ...state,
       arrowWidth: arrowDec,
         dataset: [...cloneArrowSizeDecrease]
       };
+      case actionTypes.ADD_PNG_IMAGE:
+      let{imageLoad, selectedTab:_selectedTab29 } = action.payload
+      let targetNodeImage = [...state.dataset[_selectedTab29]];
+        const imagePng = targetNodeImage.map((el) => {
+        if (el.id === state.selectedNode) {
+          let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>
+          el.data = { ...el.data, label: <span> <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>{state.selectedNodeName} </span>  };
+          el.style = { ...el.style, borderRadius:'6px',
+      width:100,
+      padding:'0px'  };
+        }     
+        return el;
+      });  
+      let cloneNodeImage = [...state.dataset];
+      cloneNodeImage = cloneNodeImage.map((tab, index) => {
+        if (_selectedTab29 === index) {
+          return imagePng;
+        } else {
+          return tab;
+        }
+      });
+      return{
+        ...state,
+         dataset: [...cloneNodeImage]
 
+      }
     default:
       return state;
   }

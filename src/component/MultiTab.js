@@ -12,21 +12,33 @@ const MultiTab = (props) => {
   const [color, setColor] = useState("primary");
   const [iconColor, setIconColor] = useState("primary");
   const containerContext = useContext(ContainerData);
-  const [counter, setCounter] = useState([0]);
-const {data: { dataset },addTabHandler} = containerContext;
+  // const [counter, setCounter] = useState([0]);
+const {data: { dataset },addTabHandler, tabRemover} = containerContext;
 
+
+// 
+
+
+// 
  const tabGenerator = () => {
-    return counter.map((element, index) => {
+    return props.counter.map((element, index) => {
       return (
-        <div key={index} onClick={() => props.setSelectedTab(index)}>
-          Tab {index}
+        
+        <div className="tab" key={index} onClick={() => props.setSelectedTab(index)}>
+        <strong>Tab: {index}</strong>  
         </div>
       );
     });
   };
-  
+//  const deleteItem = () => {
+//    return setCounter(
+//      counter.splice(props.selectedTab, 1)
+//    )
+//  }
+  console.log('are you select', props.selectedTab)
   return (
     <div>
+    
       <Stack
         direction="row"
         spacing={1}
@@ -37,21 +49,38 @@ const {data: { dataset },addTabHandler} = containerContext;
           color={color}
           component="span"
           onClick={() =>{
-           setCounter([...counter, 8])
+           props.setCounter([...props.counter,8])
             addTabHandler()}
           }
         >
           <CreateNewFolderIcon fontSize="medium" className="create_button" />
         </IconButton>
+        
         <IconButton
           color={iconColor}
           component="span"
-        //   onClick={() => parentRemover()}
+          
+          onClick={() =>{
+            if(props.selectedTab!== 0){
+  let __counter=[...props.counter];
+          console.log('ima coutner', __counter)
+          let __selectedTab= props.selectedTab;
+  __counter.splice(props.selectedTab,1)
+             props.setCounter(__counter)
+            tabRemover(props.selectedTab)
+
+            } else{
+              alert('parent node is not deletable')
+            }
+        
+          
+           }}
         >
           <DeleteForeverIcon fontSize="medium" className="delete_button" />
         </IconButton>
       </Stack>
       <Box sx={{ width: "100%" }}>{tabGenerator()}</Box>
+     
     </div>
   );
 };

@@ -1,20 +1,20 @@
-import React, { useContext } from "react";
-import CheckBox from "./CheckBox";
-import Doted from '../assets/images/doted.png'
-import click from '../assets/images/check.png'
+import React from "react";
+import checkImage from "../assets/images/test.png";
 export const nodesData = [
   {
     id: "1",
     type: "input",
     data: {
       label: (
-        
         <>
-        <span>
-          <img style={{width:'22px'}} src={"https://www.google.com/chrome/static/images/download-browser/big_pixel_phone.png"}/>
-          Welcome to <strong>React Flow!</strong>
+          <span>
+            <img style={{ width: "22px" }} src={checkImage} />
+            Welcome to <strong>React Flow!</strong>
           </span>
-         <div> <strong>1</strong></div>
+          <div>
+            {" "}
+            <strong>1</strong>
+          </div>
         </>
       ),
     },
@@ -23,7 +23,7 @@ export const nodesData = [
 
   {
     id: "2",
-    img:{ src: 'https://www.iconpacks.net/icons/1/free-pin-icon-48-thumb.png'},
+    // img:{ src: 'https://www.iconpacks.net/icons/1/free-pin-icon-48-thumb.png'},
     data: { label: <div>node 2</div> },
     position: { x: 100, y: 125 },
   },
@@ -35,10 +35,17 @@ export const nodesData = [
   },
   {
     id: "4",
-    data: { label:  <>   
-      Input Node
-     <div> <strong>2</strong></div>
-    </>},
+    data: {
+      label: (
+        <>
+          Input Node
+          <div>
+            {" "}
+            <strong>2</strong>
+          </div>
+        </>
+      ),
+    },
     position: { x: 350, y: 50 },
   },
   {
@@ -50,8 +57,35 @@ export const nodesData = [
   {
     id: "6",
     type: "input",
-    data: { label: "another node" },
+    data: {
+      label: (
+        <>
+          <span>
+            {" "}
+            <img
+              style={{
+                width: "100%",
+                zIndex: "-5",
+                position: "relatively",
+                padding: "0px",
+              }}
+              src={checkImage}
+              alt="nodeImage"
+            />{" "}
+            My custom node{" "}
+          </span>{" "}
+        </>
+      ),
+    },
+    // data: { label: "another node" },
     position: { x: 350, y: 220 },
+    style: {
+      // transform: 'skew(30deg)',
+      borderRadius: "6px",
+      width: 100,
+      fontFamily: "Helvetica",
+      padding: "0px",
+    },
   },
   {
     id: "7",
@@ -65,7 +99,6 @@ export const nodesData = [
       label: (
         <>
           An <strong>output node 8</strong>
-          
         </>
       ),
     },
@@ -108,73 +141,71 @@ export const nodesData = [
 ];
 export const nodeTransparentData = [
   {
-    label: '0.0',
+    label: "0.0",
   },
- 
+
   {
-    label: '0.1',
-  },
-  {
-    label: '0.2',
+    label: "0.1",
   },
   {
-    label: '0.3',
+    label: "0.2",
   },
   {
-    label: '0.4',
+    label: "0.3",
   },
   {
-    label: '0.5',
+    label: "0.4",
   },
   {
-    label: '0.6',
+    label: "0.5",
   },
   {
-    label: '0.7',
+    label: "0.6",
   },
   {
-    label: '0.8',
+    label: "0.7",
   },
   {
-    label: '0.9',
+    label: "0.8",
   },
   {
-    label: '1',
+    label: "0.9",
   },
-  
+  {
+    label: "1",
+  },
 ];
 export const transformFont = [
   {
-    label: 'UPPERCASE',
+    label: "UPPERCASE",
   },
- 
+
   {
-    label: 'lowercase',
+    label: "lowercase",
   },
   {
-    label: 'Capitalize',
+    label: "Capitalize",
   },
-  
 ];
 export const arrowLabelColor = [
   {
-    label: '100',
+    label: "100",
   },
- 
+
   {
-    label: '400',
-  },
-  {
-    label: '500',
+    label: "400",
   },
   {
-    label: '700',
+    label: "500",
   },
   {
-    label: '800',
+    label: "700",
   },
   {
-    label: '900',
+    label: "800",
+  },
+  {
+    label: "900",
   },
 ];
 

@@ -313,5 +313,16 @@
 .delete_button:hover{
   color: #e53935;
 }
+.tab{
+  border: 1px solid black;
+  border-radius: 3px;
+  padding: 10px;
+  margin-top: 5px;
+}
+.tab:hover{
+  background-color:rgb(228, 238, 240);
+  cursor: pointer;
+}
+
   
   
