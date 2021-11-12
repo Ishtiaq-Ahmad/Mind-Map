@@ -18,6 +18,7 @@ import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
+import { PathFindingEdge } from '@tisoap/react-flow-smart-edge';
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -29,9 +30,7 @@ const FlowChart = () => {
   const containerContext = useContext(ContainerData);
   const {
     data: { dataset, selectedNode },
-    addTabHandler,
     updateDataSetHandler,
-    nodeBgColorHandler,
     onElementClickHandler,
     onDragHandler,
     onEdgeHandler,
@@ -213,17 +212,17 @@ const FlowChart = () => {
   //   );
   // }, [nodeName, setElements]);
 
-  useEffect(() => {
-    setElements((els) =>
-      els.map((el) => {
-        if (el.id === selectedNode) {
-          el.data = { ...el.data, label: uploadImage };
-        }
+  // useEffect(() => {
+  //   setElements((els) =>
+  //     els.map((el) => {
+  //       if (el.id === selectedNode) {
+  //         el.data = { ...el.data, label: uploadImage };
+  //       }
 
-        return el;
-      })
-    );
-  }, [uploadImage, setElements]);
+  //       return el;
+  //     })
+  //   );
+  // }, [uploadImage, setElements]);
 
   //  useEffect(() => {
   //  const nodeColor = dataset[selectedTab].map((el) => {
@@ -348,7 +347,7 @@ const FlowChart = () => {
                     onDrop={onDrop}
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
-                    edgeTypes
+                    edgeTypes={{ smart: PathFindingEdge,}}
                   >
                     <Controls />
                     <Background color="#aaa" gap={16} />

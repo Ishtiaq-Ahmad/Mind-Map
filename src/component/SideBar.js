@@ -31,6 +31,7 @@ import normal from "../assets/images/normal.png";
 import Oval from "../assets/images/oval-bold-shape.png";
 import rectangleRound from "../assets/images/rounded-rectangle.png";
 import rectangle from "../assets/images/rectangular-shape-outline.png";
+import smartRouting from '../assets/images/smart-routing.PNG';
 import shape from "../assets/images/shape.PNG";
 import EdgeCustomization from './EdgeCustomization';
 import Curved from "../assets/images/curved_arrow.PNG";
@@ -504,6 +505,13 @@ const MindMapSideBar = (props) => {
                 className="curved"
                 onClick={(e) => changeArrowType(e,props.selectedTab)}
                 id='straight'
+              />
+               <img
+                src={smartRouting}
+                alt="straight arrow"
+                className="curved"
+                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                id='smart'
               />
             </span>
               <div>
