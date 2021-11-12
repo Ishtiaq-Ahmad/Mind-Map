@@ -17,7 +17,6 @@ import {
   faItalic,
   faUnderline,
   faStrikethrough,
-  faFont,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
 import click from "../assets/images/click.jpg";
@@ -119,15 +118,6 @@ const MindMapSideBar = (props) => {
 // else{
 //     alert('Only PNG file supported')
 // }
-    // props.setUploadImage(
-    //   <img
-    //     style={{}}
-    //     src={
-    //       "https://www.google.com/chrome/static/images/download-browser/big_pixel_phone.png"
-    //     }
-    //     alt="nodeIcon"
-    //   />
-    // );
   // };
 
   return (
@@ -146,7 +136,6 @@ const MindMapSideBar = (props) => {
             size="small"
             variant="outlined"
           />
-          {/* <input type="file" onChange={(e) => imageHandler(e)} name="image" id="input" accept="image/*" /> */}
            <label> Upload an Image </label>
             <input type="file" onChange={(e) =>{
               const selectImage = e.target.files[0];
@@ -234,7 +223,6 @@ const MindMapSideBar = (props) => {
               onChange={(evt) => {
                 nodeTransparentHandler(evt.target.value, props.selectedTab);
               }}
-              // onChange={(evt) => props.setTransparentNode(evt.target.value)}
               label="Transparent Node"
               size="small"
               variant="outlined"
@@ -442,7 +430,7 @@ const MindMapSideBar = (props) => {
             />
           </div>
           <div className="hideElements">
-            <label>Hide Node or Edge:</label>
+            <label>Hide Node:</label>
             <Switch
               checked={nodeHide}
               onChange={(evt) =>
@@ -576,7 +564,7 @@ const MindMapSideBar = (props) => {
                 title={edgeLabelColor}
                 onChange={(updatedColor) =>
                   edgeLabelColorHandler(updatedColor.hex,props.selectedTab)
-                  // bgColorHandler(updatedColor.hex, props.selectedTab);
+                
                 }
               />
             )}
