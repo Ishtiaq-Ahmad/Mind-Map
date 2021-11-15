@@ -159,7 +159,7 @@ const FlowChart = () => {
                 sm={tabs ? 8 : 10}
                 xs={12}
               >
-                <div>tab container ....# {selectedTab}</div>
+                {/* <div>tab container ....# {selectedTab}</div> */}
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
                   <ReactFlow
                     ref={componentRef}

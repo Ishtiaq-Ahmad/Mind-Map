@@ -100,41 +100,28 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
       let { nodeName, selectedTab: _selectedTab2 } = action.payload;
       let targetName = [...state.dataset[_selectedTab2]];
       const nameChange = targetName.map((el) => {
-        if (el.id === state.selectedNode) {  
-          console.log('im a selceted', state.selectedNode);
+        if (el.id === state.selectedNode) { 
           // alert(JSON.stringify(el.data))
           // console.log(el.data.label.props.children)
 
+//   if(el.data && el.data.label && el.data.label.props && el.data.label.props.children &&  el.data.label.props.children.length!==2 ){
 
-  if(el.data && el.data.label && el.data.label.props && el.data.label.props.children &&  el.data.label.props.children.length!==2 ){
-    // alert("okayss")
-console.log('dataaaaa',el.data.label.props.children)
+// let imgURI=null
+// el.data.label.props.children.forEach((child,index)=>{
+//   if(typeof child ==="object"){
+//   imgURI = el.data.label.props.children[index];
+//   }
+// })
 
-
-let imgURI=null
-
-el.data.label.props.children.forEach((child,index)=>{
-  if(typeof child ==="object"){
-  imgURI = el.data.label.props.children[index];
-  }
-})
-
-
-console.log({imgURI});
-
-let {props:{src}}= imgURI;
-// let src="https://www.goodcore.co.uk/blog/wp-content/uploads/2019/08/what-is-coding.png"
-// // src = URL.createObjectURL(src)
-
-console.log('i am source',{src})
-
-// console.log('picccccc',state.pngImage);
- let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={src} alt="nodeImage"/>
-          el.data = {...el.data,label:<span>{ImageView}{nodeName}</span>};
-  }else{
+// let {props:{src}}= imgURI;
+// // let src="https://www.goodcore.co.uk/blog/wp-content/uploads/2019/08/what-is-coding.png"
+// // // src = URL.createObjectURL(src)
+//  let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={src} alt="nodeImage"/>
+//           el.data = {...el.data,label:<span>{ImageView}{nodeName}</span>};
+//   }else{
 
    el.data = { ...el.data, label: nodeName };
-  }
+  // }
         }
         return el;
       });

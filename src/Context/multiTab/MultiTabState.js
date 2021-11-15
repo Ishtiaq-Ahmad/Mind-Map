@@ -65,10 +65,23 @@ const NodeState = (props) => {
     console.log('i am element', element.data)
 
     let multiLabel = "";
-    if (element.source === undefined && element.target === undefined) {
-      multiLabel = element.data.label;
-    }
 
+    // if (element.source === undefined && element.target === undefined) {
+    //   if(element.data.label.props.children === undefined)
+    //   {
+    //    multiLabel = element.data.label;
+    //   }
+    //   else {
+    //     let imgLabel = element.data.label.props.children[2]
+    //     const {props:{}}
+    //     multiLabel = element.data.label.props.
+    //   }
+     
+    // }
+     if (element.source === undefined && element.target === undefined) {
+       multiLabel = element.data.label;
+      }
+    
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
       payload:{element, multiLabel,treeDataUpdate}

@@ -1,142 +1,140 @@
 import React from "react";
 import checkImage from "../assets/images/test.png";
 export const nodesData = [
-  {
-    id: "1",
-    type: "input",
-    data: {
-      label: (
-        <>
-          <span>
-            <img style={{ width: "22px" }} src={checkImage} />
-            Welcome to <strong>React Flow!</strong>
-          </span>
-          <div>
-            {" "}
-            <strong>1</strong>
-          </div>
-        </>
-      ),
-    },
-    position: { x: 250, y: 25 },
-  },
+  // {
+  //   id: "1",
+  //   type: "input",
+  //   data: {
+  //     label: (
+  //       <>
+  //         <span>
+  //           <img style={{ width: "22px" }} src={checkImage} />
+  //           Welcome to <strong>React Flow!</strong>
+  //         </span>
+  //         <div>
+  //           {" "}
+  //           <strong>1</strong>
+  //         </div>
+  //       </>
+  //     ),
+  //   },
+  //   position: { x: 250, y: 25 },
+  // },
 
-  {
-    id: "2",
-    // img:{ src: 'https://www.iconpacks.net/icons/1/free-pin-icon-48-thumb.png'},
-    data: { label: <div>node 2</div> },
-    position: { x: 100, y: 125 },
-  },
-  {
-    id: "3",
-    type: "output",
-    data: { label: "node 3" },
-    position: { x: 250, y: 250 },
-  },
-  {
-    id: "4",
-    data: {
-      label: (
-        <>
-          Input Node
-          <div>
-            {" "}
-            <strong>2</strong>
-          </div>
-        </>
-      ),
-    },
-    position: { x: 350, y: 50 },
-  },
-  {
-    id: "5",
-    type: "output",
-    data: { label: "output node" },
-    position: { x: 100, y: 220 },
-  },
-  {
-    id: "6",
-    type: "input",
-    data: {
-      label: (
-        <>
-          <span>
-            {" "}
-            <img
-              style={{
-                width: "100%",
-                zIndex: "-5",
-                position: "relatively",
-                padding: "0px",
-              }}
-              src={checkImage}
-              alt="nodeImage"
-            />{" "}
-            My custom node{" "}
-          </span>{" "}
-        </>
-      ),
-    },
-    // data: { label: "another node" },
-    position: { x: 350, y: 220 },
-    style: {
-      // transform: 'skew(30deg)',
-      borderRadius: "6px",
-      width: 100,
-      fontFamily: "Helvetica",
-      padding: "0px",
-    },
-  },
-  {
-    id: "7",
-    type: "output",
-    data: { label: "another node" },
-    position: { x: 23, y: 20 },
-  },
-  {
-    id: "8",
-    data: {
-      label: (
-        <>
-          An <strong>output node 8</strong>
-        </>
-      ),
-    },
-    position: { x: 100, y: 480 },
-  },
-  {
-    id: "9",
-    // type:'output',
-    data: { label: "another node 9" },
-    position: { x: 250, y: 325 },
-    color: "yellow",
-  },
-  // animated edge
-  { id: "e1-2", source: "1", target: "2", type: "straight", label: "hello" },
-  {
-    id: "e2-3",
-    source: "1",
-    target: "3",
-    label: "button edge",
-    type: "smooth",
-  },
-  {
-    id: "e4-5",
-    source: "4",
-    target: "5",
-    label: "smart",
-    type: "smart",
-    style: { stroke: "green" },
-    arrowHeadType: "arrowclosed",
-  },
-  {
-    id: "e8-9",
-    source: "8",
-    target: "9",
-    label: "custom node",
-    type: "smooth",
-    labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
-  },
+  // {
+  //   id: "2",
+  //   data: { label: <div>node 2</div> },
+  //   position: { x: 100, y: 125 },
+  // },
+  // {
+  //   id: "3",
+  //   type: "output",
+  //   data: { label: "node 3" },
+  //   position: { x: 250, y: 250 },
+  // },
+  // {
+  //   id: "4",
+  //   data: {
+  //     label: (
+  //       <>
+  //         Input Node
+  //         <div>
+  //           {" "}
+  //           <strong>2</strong>
+  //         </div>
+  //       </>
+  //     ),
+  //   },
+  //   position: { x: 350, y: 50 },
+  // },
+  // {
+  //   id: "5",
+  //   type: "output",
+  //   data: { label: "output node" },
+  //   position: { x: 100, y: 220 },
+  // },
+  // {
+  //   id: "6",
+  //   type: "input",
+  //   data: {
+  //     label: (
+  //       <>
+  //         <span>
+  //           {" "}
+  //           <img
+  //             style={{
+  //               width: "100%",
+  //               zIndex: "-5",
+  //               position: "relatively",
+  //               padding: "0px",
+  //             }}
+  //             src={checkImage}
+  //             alt="nodeImage"
+  //           />{" "}
+  //           My custom node{" "}
+  //         </span>{" "}
+  //       </>
+  //     ),
+  //   },
+    
+  //   position: { x: 350, y: 220 },
+  //   style: {
+  //     // transform: 'skew(30deg)',
+  //     borderRadius: "6px",
+  //     width: 100,
+  //     fontFamily: "Helvetica",
+  //     padding: "0px",
+  //   },
+  // },
+  // {
+  //   id: "7",
+  //   type: "output",
+  //   data: { label: "another node" },
+  //   position: { x: 23, y: 20 },
+  // },
+  // {
+  //   id: "8",
+  //   data: {
+  //     label: (
+  //       <>
+  //         An <strong>output node 8</strong>
+  //       </>
+  //     ),
+  //   },
+  //   position: { x: 100, y: 480 },
+  // },
+  // {
+  //   id: "9",
+  //   data: { label: "another node 9" },
+  //   position: { x: 250, y: 325 },
+  //   color: "yellow",
+  // },
+ 
+  // { id: "e1-2", source: "1", target: "2", type: "straight", label: "hello" },
+  // {
+  //   id: "e2-3",
+  //   source: "1",
+  //   target: "3",
+  //   label: "button edge",
+  //   type: "smooth",
+  // },
+  // {
+  //   id: "e4-5",
+  //   source: "4",
+  //   target: "5",
+  //   label: "smart",
+  //   type: "smart",
+  //   style: { stroke: "green" },
+  //   arrowHeadType: "arrowclosed",
+  // },
+  // {
+  //   id: "e8-9",
+  //   source: "8",
+  //   target: "9",
+  //   label: "custom node",
+  //   type: "smooth",
+  //   labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
+  // },
 ];
 export const nodeTransparentData = [
   {
