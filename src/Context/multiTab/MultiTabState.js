@@ -173,10 +173,10 @@ const nodeNameHandler = (nodeName, selectedTab) => {
  
   const borderRadiosDecreaseHandler = (selectedTab) =>{
     let radiosDec= 0
-     if(state.borderRadios > 0){
-      radiosDec = state.borderRadios - 1
+     if(borderRadios > 0){
+      radiosDec = borderRadios - 1
      }else{
-       radiosDec = state.borderRadios = 0
+       radiosDec = borderRadios
      }
    
     dispatch({
@@ -184,9 +184,15 @@ const nodeNameHandler = (nodeName, selectedTab) => {
       payload: {selectedTab, radiosDec} 
     });
   }
-  
+  console.log('heelo log', borderRadios);
    const borderRadiosIncreaseHandler = (selectedTab) => {
-     let radiosInc = borderRadios + 1;
+     let radiosInc = 0
+     if(borderRadios === '15px 0px 15px 0px'){
+       alert(`pre-defined shape's radios is not customieabele`)
+     } else{
+       radiosInc = borderRadios + 1;
+     }
+     console.log('heelo log', borderRadios);
     dispatch({
       type: actionTypes.BORDER_RADIOS_INCREASE,
       payload:  {selectedTab, radiosInc}
@@ -248,6 +254,7 @@ const nodeNameHandler = (nodeName, selectedTab) => {
   };
    const nodeShapeHandler = (e, selectedTab) => {
      const nodeShape = e.target.id
+     console.log('----->>>>>>>>', e.target.id);
     dispatch({ type: actionTypes.NODE_SHAPE, payload: {selectedTab, nodeShape } });
   };
     const nodeTextTransform = (e,selectedTab) => {
