@@ -7,10 +7,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 import {faPalette} from '@fortawesome/free-solid-svg-icons'
 import NodeContext from "../Context/auth/authContext"
+import MultiTabContext from '../Context/multiTab/MultiTabContext'
 import Button from "@mui/material/Button";
 import TabIcon from "@mui/icons-material/Tab";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
+import MenuItem from "@mui/material/MenuItem";
 // import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -19,6 +21,11 @@ import ShortcutIcon from "@mui/icons-material/Shortcut";
 import PrintIcon from '@mui/icons-material/Print';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
+import { TextField, Switch } from "@material-ui/core";
+import FlowChartData, {
+  nodeSourcePosition,
+  defaultNodeSource
+} from "./FlowChartData";
 
 
 const style = {
@@ -38,16 +45,19 @@ const style = {
 const Header = (props) => {
 
   const nodeContext=useContext(NodeContext)
-  const {editNode, formatNode,multiTabHandler}=nodeContext;
+  const nodeMultiContext = useContext(MultiTabContext)
+  const {editNode, formatNode,multiTabHandler, }=nodeContext;
+  const {data:{sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler } = nodeMultiContext
   const [open, setOpen] =  useState(false);
    const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  
+  console.log('i am slectd///////////', _nodeType);
  
     return (
        <div >
       <AppBar position="static"  >
         <Toolbar>
+        
   <Stack
             direction="row"
             spacing={2}
@@ -57,6 +67,7 @@ const Header = (props) => {
             {/* <Link to="/" style={{ textDecoration: "none", color: "black" }}> */}
               <Typography variant="h6">Mind Map</Typography>
             {/* </Link> */}
+            
             <Button
               startIcon={<TabIcon />}
               onClick={multiTabHandler}
@@ -65,6 +76,52 @@ const Header = (props) => {
             >
               Multi Tabs
             </Button>
+            
+              {/* {showSourcePosition ?  */}
+              { _nodeType === 'input' || _nodeType === 'output' ?
+              <TextField
+              select
+              value={sourcePosition}
+              name={sourcePosition}
+              onChange={(evt) => {
+                nodeSourcePositionHandler(evt.target.value, props.selectedTab);
+              }}
+              label='Source Position'
+              size="small"
+              variant="outlined"
+              style={{width:'11%'}}
+              // width="20px"
+              // fullWidth
+            >
+              {nodeSourcePosition.map((option) => (
+                <MenuItem key={option.label} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>: 
+              <TextField
+              select
+              value={sourcePosition}
+              name={sourcePosition}
+              onChange={(evt) => {
+                nodeSourcePositionHandler(evt.target.value, props.selectedTab);
+              }}
+              label='Source Position'
+              size="small"
+              variant="outlined"
+              style={{width:'11%'}}
+              // width="20px"
+              // fullWidth
+            >
+              {defaultNodeSource.map((option) => (
+                <MenuItem key={option.label} value={option.label}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField> 
+ }  
+            
+         
           </Stack>
            <label htmlFor="icon-button-file">
             <IconButton

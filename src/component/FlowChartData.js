@@ -1,5 +1,8 @@
 import React from "react";
 import checkImage from "../assets/images/test.png";
+const hello =() =>{
+
+}
 export const nodesData = [
   // {
   //   id: "1",
@@ -25,12 +28,16 @@ export const nodesData = [
   //   id: "2",
   //   data: { label: <div>node 2</div> },
   //   position: { x: 100, y: 125 },
+  //   sourcePosition: 'right',
+  //   targetPosition: 'left'
+  //   // sourcePosition: 'left',
   // },
   // {
   //   id: "3",
   //   type: "output",
   //   data: { label: "node 3" },
   //   position: { x: 250, y: 250 },
+    
   // },
   // {
   //   id: "4",
@@ -205,7 +212,33 @@ export const arrowLabelColor = [
     label: "900",
   },
 ];
+export const nodeSourcePosition = [
+  {
+    label: "top",
+  },
 
+  {
+    label: "bottom",
+  },
+  {
+    label: "right",
+  },
+  {
+    label: "left",
+  },
+
+];
+export const defaultNodeSource = [
+  {
+    label: "Top & Bottom",
+  },
+
+  {
+    label: "Right & Left",
+  },
+ 
+
+];
 const FlowChartData = (props) => {
   return <div></div>;
 };

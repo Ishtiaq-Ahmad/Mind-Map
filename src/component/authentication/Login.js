@@ -12,6 +12,9 @@ import LockIcon from "@mui/icons-material/Lock";
 import Button from "@mui/material/Button";
 import NodePic from '../../assets/images/node (1).png'
 import NodePic1 from '../../assets/images/node (2).png'
+import picGif from '../../assets/images/loginGif.gif'
+import picGif1 from '../../assets/images/loginGif1.gif'
+import EmailIcon from '@mui/icons-material/Email';
 import AnimatePic from '../../assets/images/Mobile-login.gif'
 import {
   Link
@@ -24,7 +27,7 @@ const Login = () => {
       <Grid container spacing={2}>
         <Grid item md={6} xs={6}> 
         <div className="left_column">
-<img className="node_image" src={NodePic1} alt="Node Png Images"/>
+<img className="node_image" src={picGif} alt="Node Png Images"/>
         </div>
         
         </Grid>
@@ -38,12 +41,12 @@ const Login = () => {
               <TextField
                 className="user_name"
                 id="input-with-icon-textfield"
-                label="Username"
-                placeholder="Username"
+                label="Email"
+                placeholder="Email Address"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <AccountCircle />
+                      <EmailIcon />
                     </InputAdornment>
                   ),
                 }}
@@ -54,6 +57,7 @@ const Login = () => {
               className="user_name"
                 id="input-with-icon-textfield"
                 label="Password"
+                type="password"
                 placeholder="Password"
                 InputProps={{
                   startAdornment: (
@@ -69,7 +73,7 @@ const Login = () => {
               <Typography variant="subtitle" style={{marginTop:'10px'}}>
                 Don't have an Accout?{" "}
                 <strong>
-                {/* <Link to='/signup'>Sign Up</Link> */}
+                <Link to='/signup'>Sign Up</Link>
                   {/* <a href="#"></a>{" "} */}
                 </strong>
               </Typography>

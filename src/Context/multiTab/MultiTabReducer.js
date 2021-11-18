@@ -19,6 +19,8 @@ const authReducer = (state, action) => {
         multiTree:previousLabel,
         pngImage: action.payload.imagePicture,
         previousState: __previousData,
+        _nodeType: action.payload.nodeType,
+        showSourcePosition: true
       };
 
       case actionTypes.MULTI_NODE_ELEMENTS:
@@ -29,6 +31,7 @@ const authReducer = (state, action) => {
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return{
         ...state,
+        showSourcePosition: false,
         selectArrow: action.payload._edge
       }
     case actionTypes.ADD_TAB:
@@ -843,6 +846,62 @@ let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
         ...state,
          dataset: [...cloneNodeImage]
 
+      }
+      case actionTypes.NODE_SOURCE_POSITION:
+      // const {evt: nodeSourceEvt, selectedTab: selectedTab30} = action.payload
+      let{evt: nodeSourceEvt, selectedTab: selectedTab30} = action.payload
+        let targetSourceNode = [...state.dataset[selectedTab30]];
+        const nodeSourceTarget = targetSourceNode.map((el) => {
+        if (el.id === state.selectedNode) {
+          if(state._nodeType === 'input'){
+            // console.log('inputttttttttttttttt')
+            el.sourcePosition =  nodeSourceEvt
+            // el.sourcePosition={...el.sourcePosition, sourcePosition: nodeSourceEvt}
+          }
+          else if(state._nodeType === 'output'){
+            el.targetPosition =  nodeSourceEvt
+            // el.targetPosition ={...el.targetPosition, targetPosition: nodeSourceEvt}
+          }
+          else if(state._nodeType === 'default'){
+            if(nodeSourceEvt === 'Right & Left')
+            {
+              el.sourcePosition = 'right'
+              // el.targetPosition = {nodeSourceEvt === left? nodeSourceEvt}
+              el.targetPosition = 'left'
+            }
+            // else if(nodeSourceEvt === 'Right & Left'){
+            //   el.sourcePosition = nodeSourceEvt
+            //   el.targetPosition = 'right'
+            // }
+            else if(nodeSourceEvt === 'Top & Bottom'){
+              // el.sourcePosition = nodeSourceEvt
+              el.targetPosition = 'top'
+              el.sourcePosition = 'bottom'
+            }
+            // else if(nodeSourceEvt === 'bottom'){
+            //   el.sourcePosition = nodeSourceEvt
+            //   el.targetPosition = 'top'
+            // }
+            // el.sourcePosition = nodeSourceEvt
+            // el.nodeSourceTarget = 'righ
+          }
+          // el.sourcePosition={...el.sourcePosition, sourcePosition:nodeSourceEvt}
+          // el.targetPosition={...el.targetPosition, targetPosition: nodeSourceEvt}
+          }
+        return el;
+      });  
+      let cloneNodePosition = [...state.dataset];
+      cloneNodePosition = cloneNodePosition.map((tab, index) => {
+        if (selectedTab30 === index) {
+          return nodeSourceTarget;
+        } else {
+          return tab;
+        }
+      });
+      return{
+        ...state,
+        sourcePosition:nodeSourceEvt,
+        dataset:[...cloneNodePosition]
       }
     default:
       return state;

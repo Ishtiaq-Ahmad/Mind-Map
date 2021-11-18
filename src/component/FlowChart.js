@@ -19,6 +19,7 @@ import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
 import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
+import ColorSelectorNode from './SelectorNode';
 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
@@ -60,7 +61,9 @@ const FlowChart = () => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
+const nodeTypes = {
+  selectorNode: ColorSelectorNode,
+};
   const onElementsRemove = (elementsToRemove) => {
     const deleteElement = removeElements(
       elementsToRemove,
@@ -140,7 +143,7 @@ const FlowChart = () => {
       <ScreenCapture onEndCapture={handleScreenCapture}>
         {({ onStartCapture }) => (
           <div>
-            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} />
+            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} selectedTab={selectedTab} />
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
@@ -176,6 +179,7 @@ const FlowChart = () => {
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
+                     nodeTypes={nodeTypes}
                   >
                     <Controls />
                     <Background color="#aaa" gap={16} />
