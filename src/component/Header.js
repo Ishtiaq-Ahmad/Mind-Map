@@ -78,7 +78,8 @@ const Header = (props) => {
             </Button>
             
               {/* {showSourcePosition ?  */}
-              { _nodeType === 'input' || _nodeType === 'output' ?
+              { 
+                showSourcePosition? <>{ _nodeType === 'input' || _nodeType === 'output' ?
               <TextField
               select
               value={sourcePosition}
@@ -89,7 +90,7 @@ const Header = (props) => {
               label='Source Position'
               size="small"
               variant="outlined"
-              style={{width:'11%'}}
+              style={{width:'160px'}}
               // width="20px"
               // fullWidth
             >
@@ -109,7 +110,7 @@ const Header = (props) => {
               label='Source Position'
               size="small"
               variant="outlined"
-              style={{width:'11%'}}
+              style={{width:'160px'}}
               // width="20px"
               // fullWidth
             >
@@ -119,7 +120,9 @@ const Header = (props) => {
                 </MenuItem>
               ))}
             </TextField> 
- }  
+ } </> :null
+              }
+               
             
          
           </Stack>

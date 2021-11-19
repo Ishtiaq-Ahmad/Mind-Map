@@ -6,6 +6,8 @@ const authReducer = (state, action) => {
     case actionTypes.ON_ELEMENT_CLICK_HANDLER:
     let __previousData = ''
     let previousLabel =''
+    // const ammm = action.payload.element.data.label.props.children[1].props.
+    // console.log('???????',action.payload.element.data.label.props.children[1]);
     if(state.previousState === null || state.previousState === ''){
      __previousData= action.payload.element.id
     } else if ( state.previousState !== action.payload.element.id ){
@@ -827,11 +829,10 @@ let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
         const imagePng = targetNodeImage.map((el) => {
         if (el.id === state.selectedNode) {
           // let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>
-          el.data = { ...el.data, label: <span> <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>{state.selectedNodeName} </span>  };
-          el.style = { ...el.style, borderRadius:'6px',
-      width:100,
-      padding:'0px'  };
-        }     
+          // el.data = { ...el.data, label: <span> <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>{state.selectedNodeName} </span>  };
+          el.data = { ...el.data, label:<div style={{position:'relative', textAlign:'center'}}><img style={{width:"100%"}} src={imageLoad} alt="nodeImage"/> 
+          <div style={{ position: 'absolute',top: '50%',left: '50%', transform: 'translate(-50%, -50%)'}}>{state.selectedNodeName}</div> </div>};
+          el.style = { ...el.style, borderRadius:'6px', width:100, padding:'0px', border:'0px'}}     
         return el;
       });  
       let cloneNodeImage = [...state.dataset];

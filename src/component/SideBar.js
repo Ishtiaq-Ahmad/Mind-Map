@@ -406,7 +406,7 @@ const MindMapSideBar = (props) => {
               alt="dottedLine "
               className="lineStyle"
               onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
-              id="13px"
+              id="25px"
             />
             <img
               src={rectangle}

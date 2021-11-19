@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useRef } from "react";
 import * as actionTypes from "../types";
 import MultiTabContext from "./MultiTabContext";
 import MultiTabReducer from "./MultiTabReducer";
@@ -6,6 +6,7 @@ import { nodesData } from "../../component/FlowChartData";
 
 
 const NodeState = (props) => {
+   const imageRef = useRef(null)
   const initialState = {
     // dataset for each container
     dataset: [nodesData],
@@ -48,7 +49,7 @@ const NodeState = (props) => {
   const {arrowWidth,arrowType,borderRadios, _nodeType,borderWidth,nodeFont, previousState, multiSelectNode} = state;
   console.log('multiSelectNode',_nodeType);
   const onElementClickHandler = (element,treeDataUpdate) => {
-
+    
     // let nodeState = ''
     // if(previousState === null || previousState === ''){
     //     nodeState = (element.id)
@@ -65,7 +66,7 @@ const NodeState = (props) => {
 // console.log({src})
 // let imagePicture = {src}
 
-    console.log('i am element', element.data)
+
 
     let multiLabel = "";
 
@@ -82,10 +83,27 @@ const NodeState = (props) => {
      
     // }
      if (element.source === undefined && element.target === undefined) {
+      //  const hi = imageRef.current.element.data.label.props.childre[1]
+      //  console.log('nnnnnnnnnnn', hi);
        multiLabel = element.data.label;
+      if(element.data.label)
+      {
+        multiLabel = element.data.label;
+        console.log('ffffffffffffff', multiLabel)
       }
+         else if(  element.data.label && element.data.label.props && element.data.label.props.children){
+          const imageUr = element.data.label.props.children[1];
+          const {props:{children}} = imageUr
+          console.log('hiiiiiiiiii', children)
+          multiLabel = children
+       }
+      
+      }
+      // const helloLABE = element.data.label.props.children[1];
+      //  console.log('heloLabe', helloLABE);
     const nodeType = element.type
-
+    console.log('i am node label', multiLabel);
+    console.log({multiLabel});
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
       payload:{element, multiLabel,treeDataUpdate, nodeType}

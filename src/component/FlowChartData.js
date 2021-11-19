@@ -1,8 +1,9 @@
 import React from "react";
 import checkImage from "../assets/images/test.png";
-const hello =() =>{
+import hello from '../assets/images/node (1).png'
+// const hello =() =>{
 
-}
+// }
 export const nodesData = [
   // {
   //   id: "1",
@@ -65,35 +66,35 @@ export const nodesData = [
   //   type: "input",
   //   data: {
   //     label: (
-  //       <>
-  //         <span>
-  //           {" "}
+  //       <div style={{position:'relative', textAlign:'center'}}>
   //           <img
   //             style={{
   //               width: "100%",
-  //               zIndex: "-5",
-  //               position: "relatively",
-  //               padding: "0px",
   //             }}
-  //             src={checkImage}
+  //             src={hello}
   //             alt="nodeImage"
-  //           />{" "}
-  //           My custom node{" "}
-  //         </span>{" "}
-  //       </>
+  //           /><div style={{ position: 'absolute',
+  // top: '50%',
+  // left: '50%',
+  // transform: 'translate(-50%, -50%)'
+  // }}>My custom node</div>
+            
+  //         </div>
+      
   //     ),
   //   },
     
   //   position: { x: 350, y: 220 },
   //   style: {
-  //     // transform: 'skew(30deg)',
-  //     borderRadius: "6px",
+  //     // borderRadius: "6px",
   //     width: 100,
   //     fontFamily: "Helvetica",
   //     padding: "0px",
+  //     borderRadius: '0px',
+ 
   //   },
   // },
-  // {
+  // // {
   //   id: "7",
   //   type: "output",
   //   data: { label: "another node" },
