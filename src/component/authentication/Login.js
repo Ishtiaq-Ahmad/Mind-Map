@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState} from "react";
 import "./auth.css";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -16,11 +16,43 @@ import picGif from '../../assets/images/loginGif.gif'
 import picGif1 from '../../assets/images/loginGif1.gif'
 import EmailIcon from '@mui/icons-material/Email';
 import AnimatePic from '../../assets/images/Mobile-login.gif'
-import {
-  Link
-} from "react-router-dom";
+import {login} from "../../utils/helpers"
+import { useHistory } from 'react-router';
+import { Link } from "react-router-dom";
 
-const Login = () => {
+
+
+const Login = (props) => {
+  // let history = useHistory();
+   const [email,setEmail]=useState("")
+  const [password,setPassword]=useState("");
+
+  const loginHandler = async(e)=>{
+// e.prevent.default()
+    if(email && password ){
+
+
+try {
+  const isLoggedIn=await login(email,password);
+console.log({isLoggedIn});
+if(isLoggedIn){
+props.history.push('/home')
+}
+else{
+  alert('error')
+}
+
+
+} catch (error) {
+  console.log("oops error in user login",error);
+}
+
+
+    }else {
+      alert("Please Provide valid user email and password")
+    }
+  }
+
   return (
     <div className="background_image">
       {/* <Box sx={{ flexGrow: 1 }}> */}
@@ -43,6 +75,7 @@ const Login = () => {
                 id="input-with-icon-textfield"
                 label="Email"
                 placeholder="Email Address"
+                onChange={e=>setEmail(e.target.value)}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -59,6 +92,8 @@ const Login = () => {
                 label="Password"
                 type="password"
                 placeholder="Password"
+                onChange={e=>setPassword(e.target.value)}
+
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -69,7 +104,7 @@ const Login = () => {
                 variant="standard"
                 fullWidth
               />
-              <Button type="submit" variant="contained">Sign In</Button>
+              <Button type="submit" variant="contained" onClick={loginHandler}>Sign In</Button>
               <Typography variant="subtitle" style={{marginTop:'10px'}}>
                 Don't have an Accout?{" "}
                 <strong>

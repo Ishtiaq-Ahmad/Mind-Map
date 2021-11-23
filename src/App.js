@@ -5,25 +5,23 @@ import Header from './component/Header';
 // import SignUp from './component/authentication/Registration'
 import Login from './component/authentication/Login';
 import Signup from './component/authentication/Registration'
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
-
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import Dashboard from './views/Dashboard'
 
 
 
 function App() {
   return (
     <div className="App">
-    {/* <Router>
+    <Router>
       <Switch>
         <Route path="/signup" component={Signup} />
+        <Route path="/home" component={FlowChart} />
+        <Route path = "/admin-dashboard" component = {Dashboard}/>
         <Route  path="/"  component={Login} ></Route>
       </Switch>
-    </Router> */}
-    <FlowChart/>
+    </Router>
+    {/* <FlowChart/> */}
 
      </div>
   );

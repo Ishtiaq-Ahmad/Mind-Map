@@ -13,7 +13,6 @@ import TabIcon from "@mui/icons-material/Tab";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
 import MenuItem from "@mui/material/MenuItem";
-// import { Link } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import PaletteIcon from "@mui/icons-material/Palette";
@@ -21,11 +20,15 @@ import ShortcutIcon from "@mui/icons-material/Shortcut";
 import PrintIcon from '@mui/icons-material/Print';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { TextField, Switch } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import LogoutIcon from '@mui/icons-material/Logout';
+import {_signOut} from '../utils/helpers'
 import FlowChartData, {
   nodeSourcePosition,
-  defaultNodeSource
+  defaultNodeSource,
 } from "./FlowChartData";
+import { useHistory } from 'react-router';
+import { Link } from "react-router-dom";
 
 
 const style = {
@@ -36,14 +39,14 @@ const style = {
   width: 400,
   bgcolor: '#F8F8FF',
   border: '2px solid #ADD8E6',
-  borderradios: '3px',
+  borderRadios: '3px',
   boxShadow: 24,
   p: 4,
 };
 
 
 const Header = (props) => {
-
+ let history = useHistory();
   const nodeContext=useContext(NodeContext)
   const nodeMultiContext = useContext(MultiTabContext)
   const {editNode, formatNode,multiTabHandler, }=nodeContext;
@@ -52,6 +55,16 @@ const Header = (props) => {
    const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   console.log('i am slectd///////////', _nodeType);
+
+  const signOutHandler = async () => {
+    props.history.push('/login')
+    // try {
+    //   const isLoggedIn = await _signOut();
+
+    // } catch (error) {
+    //   console.log("oops error in user login", error);
+    // }
+  };
  
     return (
        <div >
@@ -111,8 +124,6 @@ const Header = (props) => {
               size="small"
               variant="outlined"
               style={{width:'160px'}}
-              // width="20px"
-              // fullWidth
             >
               {defaultNodeSource.map((option) => (
                 <MenuItem key={option.label} value={option.label}>
@@ -122,6 +133,17 @@ const Header = (props) => {
             </TextField> 
  } </> :null
               }
+              {/* <Link to="/admin-dashboard">  */}
+            <Button
+              // startIcon={<TabIcon />}
+              onClick={() => props.history.push('/admin-dashboard')}
+              size="small"
+              variant="outlined"
+            >
+              Admin dashboard
+            </Button>
+              {/* </Link> */}
+             
                
             
          
@@ -146,6 +168,9 @@ const Header = (props) => {
 
             <IconButton color="primary" component="span" onClick ={handleOpen}>
               <ShortcutIcon />
+            </IconButton>
+            <IconButton color="primary" component="span" onClick ={signOutHandler}>
+              <LogoutIcon />
             </IconButton>
           </label>
             <Modal

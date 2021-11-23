@@ -64,7 +64,11 @@ export const nodesData = [
   // {
   //   id: "6",
   //   type: "input",
-  //   data: {
+  //   data:{  
+    // <div style={{position:'relative', textAlign:'center'}}><img style={{width: "100%"}} src={hello} alt="nodeImage" />
+    // <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
+    //  another node</div></div>),
+    // label: "hello",
   //     label: (
   //       <div style={{position:'relative', textAlign:'center'}}>
   //           <img
@@ -84,20 +88,21 @@ export const nodesData = [
   //     ),
   //   },
     
-  //   position: { x: 350, y: 220 },
-  //   style: {
-  //     // borderRadius: "6px",
-  //     width: 100,
-  //     fontFamily: "Helvetica",
-  //     padding: "0px",
-  //     borderRadius: '0px',
+    // position: { x: 350, y: 220 },
+    // style: {
+      // borderRadius: "6px",
+//       width: 100,
+//       fontFamily: "Helvetica",
+//       padding: "0px",
+//       borderRadius: '0px',
  
-  //   },
-  // },
-  // // {
+//      },
+//  },
+  // {
   //   id: "7",
   //   type: "output",
-  //   data: { label: "another node" },
+  //   label: 'another nodemmm',
+  //   // data: { label: "another node" },
   //   position: { x: 23, y: 20 },
   // },
   // {

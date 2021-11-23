@@ -24,7 +24,7 @@ import ColorSelectorNode from './SelectorNode';
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
-const FlowChart = () => {
+const FlowChart = (props) => {
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
@@ -143,7 +143,7 @@ const nodeTypes = {
       <ScreenCapture onEndCapture={handleScreenCapture}>
         {({ onStartCapture }) => (
           <div>
-            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} selectedTab={selectedTab} />
+            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} selectedTab={selectedTab} {...props} />
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
