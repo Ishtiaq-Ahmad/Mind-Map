@@ -3,7 +3,8 @@ import {
   CHANGE_DOTED_LINE_ANIMATED,
   CHANGE_LINE_ANIMATED,
   FORMAT_NODE,
-  MULTI_TAB
+  MULTI_TAB,
+  SET_PROFILE
 } from "../types";
 
 const authReducer = (state, action) => {
@@ -32,6 +33,12 @@ const authReducer = (state, action) => {
     return{
       ...state,
       tabs: !state.tabs
+    }
+    case SET_PROFILE:
+    let{email, role}= action.payload
+    return{
+      ...state,
+      email, role
     }
 
     default:

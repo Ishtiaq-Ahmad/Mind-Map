@@ -27,11 +27,14 @@ export const nodesData = [
 
   // {
   //   id: "2",
-  //   data: { label: <div>node 2</div> },
+  //   data: { label: 'Ishitaq ahmad khan Ishitaq ahmad khan Ishitaq ahmad khan Ishitaq ahmad khan Ishitaq ahmad khan Ishitaq ahmad khan  ' },
   //   position: { x: 100, y: 125 },
   //   sourcePosition: 'right',
-  //   targetPosition: 'left'
-  //   // sourcePosition: 'left',
+  //   targetPosition: 'left',
+  //   style: {
+  //       background:'green',
+  //       width:'20%'
+  //   }
   // },
   // {
   //   id: "3",
@@ -64,13 +67,7 @@ export const nodesData = [
   // {
   //   id: "6",
   //   type: "input",
-  //   data:{  
-    // <div style={{position:'relative', textAlign:'center'}}><img style={{width: "100%"}} src={hello} alt="nodeImage" />
-    // <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
-    //  another node</div></div>),
-    // label: "hello",
-  //     label: (
-  //       <div style={{position:'relative', textAlign:'center'}}>
+  //   data: {label: (<div style={{position:'relative', textAlign:'center'}}>
   //           <img
   //             style={{
   //               width: "100%",
@@ -88,21 +85,20 @@ export const nodesData = [
   //     ),
   //   },
     
-    // position: { x: 350, y: 220 },
-    // style: {
-      // borderRadius: "6px",
-//       width: 100,
-//       fontFamily: "Helvetica",
-//       padding: "0px",
-//       borderRadius: '0px',
+  //   position: { x: 350, y: 220 },
+  //   style: {
+  //     // borderRadius: "6px",
+  //     width: 100,
+  //     fontFamily: "Helvetica",
+  //     padding: "0px",
+  //     borderRadius: '0px',
  
-//      },
-//  },
+  //   },
+  // },
   // {
   //   id: "7",
   //   type: "output",
-  //   label: 'another nodemmm',
-  //   // data: { label: "another node" },
+  //   data: { label: "another node" },
   //   position: { x: 23, y: 20 },
   // },
   // {
@@ -116,12 +112,13 @@ export const nodesData = [
   //   },
   //   position: { x: 100, y: 480 },
   // },
-  // {
-  //   id: "9",
-  //   data: { label: "another node 9" },
-  //   position: { x: 250, y: 325 },
-  //   color: "yellow",
-  // },
+  {
+    id: "9",
+    data: { label: "another node 9" },
+    position: { x: 250, y: 325 },
+    color: "yellow",
+    // style:{ width: '700px'}
+  },
  
   // { id: "e1-2", source: "1", target: "2", type: "straight", label: "hello" },
   // {

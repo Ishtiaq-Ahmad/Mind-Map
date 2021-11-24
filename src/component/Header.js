@@ -22,6 +22,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { TextField } from "@material-ui/core";
 import LogoutIcon from '@mui/icons-material/Logout';
+import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
 import {_signOut} from '../utils/helpers'
 import FlowChartData, {
   nodeSourcePosition,
@@ -49,7 +50,7 @@ const Header = (props) => {
  let history = useHistory();
   const nodeContext=useContext(NodeContext)
   const nodeMultiContext = useContext(MultiTabContext)
-  const {editNode, formatNode,multiTabHandler, }=nodeContext;
+  const {data:{role},editNode, formatNode,multiTabHandler, }=nodeContext;
   const {data:{sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler } = nodeMultiContext
   const [open, setOpen] =  useState(false);
    const handleOpen = () => setOpen(true);
@@ -65,7 +66,7 @@ const Header = (props) => {
     //   console.log("oops error in user login", error);
     // }
   };
- 
+ console.log('i am role', role);
     return (
        <div >
       <AppBar position="static"  >
@@ -134,14 +135,17 @@ const Header = (props) => {
  } </> :null
               }
               {/* <Link to="/admin-dashboard">  */}
-            <Button
+              {
+                role === 1?  <Button
               // startIcon={<TabIcon />}
               onClick={() => props.history.push('/admin-dashboard')}
               size="small"
               variant="outlined"
             >
               Admin dashboard
-            </Button>
+            </Button> : null
+              }
+           
               {/* </Link> */}
              
                
@@ -167,7 +171,7 @@ const Header = (props) => {
             </IconButton>
 
             <IconButton color="primary" component="span" onClick ={handleOpen}>
-              <ShortcutIcon />
+              <SpeakerNotesIcon />
             </IconButton>
             <IconButton color="primary" component="span" onClick ={signOutHandler}>
               <LogoutIcon />

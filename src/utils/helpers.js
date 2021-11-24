@@ -1,5 +1,6 @@
 import { db, app } from "../backend/firebase";
-import { collection, getDocs, addDoc, doc, setDoc,deleteDoc } from "firebase/firestore";
+import React,{useContext} from 'react'
+import { collection, getDocs, addDoc, doc, setDoc,deleteDoc,getDoc } from "firebase/firestore";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -7,8 +8,11 @@ import {
   deleteUser,
   signOut  
 } from "firebase/auth";
+// import NodeContext from '../Context/auth/authContext'
+// import NodeContext from "../Context/auth/authContext";
 const auth = getAuth();
 const user = auth.currentUser;
+
 
 const _signOut = () =>{
 signOut(auth).then(() => {
@@ -33,40 +37,55 @@ const createDocWithID = (_collection, docID, docOBJ) => {
     }
   });
 };
+
 // ******************delete  user *******************
-const _deleteUser = (_collection, docID, docOBJ) =>{
+const _deleteUser = (_collection, docID, ) =>{
     return new Promise(async( resolve, reject) => {
+            deleteUser(user).then(() => {
+  // User deleted.
+  alert('user deleted')
+}).catch((error) => {
+  // An error ocurred
+  // ...
+  alert('user not deleted')
+});
+
+
         try{
-            const userDoc = await setDoc(doc(db, _collection, docID), docOBJ);
-            deleteDoc(userDoc)
-            resolve(userDoc)
-            alert('success')
+            const {docRef} = await getDocById(_collection,docID)
+
+            // await deleteDoc(doc(db, "cities", "DC"));
+           await deleteDoc(docRef)
+            resolve("User deleted success")
+            // alert('success')
         }catch(error){
             reject(error)
-            alert('error')
+            // alert('error')
         }
     })
     // const userDoc = doc(db, _collection, docID);
     // deleteDoc(userDoc)
 }
 
-const _delete = (email) =>{
-return new Promise((resolve, reject) =>{
-    deleteUser(user).then(() => {
-           _deleteUser("users", user.uid, {
-          role: 2,
-          email,
-          
-        });
-  alert('user deleted')
-  resolve(true);
-}).catch((error) => {
-  alert('use did not delete')
-  // ...
-   reject(false);
-});
-})
-}
+// const _delete = (email) =>{
+//     return new Promise((resolve, reject) =>{
+
+//     })
+// return new Promise((resolve, reject) =>{
+//     deleteUser(user).then(() => {
+       
+//           alert('user deleted')
+//            resolve(true);
+//         });
+  
+ 
+// }).catch((error) => {
+//   alert('use did not delete')
+//   // ...
+//    reject(false);
+// });
+// })
+// }
 
 // ****************delete user***************
 
@@ -91,7 +110,8 @@ const signup = (email, password , full_name) => {
         await createDocWithID("users", user.uid, {
           role: 2,
           email,
-          full_name
+          full_name,
+          uid:user.uid
         });
         resolve(true);
       })
@@ -112,10 +132,17 @@ const login = (email, password) => {
         console.log({ user });
         console.log('i am your user',user.uid);
 
+// 
         // user  authenticated
         // authorize the user by getting its profile from user collection checking role 1 || 2
 
-        resolve(user);
+let {data}=await getDocById("users",user.uid)
+console.log("userProfile got here >>>",{data});
+// store role and user email to context store 
+//  setProfileHandler({data})
+
+// 
+        resolve(data);
 
       })
       .catch((error) => {
@@ -136,4 +163,25 @@ return datalist;
 
 }
 
-export { signup, login,getAllData, _delete,_signOut };
+const getDocById=async(_collection,docId)=>{
+    return new Promise(async(resolve, reject) => {
+           const docRef = doc(db, _collection, docId);
+const docSnap = await getDoc(docRef);
+// got a user doc here
+
+if (docSnap.exists()) {
+  console.log("User data:", docSnap.data());
+  resolve({docRef,data:docSnap.data()})
+} else {
+  // doc.data() will be undefined in this case
+//   invalid DocId
+reject(false)
+  console.log("No such document!");
+}
+    })
+    
+ 
+
+}
+
+export { signup, login,getAllData,_signOut,_deleteUser };

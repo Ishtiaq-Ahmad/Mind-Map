@@ -13,7 +13,7 @@ const NodeState = (props) => {
     selectedNode:0,
     selectedTab:0,
     bgColor:"",
-    nodeName:'',
+    nodeName:'Node Name',
     selectedNodeName:'',
     borderColor:'',
     nodeFontColor:'',
@@ -41,21 +41,31 @@ const NodeState = (props) => {
     multiSelectNode: [],
     _nodeType:'',
     sourcePosition:'',
-    showSourcePosition: false
+    showSourcePosition: false,
+    nodeSize: 150
+    
     
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios, _nodeType,borderWidth,nodeFont, previousState, multiSelectNode} = state;
-  console.log('multiSelectNode',_nodeType);
+  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize, previousState,nodeName, multiSelectNode} = state;
+
   const onElementClickHandler = (element,treeDataUpdate) => {
     
-    // let nodeState = ''
-    // if(previousState === null || previousState === ''){
-    //     nodeState = (element.id)
-    // }else if( previousState !== element.id){
-    //   nodeState(element.id)
-    // }
+    console.log('my,,,,,,,,,,,,',element);
+    console.log('chohaaaaaaaaaaaan',element.style )
+  // element.style = { width };  
+    let _previousState = ''
+    let _nodeName = ''
+    // let _nodeSize = ''
+    if(previousState === null || previousState === ''){
+        _previousState = (element.id)
+    }else if( previousState !== element.id){
+      _previousState = (element.id)
+      _nodeName = ''
+      // _nodeSize = nodeSize
+      // nodeState(element.id)
+    }
       // let imagePicture=''
     // if( element.data && element.data.label && element.data.label.props && element.data.props.children){
     //  let imgSrc = element.data.label.props.children[1];
@@ -83,30 +93,30 @@ const NodeState = (props) => {
      
     // }
      if (element.source === undefined && element.target === undefined) {
-      //  const hi = imageRef.current.element.data.label.props.childre[1]
-      //  console.log('nnnnnnnnnnn', hi);
-       multiLabel = element.data.label;
-      if(element.data.label)
-      {
-        multiLabel = element.data.label;
-        console.log('ffffffffffffff', multiLabel)
-      }
-         else if(  element.data.label && element.data.label.props && element.data.label.props.children){
-          const imageUr = element.data.label.props.children[1];
-          const {props:{children}} = imageUr
-          console.log('hiiiiiiiiii', children)
-          multiLabel = children
-       }
+        let _multiLabel = element.data.label;
+        if(_multiLabel.length <= 20 ){
+          multiLabel = _multiLabel
+        } else if( _multiLabel.length >= 20){
+          multiLabel = ` ${_multiLabel.slice(0, 20)}...`
+        }
+      
+      // if(element.data.label)
+      // {
+      //   multiLabel = element.data.label;
+      // }
+      //    else if(  element.data.label && element.data.label.props && element.data.label.props.children){
+      //     const imageUr = element.data.label.props.children[1];
+      //     const {props:{children}} = imageUr
+      //     multiLabel = children
+      //  }
       
       }
-      // const helloLABE = element.data.label.props.children[1];
-      //  console.log('heloLabe', helloLABE);
     const nodeType = element.type
-    console.log('i am node label', multiLabel);
-    console.log({multiLabel});
+    // console.log('i am node label', multiLabel);
+    // console.log({multiLabel});
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
-      payload:{element, multiLabel,treeDataUpdate, nodeType}
+      payload:{element, multiLabel,treeDataUpdate, nodeType ,_previousState,_nodeName}
     })
   }
   
@@ -214,7 +224,6 @@ const nodeNameHandler = (nodeName, selectedTab) => {
      } else{
        radiosInc = borderRadios + 1;
      }
-     console.log('heelo log', borderRadios);
     dispatch({
       type: actionTypes.BORDER_RADIOS_INCREASE,
       payload:  {selectedTab, radiosInc}
@@ -388,6 +397,32 @@ const nodeSourcePositionHandler = (evt, selectedTab) => {
     payload:{evt, selectedTab}
   })
 }
+const paneClickHandler = (event) =>{
+  dispatch({
+    type:actionTypes.PANE_CLICK,
+    payload:{event}
+  })
+}
+const nodeSizeIncreaseHandler = (selectedTab) => {
+  let nodeSizeInc = nodeSize + 1;
+  dispatch({
+    type:actionTypes.NODE_SIZE_INCREASE,
+    payload:{selectedTab,nodeSizeInc}
+  })
+}
+const nodeSizeDecreaseHandler = (selectedTab) => {
+  let nodeSizeDec = 0
+      if(nodeSize > 1){
+        nodeSizeDec = nodeSize - 1
+      }
+      else{
+        nodeSizeDec = nodeSize
+      }
+  dispatch({
+    type:actionTypes.NODE_SIZE_DECREASE,
+    payload:{selectedTab, nodeSizeDec}
+  })  
+}
   return (
     <MultiTabContext.Provider
       value={{
@@ -430,7 +465,10 @@ const nodeSourcePositionHandler = (evt, selectedTab) => {
         removeElementHandler,
         imageHandler,
         multipleSelectNode,
-        nodeSourcePositionHandler
+        nodeSourcePositionHandler,
+        paneClickHandler,
+         nodeSizeDecreaseHandler,
+          nodeSizeIncreaseHandler
       }}
     >
       {props.children}

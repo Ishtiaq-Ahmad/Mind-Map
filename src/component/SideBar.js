@@ -66,7 +66,8 @@ const MindMapSideBar = (props) => {
       edgeLabelFont,
       edgeLabelColor,
       arrowColor,
-      arrowWidth
+      arrowWidth,
+      nodeSize
     },
     bgColorHandler,
     nodeNameHandler,
@@ -95,7 +96,9 @@ const MindMapSideBar = (props) => {
     arrowHeadHandler,
     arrowWidthDecreaseHandler,
     arrowWidthIncreaseHandler,
-    imageHandler
+    imageHandler,
+    nodeSizeDecreaseHandler,
+    nodeSizeIncreaseHandler
   } = multitabContext;
   const {showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
@@ -133,6 +136,7 @@ const MindMapSideBar = (props) => {
               nodeNameHandler(evt.target.value, props.selectedTab);
             }}
             label={selectedNodeName}
+            // placeholder={selectedNodeName}
             size="small"
             variant="outlined"
           />
@@ -234,6 +238,24 @@ const MindMapSideBar = (props) => {
                 </MenuItem>
               ))}
             </TextField>
+          </div>
+          <div className="border">
+            <label>Node Size</label>
+            <span className="borderWidth">
+              <button
+                onClick={() => nodeSizeDecreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>-</strong>
+              </button>
+              <h4 className="borderFont">{nodeSize}px</h4>
+              <button
+                onClick={() => nodeSizeIncreaseHandler(props.selectedTab)}
+                className="borderWidthButton"
+              >
+                <strong>+</strong>
+              </button>
+            </span>
           </div>
           <div className="border">
             <label>Border Radius</label>

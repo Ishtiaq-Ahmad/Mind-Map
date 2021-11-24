@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useContext} from "react";
 import "./auth.css";
 import Grid from "@mui/material/Grid";
 import { styled } from "@mui/material/styles";
@@ -19,39 +19,51 @@ import AnimatePic from '../../assets/images/Mobile-login.gif'
 import {login} from "../../utils/helpers"
 import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
+import NodeContext from '../../Context/auth/authContext'
 
 
 
 const Login = (props) => {
+  const nodeContext = useContext(NodeContext);
+ const { setProfileHandler } = nodeContext;
+
   // let history = useHistory();
    const [email,setEmail]=useState("")
   const [password,setPassword]=useState("");
-
-  const loginHandler = async(e)=>{
-// e.prevent.default()
-    if(email && password ){
-
-
-try {
-  const isLoggedIn=await login(email,password);
-console.log({isLoggedIn});
-if(isLoggedIn){
-props.history.push('/home')
-}
-else{
-  alert('error')
-}
+  const [errorState, setErrorState] = useState('');
+  const [errorText, setErrorText] = useState('');
+  const [errorPassState, setErrorPassState] = useState(false);
+	const [errorPassText, setErrorPassText] = useState('');
 
 
-} catch (error) {
-  console.log("oops error in user login",error);
-}
-
-
-    }else {
-      alert("Please Provide valid user email and password")
+  const loginHandler = async (e) => {
+    // e.prevent.default()
+    if(email === '' && email === null){
+      setErrorState(true);
+      setErrorText('Please enter user name')
     }
-  }
+    if(password == '' && password == null){
+      setErrorPassState(true);
+      setErrorPassText("Please enter the password")
+    }
+    if (email && password) {
+      try {
+        const isLoggedIn = await login(email, password);
+
+        if (isLoggedIn) {
+          setProfileHandler({ isLoggedIn });
+          props.history.push("/home");
+        } else {
+          alert("error");
+        }
+      } catch (error) {
+        console.log("oops error in user login", error);
+      }
+    }
+     else {
+      alert("Please Provide email and password");
+    }
+  };
 
   return (
     <div className="background_image">
@@ -75,6 +87,8 @@ else{
                 id="input-with-icon-textfield"
                 label="Email"
                 placeholder="Email Address"
+                error={errorState}
+                helperText={errorText}
                 onChange={e=>setEmail(e.target.value)}
                 InputProps={{
                   startAdornment: (
@@ -92,6 +106,8 @@ else{
                 label="Password"
                 type="password"
                 placeholder="Password"
+                error={errorPassState}
+							helperText={errorPassText}
                 onChange={e=>setPassword(e.target.value)}
 
                 InputProps={{

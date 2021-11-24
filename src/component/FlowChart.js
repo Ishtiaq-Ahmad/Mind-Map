@@ -18,9 +18,11 @@ import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
+import { SmartEdge ,PathFindingEdge} from '@tisoap/react-flow-smart-edge';
+// import { PathFindingEdge  } from "@tisoap/react-flow-smart-edge";
 import ColorSelectorNode from './SelectorNode';
 
+ 
 let id = 0;
 const getId = () => `dndnode_${id++}`;
 
@@ -37,6 +39,7 @@ const FlowChart = (props) => {
     onEdgeHandler,
     removeElementHandler,
     multipleSelectNode,
+    paneClickHandler
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
   console.log({ dataset: dataset[selectedTab] });
@@ -78,6 +81,7 @@ const nodeTypes = {
         type: "buttonedge",
         label: "label",
         arrowHeadType: "arrowclosed",
+        
       },
       dataset[selectedTab]
     );
@@ -93,6 +97,7 @@ const nodeTypes = {
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
+    console.log('im the click', element);
     onElementClickHandler(element, treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
@@ -102,6 +107,10 @@ const nodeTypes = {
         multipleSelectNode(multi);
       }
     }
+  };
+  const onPaneClick = (event) => {
+    paneClickHandler(event)
+    // setMultipleSelect([]);
   };
   const addEdgeHandler = (...params) => {
     console.log({ params });
@@ -124,11 +133,14 @@ const nodeTypes = {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
+    
     const newNode = {
       id: getId(),
       type,
       position,
       data: { label: `${type} node` },
+      style:{ width: '150px'},
+      
     };
     let finalData = [...dataset[selectedTab], newNode];
     onDragHandler(selectedTab, finalData);
@@ -143,7 +155,12 @@ const nodeTypes = {
       <ScreenCapture onEndCapture={handleScreenCapture}>
         {({ onStartCapture }) => (
           <div>
-            <Header onStartCapture={onStartCapture} handlePrint={handlePrint} selectedTab={selectedTab} {...props} />
+            <Header
+              onStartCapture={onStartCapture}
+              handlePrint={handlePrint}
+              selectedTab={selectedTab}
+              {...props}
+            />
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
@@ -171,7 +188,7 @@ const nodeTypes = {
                     onLoad={onLoad}
                     onElementsRemove={onElementsRemove}
                     onConnect={onConnect}
-                    deleteKeyCode={46}
+                    deleteKeyCode={8}
                     zoomOnDoubleClick={false}
                     key="edges"
                     onDragOver={onDragOver}
@@ -179,7 +196,11 @@ const nodeTypes = {
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
-                     nodeTypes={nodeTypes}
+                    // edgeTypes={{
+                    //   smart: SmartEdge,
+                    // }}
+                    nodeTypes={nodeTypes}
+                    onPaneClick={onPaneClick}
                   >
                     <Controls />
                     <Background color="#aaa" gap={16} />

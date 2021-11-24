@@ -17,7 +17,7 @@ const NewUser = (props) => {
   const [full_name, setFull_Name] =useState("");
   const [passwordMatch, setPasswordMatch] = useState('');
 
-
+console.log('i am passord', password);
     const registerHandler = async(e)=>{
 // e.prevent.default()
     if(email && password  && full_name ){
@@ -40,9 +40,16 @@ props.setOpen(false)
 // }
 const passwordMatchHandler = (e) =>{
     setPasswordMatch(e.target.value)
-    if(password ==! passwordMatch) {
-        alert('password did not match')
+
+    if(passwordMatch !== password )
+    {
+        console.log('message error')
     }
+    
+    // setPasswordMatch(e.target.value)
+    // if(password !== passwordMatch) {
+    //     alert('password did not match')
+    // }
 }
     return (
         <div>

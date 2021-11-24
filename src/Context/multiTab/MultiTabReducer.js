@@ -20,9 +20,11 @@ const authReducer = (state, action) => {
         selectedNodeName: action.payload.multiLabel,
         multiTree:previousLabel,
         pngImage: action.payload.imagePicture,
-        previousState: __previousData,
         _nodeType: action.payload.nodeType,
-        showSourcePosition: true
+        showSourcePosition: true,
+        previousState: action.payload._previousState,
+        nodeName: action.payload._nodeName,
+        nodeSize: state.nodeSize
       };
 
       case actionTypes.MULTI_NODE_ELEMENTS:
@@ -35,6 +37,12 @@ const authReducer = (state, action) => {
         ...state,
         showSourcePosition: false,
         selectArrow: action.payload._edge
+      }
+      case actionTypes.PANE_CLICK:
+      return{
+        ...state,
+        selectedNodeName: state.selectedNodeName == '',
+        // nodeName: state.nodeName == '',
       }
     case actionTypes.ADD_TAB:
       return {
@@ -58,9 +66,7 @@ const authReducer = (state, action) => {
       };
     case actionTypes.ON_DRAG_NODE:
       let { selectedTab: selectedTab1, updatedNodeData } = action.payload;
-      console.log("dataset", state.dataset);
       let drag = [...state.dataset];
-      console.log({ selectedTab1 });
       drag = drag.map((element, index) => {
         if (selectedTab1 === index) {
           return updatedNodeData;
@@ -72,8 +78,6 @@ const authReducer = (state, action) => {
         dataset: [...drag],
       };
     case actionTypes.UPDATE_DATA_SET:
-      // check for index to be updated
-      // receive addEge
       let { currentTab, generatedEdge } = action.payload;
       let clonedData = [...state.dataset];
       clonedData = clonedData.map((element, index) => {
@@ -124,7 +128,7 @@ let { selectedTab: tabSelect, deleteElement } = action.payload;
 //  let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={src} alt="nodeImage"/>
 //           el.data = {...el.data,label:<span>{ImageView}{nodeName}</span>};
 //   }else{
-
+ 
    el.data = { ...el.data, label: nodeName };
   // }
         }
@@ -904,6 +908,52 @@ let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
         sourcePosition:nodeSourceEvt,
         dataset:[...cloneNodePosition]
       }
+      case actionTypes.NODE_SIZE_INCREASE:
+    let { selectedTab: _selectedTab31, nodeSizeInc} = action.payload;
+       let targetNodeSizeInc = [...state.dataset[_selectedTab31]];
+      const nodeWidthSize = targetNodeSizeInc.map((el) => {
+        if (el.id === state.selectedNode) {
+         el.style = { ...el.style, width: nodeSizeInc };  
+        }
+        return el;
+      });
+      let cloneNodeSizeInc = [...state.dataset];
+      cloneNodeSizeInc = cloneNodeSizeInc.map((tab, index) => {
+        if (_selectedTab31 === index) {
+          return nodeWidthSize;
+        } else {
+          return tab;
+        }
+      });
+      return{
+       ...state,
+       nodeSize: nodeSizeInc,
+       dataset:[...cloneNodeSizeInc]
+
+     }
+     case actionTypes.NODE_SIZE_DECREASE:
+       let { selectedTab: _selectedTab32, nodeSizeDec} = action.payload;
+       let targetNodeSizeDec = [...state.dataset[_selectedTab32]];
+      const nodeWidthSizeDec = targetNodeSizeDec.map((el) => {
+        if (el.id === state.selectedNode) {
+         el.style = { ...el.style, width: nodeSizeDec };  
+        }
+        return el;
+      });
+      let cloneNodeSizeDec = [...state.dataset];
+      cloneNodeSizeDec = cloneNodeSizeDec.map((tab, index) => {
+        if (_selectedTab32 === index) {
+          return nodeWidthSizeDec;
+        } else {
+          return tab;
+        }
+      });
+      return{
+       ...state,
+       nodeSize: nodeSizeDec,
+       dataset:[...cloneNodeSizeDec]
+
+     }
     default:
       return state;
   }

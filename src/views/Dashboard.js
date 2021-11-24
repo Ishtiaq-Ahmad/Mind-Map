@@ -18,7 +18,7 @@ import TextField from "@mui/material/TextField";
 import FormControl from "@mui/material/FormControl";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {signup} from "../utils/helpers"
-import {_delete} from '../utils/helpers'
+import {_delete,_deleteUser} from '../utils/helpers'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 const style = {
@@ -58,8 +58,8 @@ const Dashboard = (props) => {
       console.log({ users });
     };
     const deleteHandler = async(uid) => {
-
-        await _delete(uid)
+            await _deleteUser("users", uid)
+        // await _delete(uid)
     //   try {
     //     const isDleted = await _delete(uid);
     //     // console.log({ isLoggedIn });
@@ -141,6 +141,7 @@ const Dashboard = (props) => {
                             // }
                             onChange={(e) => {
                                 // update user role locally
+                                
                                       let __users=[...users];
                                   __users= __users.map((_user,_index)=>{
                                       if(_index===index){
