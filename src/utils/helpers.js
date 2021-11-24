@@ -41,14 +41,14 @@ const createDocWithID = (_collection, docID, docOBJ) => {
 // ******************delete  user *******************
 const _deleteUser = (_collection, docID, ) =>{
     return new Promise(async( resolve, reject) => {
-            deleteUser(user).then(() => {
-  // User deleted.
-  alert('user deleted')
-}).catch((error) => {
-  // An error ocurred
-  // ...
-  alert('user not deleted')
-});
+//             deleteUser(user).then(() => {
+//   // User deleted.
+//   alert('user deleted')
+// }).catch((error) => {
+//   // An error ocurred
+//   // ...
+//   alert('user not deleted')
+// });
 
 
         try{

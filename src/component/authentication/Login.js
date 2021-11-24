@@ -121,13 +121,13 @@ const Login = (props) => {
                 fullWidth
               />
               <Button type="submit" variant="contained" onClick={loginHandler}>Sign In</Button>
-              <Typography variant="subtitle" style={{marginTop:'10px'}}>
+              {/* <Typography variant="subtitle" style={{marginTop:'10px'}}>
                 Don't have an Accout?{" "}
                 <strong>
                 <Link to='/signup'>Sign Up</Link>
-                  {/* <a href="#"></a>{" "} */}
+                
                 </strong>
-              </Typography>
+              </Typography> */}
               {/* <Link to="/">Sign Up</Link> */}
               {/* <Box sx={{ display: 'flex', alignItems: 'flex-end' }}>
         <AccountCircle sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
