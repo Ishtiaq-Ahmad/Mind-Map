@@ -112,13 +112,13 @@ export const nodesData = [
   //   },
   //   position: { x: 100, y: 480 },
   // },
-  {
-    id: "9",
-    data: { label: "another node 9" },
-    position: { x: 250, y: 325 },
-    color: "yellow",
-    // style:{ width: '700px'}
-  },
+  // {
+  //   id: "9",
+  //   data: { label: "another node 9" },
+  //   position: { x: 250, y: 325 },
+  //   color: "yellow",
+  //   // style:{ width: '700px'}
+  // },
  
   // { id: "e1-2", source: "1", target: "2", type: "straight", label: "hello" },
   // {
@@ -145,6 +145,7 @@ export const nodesData = [
   //   type: "smooth",
   //   labelStyle: { fill: "#f6ab6c", fontWeight: 700 },
   // },
+  
 ];
 export const nodeTransparentData = [
   {
