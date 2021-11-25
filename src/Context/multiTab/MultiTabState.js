@@ -2,14 +2,15 @@ import React, { useReducer, useRef } from "react";
 import * as actionTypes from "../types";
 import MultiTabContext from "./MultiTabContext";
 import MultiTabReducer from "./MultiTabReducer";
-import { nodesData } from "../../component/FlowChartData";
+// import { nodesData } from "../../component/FlowChartData";
 
 
 const NodeState = (props) => {
    const imageRef = useRef(null)
   const initialState = {
     // dataset for each container
-    dataset: [nodesData],
+    dataset: [],
+    // dataset: [nodesData],
     selectedNode:0,
     selectedTab:0,
     bgColor:"",
@@ -42,7 +43,8 @@ const NodeState = (props) => {
     _nodeType:'',
     sourcePosition:'',
     showSourcePosition: false,
-    nodeSize: 150
+    nodeSize: 150,
+    docID:null
     
     
   };
@@ -117,6 +119,15 @@ const NodeState = (props) => {
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
       payload:{element, multiLabel,treeDataUpdate, nodeType ,_previousState,_nodeName}
+    })
+  }
+
+
+  const loadDataHandler= (data,docid)=>{
+    console.log({data});
+  dispatch({
+      type: actionTypes.LOAD_DATA_FROM_DB,
+      payload:{data,docid}
     })
   }
   
@@ -468,7 +479,8 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
         nodeSourcePositionHandler,
         paneClickHandler,
          nodeSizeDecreaseHandler,
-          nodeSizeIncreaseHandler
+          nodeSizeIncreaseHandler,
+          loadDataHandler
       }}
     >
       {props.children}

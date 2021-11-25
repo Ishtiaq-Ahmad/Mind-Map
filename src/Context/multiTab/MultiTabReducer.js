@@ -32,6 +32,13 @@ const authReducer = (state, action) => {
         ...state,
         multiSelectNode: action.payload.multi,
       }
+      case actionTypes.LOAD_DATA_FROM_DB:
+    console.log("action.payload.data",action.payload.data);
+      return{
+        ...state,
+        dataset:[action.payload.data],
+        docID: action.payload.docid,
+      }
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return{
         ...state,

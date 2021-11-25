@@ -30,6 +30,7 @@
     "react-screen-capture": "^1.0.1",
     "react-scripts": "4.0.3",
     "react-to-print": "^2.14.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.1.2"
   },
   "scripts": {
