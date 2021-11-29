@@ -25,7 +25,7 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
       return (
         
         <div className="tab" key={index} onClick={() => props.setSelectedTab(index)}>
-        <strong>Tab: {index}</strong>  
+        <strong>Screen: {index}</strong>  
         </div>
       );
     });
@@ -70,7 +70,7 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
             tabRemover(props.selectedTab)
 
             } else{
-              alert('parent node is not deletable')
+              alert('default screen is not deletable')
             }
         
           

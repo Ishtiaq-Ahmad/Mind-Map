@@ -72,6 +72,8 @@ const authReducer = (state, action) => {
         activeTab: action.payload.activeTab,
       };
     case actionTypes.ON_DRAG_NODE:
+    // console.log({updatedNodeData});
+    // console.log({selectedTab1});
       let { selectedTab: selectedTab1, updatedNodeData } = action.payload;
       let drag = [...state.dataset];
       drag = drag.map((element, index) => {

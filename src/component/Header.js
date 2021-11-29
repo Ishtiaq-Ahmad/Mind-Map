@@ -57,8 +57,9 @@ const Header = (props) => {
   const handleClose = () => setOpen(false);
   console.log('i am slectd///////////', _nodeType);
 
-  const signOutHandler = async () => {
-    props.history.push('/login')
+  const signOutHandler = async() => {
+    await _signOut()
+    // props.history.push('/login')
     // try {
     //   const isLoggedIn = await _signOut();
 

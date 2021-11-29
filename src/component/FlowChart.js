@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext,useEffect } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import ReactFlow, {
   removeElements,
   addEdge,
@@ -18,58 +18,56 @@ import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-import { SmartEdge ,PathFindingEdge} from '@tisoap/react-flow-smart-edge';
+import { SmartEdge, PathFindingEdge } from "@tisoap/react-flow-smart-edge";
 // import { PathFindingEdge  } from "@tisoap/react-flow-smart-edge";
-import ColorSelectorNode from './SelectorNode';
-import {getAllData,createDocWithID} from "../utils/helpers"
-import { v4 as uuidv4 } from 'uuid';
+import ColorSelectorNode from "./SelectorNode";
+import { getAllData, createDocWithID,getDocById ,updateDocWithId,snapShot} from "../utils/helpers";
+import { v4 as uuidv4 } from "uuid";
 
- 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+// const getId = () => `dndnode_${id++}`;
 
 const FlowChart = (props) => {
+  //
+  useEffect(() => {
+    fetchData();
+    const status=snapShot("nodesData");
+    console.log({status});
+  }, []);
 
-  // 
-useEffect(() => {
- 
- 
- fetchData()
+  const fetchData = async () => {
+    try {
+      const _nodesData = await getAllData("nodesData");
+      // check if our collection is not empty
+      let isCollectionEmpty = _nodesData.length > 0 ? false : true;
+      let docId = null;
+      if (!isCollectionEmpty) {
+        console.log("inside not empty>>>>><<<<<<");
+        // we can get the docId from array at data[0]
+        docId = _nodesData[0].docId;
+        // alert(docId)
+        // dispatch action to set docID in store
+        let myData=_nodesData && _nodesData[0] && _nodesData[0].data ?_nodesData[0].data:[]
+      loadDataHandler(myData, docId);
+      }else{
 
-
-}, [])
-
-
-const fetchData= async()=>{
-  try {
-   const _nodesData= await getAllData("nodesData");
-  // check if our collection is not empty
-  let isCollectionEmpty=_nodesData.length>0?false:true;
-  let docId=null;
-  if(!isCollectionEmpty){
-    console.log("inside not empty>>>>><<<<<<");
-    // we can get the docId from array at data[0]
-docId=_nodesData[0].docId;
-// alert(docId)
-// dispatch action to set docID in store
-  }
-  // console.log("@@@@@@@@@@@@@@@@@",_nodesData[0].data);
-
-    loadDataHandler(_nodesData[0].data,docId)
+      }
+      console.log("@@@@@@@@@@@@@@@@@",_nodesData);
 
 
-  // console.log({_nodesData});
- } catch (error) {
-   console.log({error});
- }
-}
-  // 
+
+      // console.log({_nodesData});
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+  //
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const containerContext = useContext(ContainerData);
   const {
-    data: { dataset,docID },
+    data: { dataset, docID },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -78,7 +76,6 @@ docId=_nodesData[0].docId;
     multipleSelectNode,
     paneClickHandler,
     loadDataHandler,
-    
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
   console.log({ dataset: dataset[selectedTab] });
@@ -103,9 +100,9 @@ docId=_nodesData[0].docId;
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-const nodeTypes = {
-  selectorNode: ColorSelectorNode,
-};
+  const nodeTypes = {
+    selectorNode: ColorSelectorNode,
+  };
   const onElementsRemove = (elementsToRemove) => {
     const deleteElement = removeElements(
       elementsToRemove,
@@ -120,7 +117,6 @@ const nodeTypes = {
         type: "buttonedge",
         label: "label",
         arrowHeadType: "arrowclosed",
-        
       },
       dataset[selectedTab]
     );
@@ -128,15 +124,15 @@ const nodeTypes = {
   };
 
   const onElementClick = (event, element) => {
-    const _data = getOutgoers(element, elements);
+    const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
-    let __edges = elements.filter((item) => item.source && item.target);
+    let __edges = dataset.filter((item) => item.source && item.target);
     let treeDataUpdate = "";
     const edgesConnect = getConnectedEdges([element], __edges);
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
-    console.log('im the click', element);
+    console.log("im the click", element);
     onElementClickHandler(element, treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
@@ -148,7 +144,7 @@ const nodeTypes = {
     }
   };
   const onPaneClick = (event) => {
-    paneClickHandler(event)
+    paneClickHandler(event);
     // setMultipleSelect([]);
   };
   const addEdgeHandler = (...params) => {
@@ -159,12 +155,12 @@ const nodeTypes = {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
   };
-// push merged
+  // push merged
   const onDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   };
-  const onDrop = async(event) => {
+  const onDrop = async (event) => {
     event.preventDefault();
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
     const type = event.dataTransfer.getData("application/reactflow");
@@ -172,46 +168,36 @@ const nodeTypes = {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    
+
     const newNode = {
-      id: getId(),
+      id: uuidv4(),
       type,
       position,
       data: { label: `${type} node` },
       // style:{ width: '150px'},
-      
     };
 
- 
-    let finalData=dataset;
-    if(dataset.length>0){
-      // update the first doc in database collection 
+    let finalData = dataset;
+    if (dataset.length > 0) {
+      // update the first doc in database collection
       // do not generatrate new uuid
-      // get doc from store 
-
-// alert("if")
-     finalData = [...dataset[selectedTab], newNode];
-     await createDocWithID("nodesData",docID,{
-  
-  data:finalData
-})
-    }else{
-finalData=[ newNode]
-// alert("else")
-const myDocId=uuidv4(); 
-await createDocWithID("nodesData",myDocId,{
-  docId:myDocId,
-  data:finalData
-})
+      // get docID from store
+      finalData = [...dataset[selectedTab], newNode];
+      const { data } = await getDocById("nodesData", docID);
+      console.log({ data });
+      updateDocWithId("nodesData", docID, {
+        data: finalData,
+        docId: docID,
+      });
+    } else {
+      finalData = [newNode];
+      // alert("else");
+      const myDocId = uuidv4();
+      await createDocWithID("nodesData", myDocId, {
+        docId: myDocId,
+        data: finalData,
+      });
     }
-    console.log({
-      finalData
-    });
-
-    //  update database here 
-    // save the doc id inside doc
-
-
     onDragHandler(selectedTab, finalData);
   };
 

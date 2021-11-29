@@ -124,7 +124,7 @@ const NodeState = (props) => {
 
 
   const loadDataHandler= (data,docid)=>{
-    console.log({data});
+    console.log({docid});
   dispatch({
       type: actionTypes.LOAD_DATA_FROM_DB,
       payload:{data,docid}
