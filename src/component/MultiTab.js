@@ -72,8 +72,6 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
             } else{
               alert('default screen is not deletable')
             }
-        
-          
            }}
         >
           <DeleteForeverIcon fontSize="medium" className="delete_button" />

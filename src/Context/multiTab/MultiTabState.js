@@ -44,7 +44,8 @@ const NodeState = (props) => {
     sourcePosition:'',
     showSourcePosition: false,
     nodeSize: 150,
-    docID:null
+    docID:null,
+    isEmpty:true
     
     
   };
@@ -54,8 +55,6 @@ const NodeState = (props) => {
 
   const onElementClickHandler = (element,treeDataUpdate) => {
     
-    console.log('my,,,,,,,,,,,,',element);
-    console.log('chohaaaaaaaaaaaan',element.style )
   // element.style = { width };  
     let _previousState = ''
     let _nodeName = ''
@@ -123,11 +122,11 @@ const NodeState = (props) => {
   }
 
 
-  const loadDataHandler= (data,docid)=>{
+  const loadDataHandler= (data,docid,status=true)=>{
     console.log({docid});
   dispatch({
       type: actionTypes.LOAD_DATA_FROM_DB,
-      payload:{data,docid}
+      payload:{data,docid,status}
     })
   }
   
@@ -144,10 +143,11 @@ const NodeState = (props) => {
       payload:{selectedTab,deleteElement}
     })
   }
-  const onDragHandler = (selectedTab,updatedNodeData) => {
+  const onDragHandler = (selectedTab,updatedNodeData,_docid=null) => {
+    console.log({updatedNodeData});
     dispatch({
       type:actionTypes.ON_DRAG_NODE,
-      payload:{selectedTab, updatedNodeData}
+      payload:{selectedTab, updatedNodeData,_docid}
     })
   }
   const addTabHandler = () => {
@@ -227,7 +227,7 @@ const nodeNameHandler = (nodeName, selectedTab) => {
       payload: {selectedTab, radiosDec} 
     });
   }
-  console.log('heelo log', borderRadios);
+  
    const borderRadiosIncreaseHandler = (selectedTab) => {
      let radiosInc = 0
      if(borderRadios === '15px 0px 15px 0px'){

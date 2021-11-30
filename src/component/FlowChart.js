@@ -21,7 +21,13 @@ import { useReactToPrint } from "react-to-print";
 import { SmartEdge, PathFindingEdge } from "@tisoap/react-flow-smart-edge";
 // import { PathFindingEdge  } from "@tisoap/react-flow-smart-edge";
 import ColorSelectorNode from "./SelectorNode";
-import { getAllData, createDocWithID,getDocById ,updateDocWithId,snapShot} from "../utils/helpers";
+import {
+  getAllData,
+  createDocWithID,
+  getDocById,
+  updateDocWithId,
+  snapShot,
+} from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 
 let id = 0;
@@ -31,32 +37,35 @@ const FlowChart = (props) => {
   //
   useEffect(() => {
     fetchData();
-    const status=snapShot("nodesData");
-    console.log({status});
   }, []);
 
   const fetchData = async () => {
     try {
-      const _nodesData = await getAllData("nodesData");
+      let _nodesData = await getAllData("nodesData");
+      if (_nodesData) {
+        _nodesData = await JSON.parse(_nodesData[0].dumpData);
+      }
+      // alert(_nodesData);
       // check if our collection is not empty
-      let isCollectionEmpty = _nodesData.length > 0 ? false : true;
+      let isCollectionEmpty =
+        _nodesData && _nodesData.dumpData && _nodesData.dumpData.length > 0
+          ? false
+          : true;
       let docId = null;
       if (!isCollectionEmpty) {
-        console.log("inside not empty>>>>><<<<<<");
+        alert("empty");
         // we can get the docId from array at data[0]
         docId = _nodesData[0].docId;
         // alert(docId)
         // dispatch action to set docID in store
-        let myData=_nodesData && _nodesData[0] && _nodesData[0].data ?_nodesData[0].data:[]
-      loadDataHandler(myData, docId);
-      }else{
-
+        let myData =
+          _nodesData && _nodesData[0] && _nodesData[0].data
+            ? _nodesData[0].data
+            : [];
+        loadDataHandler(myData, docId, docId ? false : true);
+      } else {
+        // alert("else part")
       }
-      console.log("@@@@@@@@@@@@@@@@@",_nodesData);
-
-
-
-      // console.log({_nodesData});
     } catch (error) {
       console.log({ error });
     }
@@ -78,7 +87,7 @@ const FlowChart = (props) => {
     loadDataHandler,
   } = containerContext;
   const [selectedTab, setSelectedTab] = useState(0);
-  console.log({ dataset: dataset[selectedTab] });
+  // console.log({ dataset: dataset[selectedTab] });
   const [elements, setElements] = useState(dataset[selectedTab]);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
@@ -132,7 +141,6 @@ const FlowChart = (props) => {
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
-    console.log("im the click", element);
     onElementClickHandler(element, treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
@@ -169,6 +177,9 @@ const FlowChart = (props) => {
       y: event.clientY - reactFlowBounds.top,
     });
 
+    // unique and will be generated only once while creating collection
+
+    let DOCID = uuidv4();
     const newNode = {
       id: uuidv4(),
       type,
@@ -176,29 +187,39 @@ const FlowChart = (props) => {
       data: { label: `${type} node` },
       // style:{ width: '150px'},
     };
+    console.log("hi log", selectedTab);
+    let finalData;
 
-    let finalData = dataset;
-    if (dataset.length > 0) {
-      // update the first doc in database collection
-      // do not generatrate new uuid
-      // get docID from store
+    if (dataset && dataset.length > 0) {
       finalData = [...dataset[selectedTab], newNode];
-      const { data } = await getDocById("nodesData", docID);
-      console.log({ data });
-      updateDocWithId("nodesData", docID, {
-        data: finalData,
-        docId: docID,
-      });
     } else {
       finalData = [newNode];
-      // alert("else");
-      const myDocId = uuidv4();
-      await createDocWithID("nodesData", myDocId, {
-        docId: myDocId,
-        data: finalData,
-      });
     }
-    onDragHandler(selectedTab, finalData);
+
+    // docID is our local context id if exists
+
+    // let finalData = dataset;
+    // if (dataset.length > 0) {
+    //   // update the first doc in database collection
+    //   // do not generatrate new uuid
+    //   // get docID from store
+    //   finalData = [...dataset[selectedTab], newNode];
+    //   const { data } = await getDocById("nodesData", docID);
+    //   // console.log({ data });
+    //   updateDocWithId("nodesData", docID, {
+    //     data: finalData,
+    //     docId: docID,
+    //   });
+    // } else {
+    //   finalData = [newNode];
+    //   // alert("else");
+    //   const myDocId = uuidv4();
+    //   await createDocWithID("nodesData", myDocId, {
+    //     docId: myDocId,
+    //     data: finalData,
+    //   });
+    // }
+    onDragHandler(selectedTab, finalData, docID ? docID : DOCID);
   };
 
   const onEdgeDoubleClick = (event, edge) => {

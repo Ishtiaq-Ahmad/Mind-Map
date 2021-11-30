@@ -30,6 +30,8 @@ import FlowChartData, {
 } from "./FlowChartData";
 import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
+import { getAllData, createDocWithID,getDocById ,updateDocWithId,snapShot} from "../utils/helpers";
+import { v4 as uuidv4 } from "uuid";
 
 
 const style = {
@@ -45,18 +47,50 @@ const style = {
   p: 4,
 };
 
-
 const Header = (props) => {
  let history = useHistory();
   const nodeContext=useContext(NodeContext)
   const nodeMultiContext = useContext(MultiTabContext)
-  const {data:{role},editNode, formatNode,multiTabHandler, }=nodeContext;
-  const {data:{sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler } = nodeMultiContext
+  const {data:{role},editNode, formatNode,multiTabHandler }=nodeContext;
+  const {data:{dataset,docID,isEmpty, sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler } = nodeMultiContext
   const [open, setOpen] =  useState(false);
    const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log('i am slectd///////////', _nodeType);
 
+// const _nodesData = [...dataset]
+//   console.log({_nodesData});
+
+const saveHandler = async () =>{
+let finalData = dataset;
+// isEmpty  => true in case when no collection found in fb
+    if (!isEmpty) {
+     
+      finalData = [...dataset[props.selectedTab]];
+      // const { data } = await getDocById("nodesData", docID);
+      // console.log({ data });
+       const serializedData=JSON.stringify({
+        docId: docID,
+        data: finalData,
+      })
+      updateDocWithId("nodesData", docID, {dumpData:serializedData});
+    } else {
+      // finalData = [newNode];
+      // alert("else")
+     
+      const myDocId = uuidv4();
+     
+
+      console.log({finalData});
+
+      const serializedData=JSON.stringify({
+        docId: myDocId,
+        data: finalData,
+      })
+      await createDocWithID("nodesData", myDocId, {
+       dumpData:serializedData
+      });
+    }
+}
   const signOutHandler = async() => {
     await _signOut()
     // props.history.push('/login')
@@ -67,7 +101,6 @@ const Header = (props) => {
     //   console.log("oops error in user login", error);
     // }
   };
- console.log('i am role', role);
     return (
        <div >
       <AppBar position="static"  >
@@ -151,7 +184,7 @@ const Header = (props) => {
              
                
             
-         
+          <Button variant="contained" onClick={saveHandler}>Save</Button>
           </Stack>
            <label htmlFor="icon-button-file">
             <IconButton

@@ -33,11 +33,13 @@ const authReducer = (state, action) => {
         multiSelectNode: action.payload.multi,
       }
       case actionTypes.LOAD_DATA_FROM_DB:
-    console.log("action.payload.data",action.payload.data);
+    // console.log("action.payload.data",action.payload.data);
       return{
         ...state,
         dataset:[action.payload.data],
         docID: action.payload.docid,
+        state:action.payload.status
+
       }
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return{
@@ -74,17 +76,29 @@ const authReducer = (state, action) => {
     case actionTypes.ON_DRAG_NODE:
     // console.log({updatedNodeData});
     // console.log({selectedTab1});
-      let { selectedTab: selectedTab1, updatedNodeData } = action.payload;
+      let { selectedTab: selectedTab1, updatedNodeData,_docid } = action.payload;
       let drag = [...state.dataset];
-      drag = drag.map((element, index) => {
+
+      console.log({drag});
+      if(drag.length>0){
+        // newly initialized dataset array
+
+        drag = drag.map((element, index) => {
         if (selectedTab1 === index) {
           return updatedNodeData;
         }
         return element;
       });
+
+      }else{
+
+drag=[updatedNodeData]
+      }
+      
       return {
         ...state,
         dataset: [...drag],
+        docID:state.docID?state.docID:_docid
       };
     case actionTypes.UPDATE_DATA_SET:
       let { currentTab, generatedEdge } = action.payload;

@@ -41,7 +41,6 @@ import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const MindMapSideBar = (props) => {
-  console.log("hiiiii", props.selectedTab);
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);
   const [hidden, setHidden] = useState(false);

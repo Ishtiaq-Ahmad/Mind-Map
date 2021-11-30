@@ -164,36 +164,32 @@ return datalist;
 
 }
 
-const getDocById=async(_collection,docId)=>{
-    return new Promise(async(resolve, reject) => {
-           const docRef = doc(db, _collection, docId);
-const docSnap = await getDoc(docRef);
-// got a user doc here
-
-if (docSnap.exists()) {
-  console.log("User data:", docSnap.data());
-  resolve({docRef,data:docSnap.data()})
-} else {
-  // doc.data() will be undefined in this case
-//   invalid DocId
-reject(false)
-  console.log("No such document!");
-}
-    })
+const getDocById = async (_collection, docId) => {
+  return new Promise(async (resolve, reject) => {
     
- 
+       const docRef = doc(db, _collection, docId);
+    const docSnap = await getDoc(docRef);
+    // got a user doc here
+    if (docSnap.exists()) {
+      resolve({ docRef, data: docSnap.data() });
+    } else {
+      // doc.data() will be undefined in this case
+      //   invalid DocId
+      reject(false);
+      console.log("No such document!");
+    }
+    
 
-}
+   
+  });
+};
 
 const updateDocWithId=async (_collection,docId,updateObj)=>{
   const {docRef}= await getDocById(_collection,docId)
     setDoc(docRef, updateObj );
 
 }
-// const updateDocWithId = async (_collection, docId, updaeOjb) =>{
-//   const washingtonRef = doc(db, _collection, docId);
-//   await updateDoc(washingtonRef, {capital:true})
-// }
+
 const snapShot = (_collection,)=>{
   const q = query(collection(db, _collection));
   let status=false;
