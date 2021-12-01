@@ -47,3 +47,4 @@ export const PANE_CLICK = 'PANE_CLICK';
 export const NODE_SIZE_INCREASE = 'NODE_SIZE_INCREASE';
 export const NODE_SIZE_DECREASE = 'NODE_SIZE_DECREASE';
 export const LOAD_DATA_FROM_DB = 'LOAD_DATA_FROM_DB';
+export const IS_EMPTY = 'IS_EMPTY';

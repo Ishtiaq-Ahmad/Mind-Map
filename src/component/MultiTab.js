@@ -1,4 +1,4 @@
-import React, { useContext, useState} from "react";
+import React, { useContext, useState,useEffect} from "react";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import IconButton from "@mui/material/IconButton";
@@ -21,7 +21,7 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
 
 // 
  const tabGenerator = () => {
-    return props.counter.map((element, index) => {
+    return [dataset.length].map((element, index) => {
       return (
         
         <div className="tab" key={index} onClick={() => props.setSelectedTab(index)}>

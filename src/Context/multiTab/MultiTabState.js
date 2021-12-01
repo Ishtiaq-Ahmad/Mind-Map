@@ -45,7 +45,8 @@ const NodeState = (props) => {
     showSourcePosition: false,
     nodeSize: 150,
     docID:null,
-    isEmpty:true
+    isEmpty:true,
+
     
     
   };
@@ -122,7 +123,15 @@ const NodeState = (props) => {
   }
 
 
-  const loadDataHandler= (data,docid,status=true)=>{
+const isEmptyHandler = ()=>{
+
+  dispatch({
+      type: actionTypes.IS_EMPTY,
+      
+    })
+}
+
+  const loadDataHandler= (data,docid,status)=>{
     console.log({docid});
   dispatch({
       type: actionTypes.LOAD_DATA_FROM_DB,
@@ -143,11 +152,11 @@ const NodeState = (props) => {
       payload:{selectedTab,deleteElement}
     })
   }
-  const onDragHandler = (selectedTab,updatedNodeData,_docid=null) => {
+  const onDragHandler = (selectedTab,updatedNodeData,_docid=null,empty) => {
     console.log({updatedNodeData});
     dispatch({
       type:actionTypes.ON_DRAG_NODE,
-      payload:{selectedTab, updatedNodeData,_docid}
+      payload:{selectedTab, updatedNodeData,_docid,empty}
     })
   }
   const addTabHandler = () => {
@@ -480,7 +489,8 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
         paneClickHandler,
          nodeSizeDecreaseHandler,
           nodeSizeIncreaseHandler,
-          loadDataHandler
+          loadDataHandler,
+          isEmptyHandler
       }}
     >
       {props.children}

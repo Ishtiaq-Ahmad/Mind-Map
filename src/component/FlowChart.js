@@ -34,49 +34,11 @@ let id = 0;
 // const getId = () => `dndnode_${id++}`;
 
 const FlowChart = (props) => {
-  //
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      let _nodesData = await getAllData("nodesData");
-      if (_nodesData) {
-        _nodesData = await JSON.parse(_nodesData[0].dumpData);
-      }
-      // alert(_nodesData);
-      // check if our collection is not empty
-      let isCollectionEmpty =
-        _nodesData && _nodesData.dumpData && _nodesData.dumpData.length > 0
-          ? false
-          : true;
-      let docId = null;
-      if (!isCollectionEmpty) {
-        alert("empty");
-        // we can get the docId from array at data[0]
-        docId = _nodesData[0].docId;
-        // alert(docId)
-        // dispatch action to set docID in store
-        let myData =
-          _nodesData && _nodesData[0] && _nodesData[0].data
-            ? _nodesData[0].data
-            : [];
-        loadDataHandler(myData, docId, docId ? false : true);
-      } else {
-        // alert("else part")
-      }
-    } catch (error) {
-      console.log({ error });
-    }
-  };
-  //
-  const reactFlowWrapper = useRef(null);
-  const componentRef = useRef();
-  const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const containerContext = useContext(ContainerData);
+  // 
+const [lengtho,setlength]=useState("")
+ const containerContext = useContext(ContainerData);
   const {
-    data: { dataset, docID },
+    data: { dataset, docID,selectedTab:_selectedTab },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -85,15 +47,94 @@ const FlowChart = (props) => {
     multipleSelectNode,
     paneClickHandler,
     loadDataHandler,
+
+
   } = containerContext;
-  const [selectedTab, setSelectedTab] = useState(0);
+
+  // 
+  //
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+   
+  }, [lengtho])
+
+  const fetchData = async () => {
+    try {
+      let docId = null;
+      let _nodesData = await getAllData("nodesData");
+      console.log(">>>>>>>>>>>>>",_nodesData);
+      if (_nodesData.length) {
+        _nodesData = await JSON.parse(_nodesData[0].dumpData);
+        docId = _nodesData.docId;
+        _nodesData=_nodesData.data
+      console.log({_nodesData});
+      }
+      // alert(_nodesData);
+      // check if our collection is not empty
+      let isCollectionEmpty =
+        _nodesData.length 
+          ? false
+          : true;
+      
+      if (!isCollectionEmpty) {
+        // alert("!empty");
+
+        console.log("!empty");
+        // we can get the docId from array at data[0]
+        
+        // alert(docId)
+        // dispatch action to set docID in store
+
+        // check length for multitab
+
+
+        // alert(_nodesData.length)
+
+        console.log("@@@@@@@@@@@@@@@@@@@",[..._nodesData]);
+        let myData =
+          _nodesData 
+            ? _nodesData
+            : [];
+            console.log({myData});
+            // setlength(myData)
+
+            // setCounter([3])
+
+            // myData=myData.map((item,index)=>{
+            //   console.log({item});
+            //  return  {...item}
+              
+            //   })
+           
+            //   console.log({myData});
+        loadDataHandler(myData, docId,false);
+      } else {
+        // loadDataHandler([], "",true);
+
+        alert("else part")
+      }
+    } catch (error) {
+      console.log({ error });
+    }
+  };
+  //
+
+ 
+  const reactFlowWrapper = useRef(null);
+  const componentRef = useRef();
+  const [reactFlowInstance, setReactFlowInstance] = useState(null);
+ 
+  const [selectedTab, setSelectedTab] = useState(_selectedTab);
   // console.log({ dataset: dataset[selectedTab] });
   const [elements, setElements] = useState(dataset[selectedTab]);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
   const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
-  const [counter, setCounter] = useState([0]);
+  const [counter, setCounter] = useState([]);
   const { tabs } = nodeContext.data;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
@@ -219,7 +260,7 @@ const FlowChart = (props) => {
     //     data: finalData,
     //   });
     // }
-    onDragHandler(selectedTab, finalData, docID ? docID : DOCID);
+    onDragHandler(selectedTab, finalData, docID ? docID : DOCID,false);
   };
 
   const onEdgeDoubleClick = (event, edge) => {

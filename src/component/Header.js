@@ -32,6 +32,7 @@ import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import { getAllData, createDocWithID,getDocById ,updateDocWithId,snapShot} from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
+import { signOut,  getAuth, } from "firebase/auth";
 
 
 const style = {
@@ -52,20 +53,23 @@ const Header = (props) => {
   const nodeContext=useContext(NodeContext)
   const nodeMultiContext = useContext(MultiTabContext)
   const {data:{role},editNode, formatNode,multiTabHandler }=nodeContext;
-  const {data:{dataset,docID,isEmpty, sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler } = nodeMultiContext
+  const {data:{dataset,docID,isEmpty, sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler,isEmptyHandler } = nodeMultiContext
   const [open, setOpen] =  useState(false);
    const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
 // const _nodesData = [...dataset]
 //   console.log({_nodesData});
-
+// const auth = getAuth();
 const saveHandler = async () =>{
 let finalData = dataset;
+// alert(isEmpty)
+// console.log({isEmpty});
 // isEmpty  => true in case when no collection found in fb
     if (!isEmpty) {
-     
-      finalData = [...dataset[props.selectedTab]];
+     alert("empty")
+      // finalData = [...dataset[props.selectedTab]];
+      finalData = [...dataset];
       // const { data } = await getDocById("nodesData", docID);
       // console.log({ data });
        const serializedData=JSON.stringify({
@@ -80,7 +84,7 @@ let finalData = dataset;
       const myDocId = uuidv4();
      
 
-      console.log({finalData});
+      // console.log({finalData});
 
       const serializedData=JSON.stringify({
         docId: myDocId,
@@ -89,16 +93,20 @@ let finalData = dataset;
       await createDocWithID("nodesData", myDocId, {
        dumpData:serializedData
       });
+      // handler 
+      isEmptyHandler()
     }
 }
   const signOutHandler = async() => {
+    // await signOut(auth)
+    // console.log('signout')
     await _signOut()
     // props.history.push('/login')
     // try {
-    //   const isLoggedIn = await _signOut();
+    //    _signOut();
 
     // } catch (error) {
-    //   console.log("oops error in user login", error);
+    //   alert("oops error in user login", error);
     // }
   };
     return (
@@ -210,6 +218,7 @@ let finalData = dataset;
             <IconButton color="primary" component="span" onClick ={signOutHandler}>
               <LogoutIcon />
             </IconButton>
+            <button onClick={signOutHandler}>Logout</button>
           </label>
             <Modal
         open={open}

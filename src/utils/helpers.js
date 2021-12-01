@@ -7,22 +7,26 @@ import {
   signInWithEmailAndPassword,
   deleteUser,
   signOut,
-    
+  onAuthStateChanged 
 } from "firebase/auth";
 // import NodeContext from '../Context/auth/authContext'
 // import NodeContext from "../Context/auth/authContext";
 const auth = getAuth();
 const user = auth.currentUser;
 
-
-const _signOut = () =>{
-signOut(auth).then(() => {
-  // Sign-out successful.
-
-}).catch((error) => {
-  // An error happened.
-  alert('error occured')
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    const uid = user.uid;
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
 });
+const _signOut = () =>{
+signOut(auth)
 }
 
 

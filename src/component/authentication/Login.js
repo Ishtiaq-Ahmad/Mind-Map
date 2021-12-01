@@ -38,18 +38,21 @@ const Login = (props) => {
 
   const loginHandler = async (e) => {
     // e.prevent.default()
-    if(email === '' && email === null){
+    if(!email){
       setErrorState(true);
       setErrorText('Please enter user name')
     }
-    if(password == '' && password == null){
+    
+    if(!password){
       setErrorPassState(true);
       setErrorPassText("Please enter the password")
     }
+    
+    
     if (email && password) {
+      // const isLoggedIn=''
       try {
         const isLoggedIn = await login(email, password);
-
         if (isLoggedIn) {
           setProfileHandler({ isLoggedIn });
           props.history.push("/home");
@@ -58,12 +61,30 @@ const Login = (props) => {
         }
       } catch (error) {
         console.log("oops error in user login", error);
+     
+       
       }
     }
-     else {
-      alert("Please Provide email and password");
-    }
+    //  else {
+    //    setErrorText("Please Provide email and password")
+    //   console.log("Please Provide email and password");
+    //   alert("Please Provide email and password")
+    // }
   };
+  const emailHandler = (e) =>{
+    setEmail(e.target.value)
+    if(errorState ){  
+      setErrorState(false)
+      setErrorText('')
+    }
+  }
+  const passwordHandler = (e) => {
+    setPassword(e.target.value)
+    if(errorPassState ){  
+      setErrorPassState(false)
+      setErrorPassText('')
+    }
+  }
 
   return (
     <div className="background_image">
@@ -89,7 +110,7 @@ const Login = (props) => {
                 placeholder="Email Address"
                 error={errorState}
                 helperText={errorText}
-                onChange={e=>setEmail(e.target.value)}
+                onChange={emailHandler}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -108,8 +129,7 @@ const Login = (props) => {
                 placeholder="Password"
                 error={errorPassState}
 							helperText={errorPassText}
-                onChange={e=>setPassword(e.target.value)}
-
+                onChange={passwordHandler}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">

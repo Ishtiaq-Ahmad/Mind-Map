@@ -36,9 +36,9 @@ const authReducer = (state, action) => {
     // console.log("action.payload.data",action.payload.data);
       return{
         ...state,
-        dataset:[action.payload.data],
+        dataset:action.payload.data,
         docID: action.payload.docid,
-        state:action.payload.status
+        isEmpty:action.payload.status
 
       }
       case actionTypes.ON_EDGE_DOUBLE_CLICK:
@@ -73,6 +73,11 @@ const authReducer = (state, action) => {
         ...state,
         activeTab: action.payload.activeTab,
       };
+    case actionTypes.IS_EMPTY:
+      return {
+        ...state,
+        isEmpty: false,
+      };
     case actionTypes.ON_DRAG_NODE:
     // console.log({updatedNodeData});
     // console.log({selectedTab1});
@@ -98,7 +103,8 @@ drag=[updatedNodeData]
       return {
         ...state,
         dataset: [...drag],
-        docID:state.docID?state.docID:_docid
+        docID:state.docID?state.docID:_docid,
+        
       };
     case actionTypes.UPDATE_DATA_SET:
       let { currentTab, generatedEdge } = action.payload;
