@@ -21,7 +21,7 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
 
 // 
  const tabGenerator = () => {
-    return [dataset.length].map((element, index) => {
+    return props.counter.map((element, index) => {
       return (
         
         <div className="tab" key={index} onClick={() => props.setSelectedTab(index)}>
@@ -63,8 +63,7 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
           onClick={() =>{
             if(props.selectedTab!== 0){
   let __counter=[...props.counter];
-          console.log('ima coutner', __counter)
-          let __selectedTab= props.selectedTab;
+  
   __counter.splice(props.selectedTab,1)
              props.setCounter(__counter)
             tabRemover(props.selectedTab)

@@ -61,6 +61,7 @@ const [lengtho,setlength]=useState("")
    
   }, [lengtho])
 
+
   const fetchData = async () => {
     try {
       let docId = null;
@@ -102,6 +103,11 @@ const [lengtho,setlength]=useState("")
             // setlength(myData)
 
             // setCounter([3])
+            let __self=new Array(myData.length);
+
+            __self.fill(8);
+
+            setCounter(__self)
 
             // myData=myData.map((item,index)=>{
             //   console.log({item});
@@ -135,7 +141,7 @@ const [lengtho,setlength]=useState("")
   const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
-  const { tabs } = nodeContext.data;
+  const { data:{tabs},multiTabHandler } = nodeContext;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
   };
@@ -200,10 +206,16 @@ const [lengtho,setlength]=useState("")
     console.log({ params });
     return true;
   };
+  //  useEffect(() => {
+  //  onLoad();
+  // }, [multiTabHandler])
+// multiTabHandler
   const onLoad = (reactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
   };
+ 
+
   // push merged
   const onDragOver = (event) => {
     event.preventDefault();
