@@ -8,7 +8,7 @@ import Login from './component/authentication/Login';
 import Signup from './component/authentication/Registration'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Dashboard from './views/Dashboard'
-import ProtectedRoute from './component/ProtectedRoute'
+import ProtectedRoute from './utils/ProtectedRoute'
 import NodeContext from './Context/auth/authContext'
 
 

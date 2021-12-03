@@ -27,6 +27,7 @@ import {
   getDocById,
   updateDocWithId,
   snapShot,
+ 
 } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 
@@ -35,7 +36,7 @@ let id = 0;
 
 const FlowChart = (props) => {
   // 
-const [lengtho,setlength]=useState("")
+
  const containerContext = useContext(ContainerData);
   const {
     data: { dataset, docID,selectedTab:_selectedTab },
@@ -58,24 +59,30 @@ const [lengtho,setlength]=useState("")
     fetchData();
   }, []);
 
-  useEffect(() => {
-   
-  }, [lengtho])
+ 
 
 
   const fetchData = async () => {
     try {
+      // alert(userId)
       let docId = null;
-      let _nodesData = await getAllData("nodesData");
-      if (_nodesData.length) {
-        _nodesData = await JSON.parse(_nodesData[0].dumpData);
+    let  _nodesData=null
+    if(nodeID){
+    const  {data:_nodesDataa} = await getDocById("nodesData",nodeID);
+    _nodesData=_nodesDataa
+    }
+    
+
+    console.log("@@@@@@@@@@@@@",{_nodesData});
+      if (_nodesData) {
+        _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
         _nodesData=_nodesData.data
       }
       // alert(_nodesData);
       // check if our collection is not empty
       let isCollectionEmpty =
-        _nodesData.length 
+        _nodesData 
           ? false
           : true;
       
@@ -123,7 +130,7 @@ const [lengtho,setlength]=useState("")
   const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
-  const { data:{tabs},multiTabHandler } = nodeContext;
+  const { data:{tabs,userId,nodeID},multiTabHandler} = nodeContext;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
   };

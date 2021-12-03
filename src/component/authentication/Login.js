@@ -20,6 +20,7 @@ import {login} from "../../utils/helpers"
 import { useHistory } from 'react-router';
 import { Link } from "react-router-dom";
 import NodeContext from '../../Context/auth/authContext'
+import {getDocById} from "../../utils/helpers"
 
 
 
@@ -52,9 +53,12 @@ const Login = (props) => {
     if (email && password) {
       // const isLoggedIn=''
       try {
-        const isLoggedIn = await login(email, password);
+        let isLoggedIn = await login(email, password);
         if (isLoggedIn) {
+       
+    
           setProfileHandler({ isLoggedIn });
+    
           // console.log('hello ', isLoggedIn);
           props.history.push("/home");
         } else {

@@ -35,11 +35,13 @@ const authReducer = (state, action) => {
       tabs: !state.tabs
     }
     case SET_PROFILE:
-    let{email, role, uid}= action.payload
+    let{email, role, uid,nodeID,full_name}= action.payload
     return{
       ...state,
       email, role,
       userId: uid,
+      nodeID,
+      full_name
     }
 
     default:

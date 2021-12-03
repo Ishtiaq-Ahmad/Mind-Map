@@ -13,6 +13,7 @@ const NodeState = (props) => {
     email:'',
     role:'',
     userId: false,
+    nodeID:null
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -32,11 +33,11 @@ const NodeState = (props) => {
   const multiTabHandler = () => {
     dispatch({type: MULTI_TAB});
   }
-  const setProfileHandler =({isLoggedIn:{email,role, uid}}) => {
+  const setProfileHandler =({isLoggedIn:{email,role, uid,nodeID,full_name}}) => {
     console.log('email.....',email, role, uid);
     dispatch({
         type: SET_PROFILE, 
-        payload:{email, role, uid}
+        payload:{email, role, uid,nodeID,full_name}
     })
   }
   

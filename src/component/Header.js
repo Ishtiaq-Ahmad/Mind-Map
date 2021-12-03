@@ -54,7 +54,7 @@ const Header = (props) => {
   const nodeContext = useContext(NodeContext);
   const nodeMultiContext = useContext(MultiTabContext);
   const {
-    data: { role },
+    data: { role,userId,email,full_name},
     editNode,
     formatNode,
     multiTabHandler,
@@ -106,7 +106,14 @@ const Header = (props) => {
         docId: myDocId,
         data: finalData,
       });
+
+      // save our data set id in user collection 
+
+      
+
+
       isEmptyHandler();
+     await  updateDocWithId("users", userId, { nodeID:myDocId,role,email,full_name,uid:userId });
 
       await createDocWithID("nodesData", myDocId, {
         dumpData: serializedData,

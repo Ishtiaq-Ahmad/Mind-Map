@@ -125,6 +125,7 @@ const signup = (email, password, full_name) => {
           email,
           full_name,
           uid: user.uid,
+          nodeID:null
         });
         resolve(true);
       })

@@ -32,7 +32,7 @@ props.setOpen(false)
 }
 
     }else {
-      alert("Plase Provide valid user email and password")
+      alert("Please Provide valid user email and password")
     }
   }
 // if(password ==! passwordMatch) {
