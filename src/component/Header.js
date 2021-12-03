@@ -1,13 +1,10 @@
-import React,{useState,useContext} from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import './Header.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import {faPalette} from '@fortawesome/free-solid-svg-icons'
-import NodeContext from "../Context/auth/authContext"
-import MultiTabContext from '../Context/multiTab/MultiTabContext'
+import React, { useState, useContext } from "react";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import "./Header.css";
+import NodeContext from "../Context/auth/authContext";
+import MultiTabContext from "../Context/multiTab/MultiTabContext";
 import Button from "@mui/material/Button";
 import TabIcon from "@mui/icons-material/Tab";
 import Stack from "@mui/material/Stack";
@@ -16,91 +13,111 @@ import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import PaletteIcon from "@mui/icons-material/Palette";
-import ShortcutIcon from "@mui/icons-material/Shortcut";
-import PrintIcon from '@mui/icons-material/Print';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
+import PrintIcon from "@mui/icons-material/Print";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
 import { TextField } from "@material-ui/core";
-import LogoutIcon from '@mui/icons-material/Logout';
-import SpeakerNotesIcon from '@mui/icons-material/SpeakerNotes';
-import {_signOut} from '../utils/helpers'
+import LogoutIcon from "@mui/icons-material/Logout";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import { _signOut } from "../utils/helpers";
 import FlowChartData, {
   nodeSourcePosition,
   defaultNodeSource,
 } from "./FlowChartData";
-import { useHistory } from 'react-router';
+import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { getAllData, createDocWithID,getDocById ,updateDocWithId,snapShot} from "../utils/helpers";
+import {
+  getAllData,
+  createDocWithID,
+  getDocById,
+  updateDocWithId,
+  snapShot,
+} from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
-import { signOut,  getAuth, } from "firebase/auth";
-
+import { signOut, getAuth } from "firebase/auth";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: '#F8F8FF',
-  border: '2px solid #ADD8E6',
-  borderRadios: '3px',
+  bgcolor: "#F8F8FF",
+  border: "2px solid #ADD8E6",
+  borderRadios: "3px",
   boxShadow: 24,
   p: 4,
 };
 
 const Header = (props) => {
- let history = useHistory();
-  const nodeContext=useContext(NodeContext)
-  const nodeMultiContext = useContext(MultiTabContext)
-  const {data:{role},editNode, formatNode,multiTabHandler }=nodeContext;
-  const {data:{dataset,docID,isEmpty, sourcePosition ,_nodeType, showSourcePosition},nodeSourcePositionHandler,isEmptyHandler } = nodeMultiContext
-  const [open, setOpen] =  useState(false);
-   const handleOpen = () => setOpen(true);
+  let history = useHistory();
+  const nodeContext = useContext(NodeContext);
+  const nodeMultiContext = useContext(MultiTabContext);
+  const {
+    data: { role },
+    editNode,
+    formatNode,
+    multiTabHandler,
+  } = nodeContext;
+  const {
+    data: {
+      dataset,
+      docID,
+      isEmpty,
+      sourcePosition,
+      _nodeType,
+      showSourcePosition,
+    },
+    nodeSourcePositionHandler,
+    isEmptyHandler,
+  } = nodeMultiContext;
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-// const _nodesData = [...dataset]
-//   console.log({_nodesData});
-// const auth = getAuth();
-const saveHandler = async () =>{
-let finalData = dataset;
-// alert(isEmpty)
-// console.log({isEmpty});
-// isEmpty  => true in case when no collection found in fb
+  // const _nodesData = [...dataset]
+  //   console.log({_nodesData});
+  // const auth = getAuth();
+  const saveHandler = async () => {
+    let finalData = dataset;
+    // alert(isEmpty)
+    // console.log({isEmpty});
+    // isEmpty  => true in case when no collection found in fb
     if (!isEmpty) {
-     alert("empty")
+      alert("empty");
       // finalData = [...dataset[props.selectedTab]];
       finalData = [...dataset];
       // const { data } = await getDocById("nodesData", docID);
       // console.log({ data });
-       const serializedData=JSON.stringify({
+      const serializedData = JSON.stringify({
         docId: docID,
         data: finalData,
-      })
-      updateDocWithId("nodesData", docID, {dumpData:serializedData});
+      });
+      updateDocWithId("nodesData", docID, { dumpData: serializedData });
     } else {
       // finalData = [newNode];
       // alert("else")
-     
+
       const myDocId = uuidv4();
-     
 
       // console.log({finalData});
 
-      const serializedData=JSON.stringify({
+      const serializedData = JSON.stringify({
         docId: myDocId,
         data: finalData,
-      })
-      await createDocWithID("nodesData", myDocId, {
-       dumpData:serializedData
       });
-      // handler 
-      isEmptyHandler()
+      isEmptyHandler();
+
+      await createDocWithID("nodesData", myDocId, {
+        dumpData: serializedData,
+      });
+      // handler
     }
-}
-  const signOutHandler = async() => {
+  };
+  const signOutHandler = async () => {
     // await signOut(auth)
     // console.log('signout')
-    await _signOut()
+    await _signOut();
     // props.history.push('/login')
     // try {
     //    _signOut();
@@ -109,21 +126,20 @@ let finalData = dataset;
     //   alert("oops error in user login", error);
     // }
   };
-    return (
-       <div >
-      <AppBar position="static"  >
+  return (
+    <div>
+      <AppBar position="static">
         <Toolbar>
-        
-  <Stack
+          <Stack
             direction="row"
             spacing={2}
             className="ming_map"
             divider={<Divider orientation="vertical" flexItem />}
           >
-            {/* <Link to="/" style={{ textDecoration: "none", color: "black" }}> */}
+            <Link to="/home" style={{ textDecoration: "none", color: "black" }}>
               <Typography variant="h6">Mind Map</Typography>
-            {/* </Link> */}
-            
+            </Link>
+
             <Button
               startIcon={<TabIcon />}
               onClick={multiTabHandler}
@@ -132,69 +148,81 @@ let finalData = dataset;
             >
               Multi Tabs
             </Button>
-            
-              {/* {showSourcePosition ?  */}
-              { 
-                showSourcePosition? <>{ _nodeType === 'input' || _nodeType === 'output' ?
-              <TextField
-              select
-              value={sourcePosition}
-              name={sourcePosition}
-              onChange={(evt) => {
-                nodeSourcePositionHandler(evt.target.value, props.selectedTab);
-              }}
-              label='Source Position'
-              size="small"
-              variant="outlined"
-              style={{width:'160px'}}
-              // width="20px"
-              // fullWidth
+
+            {/* {showSourcePosition ?  */}
+            {showSourcePosition ? (
+              <>
+                {_nodeType === "input" || _nodeType === "output" ? (
+                  <TextField
+                    select
+                    value={sourcePosition}
+                    name={sourcePosition}
+                    onChange={(evt) => {
+                      nodeSourcePositionHandler(
+                        evt.target.value,
+                        props.selectedTab
+                      );
+                    }}
+                    label="Source Position"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: "160px" }}
+                    // width="20px"
+                    // fullWidth
+                  >
+                    {nodeSourcePosition.map((option) => (
+                      <MenuItem key={option.label} value={option.label}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                ) : (
+                  <TextField
+                    select
+                    value={sourcePosition}
+                    name={sourcePosition}
+                    onChange={(evt) => {
+                      nodeSourcePositionHandler(
+                        evt.target.value,
+                        props.selectedTab
+                      );
+                    }}
+                    label="Source Position"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: "160px" }}
+                  >
+                    {defaultNodeSource.map((option) => (
+                      <MenuItem key={option.label} value={option.label}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                )}{" "}
+              </>
+            ) : null}
+            {role === 1 ? (
+              <Link to="/admin-dashboard" style={{ textDecoration: "none" }}>
+                {" "}
+                <Button
+                  // onClick={() => props.history.push('/admin-dashboard')}
+                  size="small"
+                  variant="outlined"
+                >
+                  Admin dashboard
+                </Button>
+              </Link>
+            ) : null}
+
+            <Button
+              variant="contained"
+              style={{ display: `${dataset.length < 1 ? `none` : `block`}` }}
+              onClick={saveHandler}
             >
-              {nodeSourcePosition.map((option) => (
-                <MenuItem key={option.label} value={option.label}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>: 
-              <TextField
-              select
-              value={sourcePosition}
-              name={sourcePosition}
-              onChange={(evt) => {
-                nodeSourcePositionHandler(evt.target.value, props.selectedTab);
-              }}
-              label='Source Position'
-              size="small"
-              variant="outlined"
-              style={{width:'160px'}}
-            >
-              {defaultNodeSource.map((option) => (
-                <MenuItem key={option.label} value={option.label}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField> 
- } </> :null
-              }
-              {/* <Link to="/admin-dashboard">  */}
-              {
-                role === 1?  <Button
-              // startIcon={<TabIcon />}
-              onClick={() => props.history.push('/admin-dashboard')}
-              size="small"
-              variant="outlined"
-            >
-              Admin dashboard
-            </Button> : null
-              }
-           
-              {/* </Link> */}
-             
-               
-            
-          <Button variant="contained" onClick={saveHandler}>Save</Button>
+              Save
+            </Button>
           </Stack>
-           <label htmlFor="icon-button-file">
+          <label htmlFor="icon-button-file">
             <IconButton
               color="primary"
               aria-label="upload picture"
@@ -208,33 +236,41 @@ let finalData = dataset;
               <PaletteIcon />
             </IconButton>
 
-            <IconButton color="primary" onClick ={props.handlePrint} component="span">
-            <PrintIcon/>
+            <IconButton
+              color="primary"
+              onClick={props.handlePrint}
+              component="span"
+            >
+              <PrintIcon />
             </IconButton>
 
-            <IconButton color="primary" component="span" onClick ={handleOpen}>
+            <IconButton color="primary" component="span" onClick={handleOpen}>
               <SpeakerNotesIcon />
             </IconButton>
-            <IconButton color="primary" component="span" onClick ={signOutHandler}>
+            <IconButton
+              color="primary"
+              component="span"
+              onClick={signOutHandler}
+            >
               <LogoutIcon />
             </IconButton>
             <button onClick={signOutHandler}>Logout</button>
           </label>
-            <Modal
-        open={open}
-        onClose={handleClose}
-        // aria-labelledby="modal-modal-title"
-        // aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Short Cuts 
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
-        </Box>
-      </Modal>
+          <Modal
+            open={open}
+            onClose={handleClose}
+            // aria-labelledby="modal-modal-title"
+            // aria-describedby="modal-modal-description"
+          >
+            <Box sx={style}>
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                Short Cuts
+              </Typography>
+              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+              </Typography>
+            </Box>
+          </Modal>
           {/* <div className="right_icons">
           <FontAwesomeIcon icon={faEdit} onClick={editNode} className="edit_icon" />
           
@@ -243,7 +279,7 @@ let finalData = dataset;
         </Toolbar>
       </AppBar>
     </div>
-    )
-}
+  );
+};
 
-export default Header
+export default Header;

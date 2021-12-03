@@ -21,6 +21,7 @@ import { signup } from "../utils/helpers";
 import { _delete, _deleteUser } from "../utils/helpers";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import {Link} from 'react-router-dom'
 const style = {
   position: "absolute",
   top: "50%",
@@ -67,14 +68,16 @@ const Dashboard = (props) => {
   };
   return (
     <div style={{ padding: "20px" }}>
-      <Button
+    <Link to="/home" style={{textDecoration:'none'}}>
+       <Button
         variant="contained"
-        onClick={() => props.history.push("/home")}
         style={{ float: "left" }}
         startIcon={<ArrowBackIosNewIcon />}
       >
         Back to Home Page
       </Button>
+    </Link>
+     
       <Button
         variant="contained"
         onClick={handleOpen}

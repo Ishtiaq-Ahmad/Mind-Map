@@ -83,8 +83,6 @@ const authReducer = (state, action) => {
     // console.log({selectedTab1});
       let { selectedTab: selectedTab1, updatedNodeData,_docid } = action.payload;
       let drag = [...state.dataset];
-
-      console.log({drag});
       if(drag.length>0){
         // newly initialized dataset array
 
@@ -982,6 +980,36 @@ let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
        nodeSize: nodeSizeDec,
        dataset:[...cloneNodeSizeDec]
 
+     }
+
+    //  case actionTypes.NODE_DRAG_HANDLER:
+    //   let {selectedTab: _selectedTab33, xPosition, yPosition} = action.payload;
+    //   let targetNodePosition = [...state.dataset[_selectedTab33]];
+    //   let nodePositionChange = targetNodePosition.map((el) => {
+    //     if (el.id === state.selectedNode) {
+    //       el.position = { ...el.position, x: xPosition, y: yPosition};
+    //     }
+    //     return el;
+    //   });
+      
+    //   let cloneNodePositionUpdate = [...state.dataset];
+    //   cloneNodePositionUpdate = cloneNodePositionUpdate.map((tab, index) => {
+    //     if (_selectedTab33 === index) {
+    //       return nodePositionChange;
+    //     } else {
+    //       return tab;
+    //     }
+    //   });
+    //   return {
+    //     ...state,
+    //     dataset: [...cloneNodePositionUpdate],
+    //     // nodeFontColor: updateFontColor
+    //   };
+
+     case actionTypes.CSV_FILE_LOADER:
+     return{
+       ...state,
+       
      }
     default:
       return state;

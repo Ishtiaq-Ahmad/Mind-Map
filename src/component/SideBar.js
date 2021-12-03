@@ -39,7 +39,7 @@ import Straight from "../assets/images/straight_arrow.PNG";
 import smoothStep from "../assets/images/smoothStep.png";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-
+import FileUploader from './CsvFile'
 const MindMapSideBar = (props) => {
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);
@@ -638,6 +638,7 @@ const MindMapSideBar = (props) => {
         </>
       ) : null}
       <DragAbleNodes />
+      <FileUploader/>
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
         <Button onClick={props.handleSave} fullWidth variant="contained">

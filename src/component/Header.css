@@ -41,3 +41,13 @@ flex-grow: 1;
  cursor: pointer;
  border-radius: 2px;
 }
+.csv-block{
+    border: 1px solid green;
+    border-radius: 4px;
+    text-align: center;
+}
+.csv-block:hover{
+    border: 2px solid green;
+    cursor:context-menu
+
+}

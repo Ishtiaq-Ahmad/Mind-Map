@@ -46,6 +46,7 @@ const NodeState = (props) => {
     nodeSize: 150,
     docID:null,
     isEmpty:true,
+    
 
     
     
@@ -153,7 +154,7 @@ const isEmptyHandler = ()=>{
     })
   }
   const onDragHandler = (selectedTab,updatedNodeData,_docid=null,empty) => {
-    console.log({updatedNodeData});
+   console.log('i am update', updatedNodeData);
     dispatch({
       type:actionTypes.ON_DRAG_NODE,
       payload:{selectedTab, updatedNodeData,_docid,empty}
@@ -443,6 +444,21 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
     payload:{selectedTab, nodeSizeDec}
   })  
 }
+const csvFileHandler = (result) => {
+  console.log('i am handler ', result);
+dispatch({
+  type:actionTypes.CSV_FILE_LOADER,
+  
+})
+}
+// const nodeDragHandler = (selectedTab,node) =>{
+//   const xPosition = node.position.x
+//   const yPosition = node.position.x
+//   dispatch({
+//     type: actionTypes.NODE_DRAG_HANDLER,
+//     payload:{selectedTab,xPosition, yPosition}
+//   })
+// }
   return (
     <MultiTabContext.Provider
       value={{
@@ -490,7 +506,9 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
          nodeSizeDecreaseHandler,
           nodeSizeIncreaseHandler,
           loadDataHandler,
-          isEmptyHandler
+          isEmptyHandler,
+          csvFileHandler,
+          // nodeDragHandler
       }}
     >
       {props.children}

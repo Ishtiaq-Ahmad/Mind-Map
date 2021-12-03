@@ -47,6 +47,7 @@ const [lengtho,setlength]=useState("")
     multipleSelectNode,
     paneClickHandler,
     loadDataHandler,
+    nodeDragHandler
 
 
   } = containerContext;
@@ -66,12 +67,10 @@ const [lengtho,setlength]=useState("")
     try {
       let docId = null;
       let _nodesData = await getAllData("nodesData");
-      console.log(">>>>>>>>>>>>>",_nodesData);
       if (_nodesData.length) {
         _nodesData = await JSON.parse(_nodesData[0].dumpData);
         docId = _nodesData.docId;
         _nodesData=_nodesData.data
-      console.log({_nodesData});
       }
       // alert(_nodesData);
       // check if our collection is not empty
@@ -82,8 +81,6 @@ const [lengtho,setlength]=useState("")
       
       if (!isCollectionEmpty) {
         // alert("!empty");
-
-        console.log("!empty");
         // we can get the docId from array at data[0]
         
         // alert(docId)
@@ -91,15 +88,11 @@ const [lengtho,setlength]=useState("")
 
         // check length for multitab
 
-
-        // alert(_nodesData.length)
-
-        console.log("@@@@@@@@@@@@@@@@@@@",[..._nodesData]);
         let myData =
           _nodesData 
             ? _nodesData
             : [];
-            console.log({myData});
+           
             // setlength(myData)
 
             // setCounter([3])
@@ -109,33 +102,22 @@ const [lengtho,setlength]=useState("")
 
             setCounter(__self)
 
-            // myData=myData.map((item,index)=>{
-            //   console.log({item});
-            //  return  {...item}
-              
-            //   })
-           
-            //   console.log({myData});
         loadDataHandler(myData, docId,false);
       } else {
-        // loadDataHandler([], "",true);
-
         alert("else part")
       }
     } catch (error) {
       console.log({ error });
     }
   };
-  //
 
- 
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
  
   const [selectedTab, setSelectedTab] = useState(_selectedTab);
   // console.log({ dataset: dataset[selectedTab] });
-  const [elements, setElements] = useState(dataset[selectedTab]);
+  // const [elements, setElements] = useState(dataset[selectedTab]);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
   const [showArrow, setShowArrow] = useState(false);
@@ -180,6 +162,7 @@ const [lengtho,setlength]=useState("")
   };
 
   const onElementClick = (event, element) => {
+    console.log('element', element.position);
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -213,6 +196,7 @@ const [lengtho,setlength]=useState("")
   const onLoad = (reactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
+    console.log('i am fitView');
   };
  
 
@@ -220,6 +204,7 @@ const [lengtho,setlength]=useState("")
   const onDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
+    console.log('i am onDragover');
   };
   const onDrop = async (event) => {
     event.preventDefault();
@@ -229,7 +214,8 @@ const [lengtho,setlength]=useState("")
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-
+    console.log('position', position);
+console.log('i am on drop');
     // unique and will be generated only once while creating collection
 
     let DOCID = uuidv4();
@@ -279,6 +265,11 @@ const [lengtho,setlength]=useState("")
     setShowArrow(true);
     onEdgeHandler(edge);
   };
+  
+const onNodeDragStop = (event, node) => {
+console.log('drag stop', node.position.x, node.position.y);
+// nodeDragHandler(selectedTab,node)
+}
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -325,6 +316,7 @@ const [lengtho,setlength]=useState("")
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
+                    onNodeDragStop={onNodeDragStop}
                     // edgeTypes={{
                     //   smart: SmartEdge,
                     // }}

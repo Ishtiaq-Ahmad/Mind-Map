@@ -55,6 +55,7 @@ const Login = (props) => {
         const isLoggedIn = await login(email, password);
         if (isLoggedIn) {
           setProfileHandler({ isLoggedIn });
+          // console.log('hello ', isLoggedIn);
           props.history.push("/home");
         } else {
           alert("error");
