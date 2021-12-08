@@ -50,3 +50,4 @@ export const LOAD_DATA_FROM_DB = 'LOAD_DATA_FROM_DB';
 export const IS_EMPTY = 'IS_EMPTY';
 export const CSV_FILE_LOADER = 'CSV_FILE_LOADER';
 export const NODE_DRAG_HANDLER = 'NODE_DRAG_HANDLER'
+export const CSV_FILE_UPLOADER = 'CSV_FILE_UPLOADER'

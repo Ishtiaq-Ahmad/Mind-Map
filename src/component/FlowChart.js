@@ -203,7 +203,7 @@ const FlowChart = (props) => {
   const onLoad = (reactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
-    console.log('i am fitView');
+    
   };
  
 
@@ -211,7 +211,7 @@ const FlowChart = (props) => {
   const onDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-    console.log('i am onDragover');
+    
   };
   const onDrop = async (event) => {
     event.preventDefault();
@@ -221,10 +221,6 @@ const FlowChart = (props) => {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    console.log('position', position);
-console.log('i am on drop');
-    // unique and will be generated only once while creating collection
-
     let DOCID = uuidv4();
     const newNode = {
       id: uuidv4(),
@@ -233,9 +229,7 @@ console.log('i am on drop');
       data: { label: `${type} node` },
       // style:{ width: '150px'},
     };
-    console.log("hi log", selectedTab);
     let finalData;
-
     if (dataset && dataset.length > 0) {
       finalData = [...dataset[selectedTab], newNode];
     } else {
@@ -286,6 +280,7 @@ console.log('drag stop', node.position.x, node.position.y);
               onStartCapture={onStartCapture}
               handlePrint={handlePrint}
               selectedTab={selectedTab}
+              
               {...props}
             />
             <Grid container spacing={12}>

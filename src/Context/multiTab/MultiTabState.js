@@ -2,6 +2,7 @@ import React, { useReducer, useRef } from "react";
 import * as actionTypes from "../types";
 import MultiTabContext from "./MultiTabContext";
 import MultiTabReducer from "./MultiTabReducer";
+
 // import { nodesData } from "../../component/FlowChartData";
 
 
@@ -56,7 +57,7 @@ const NodeState = (props) => {
   const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize, previousState,nodeName, multiSelectNode} = state;
 
   const onElementClickHandler = (element,treeDataUpdate) => {
-    
+    console.log({element});
   // element.style = { width };  
     let _previousState = ''
     let _nodeName = ''
@@ -154,7 +155,7 @@ const isEmptyHandler = ()=>{
     })
   }
   const onDragHandler = (selectedTab,updatedNodeData,_docid=null,empty) => {
-   console.log('i am update', updatedNodeData);
+   
     dispatch({
       type:actionTypes.ON_DRAG_NODE,
       payload:{selectedTab, updatedNodeData,_docid,empty}
@@ -444,12 +445,60 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
     payload:{selectedTab, nodeSizeDec}
   })  
 }
-const csvFileHandler = (result) => {
-  console.log('i am handler ', result);
-dispatch({
-  type:actionTypes.CSV_FILE_LOADER,
+// const csvFileHandler = (e, selectedTab) => {
   
-})
+//   let myResult
+//   const file = (e.target.files[0])
+//     var reader = new FileReader();
+//     reader.onload = function(event) {
+//     // The file's text will be printed here
+//      myResult = event.target.result;
+//      const data = csvToArray(myResult);
+//       // const myJSON = JSON.stringify(data);
+//     //  const resss = [myResult]
+//     //  console.log({resss});
+//     console.log(data)
+//   };
+
+//     reader.readAsText(file);
+//  function csvToArray(str, delimiter = ",") {
+//    console.log({str});
+//   const headers = str.slice(0, str.length ).split("\n");
+//   // const rows = str.slice(str.indexOf("\n") + 1).split("\n");
+//   // const rows = str.slice(0, str.indexOf("\n") +1).split(delimiter);
+//   console.log('headers',headers);
+//   console.log('header.length', headers.length);
+//   console.log(headers[0]);
+//   const arr = headers.map(function (row) {
+//     console.log("row object",{row});
+   
+//     // const values = row.split(delimiter);
+//     // const el = headers.reduce(function (object, header, index) {
+//     //   object[header] = values[index];
+//     //   return object;
+//     // }, {});
+//     // return el ;
+//   });
+
+//   return arr;
+// }
+// dispatch({
+//   type:actionTypes.CSV_FILE_LOADER,
+//   payload:{selectedTab}
+  
+// })
+// }
+const loaderFile = (selectedTab, newCsvData) =>{
+  dispatch({
+    type: actionTypes.CSV_FILE_LOADER,
+    payload :{selectedTab, newCsvData}
+  })
+}
+const myCsvFileHandler = (selectedTab, newCsvData) =>{
+  dispatch({
+    type: actionTypes.CSV_FILE_UPLOADER,
+    payload :{selectedTab, newCsvData}
+  })
 }
 // const nodeDragHandler = (selectedTab,node) =>{
 //   const xPosition = node.position.x
@@ -503,12 +552,14 @@ dispatch({
         multipleSelectNode,
         nodeSourcePositionHandler,
         paneClickHandler,
-         nodeSizeDecreaseHandler,
+        nodeSizeDecreaseHandler,
           nodeSizeIncreaseHandler,
           loadDataHandler,
           isEmptyHandler,
-          csvFileHandler,
+          // csvFileHandler,
           // nodeDragHandler
+          myCsvFileHandler,
+          loaderFile
       }}
     >
       {props.children}

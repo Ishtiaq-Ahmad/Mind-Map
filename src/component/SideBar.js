@@ -40,6 +40,7 @@ import smoothStep from "../assets/images/smoothStep.png";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import FileUploader from './CsvFile'
+import { v4 as uuidv4 } from "uuid";
 const MindMapSideBar = (props) => {
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);
@@ -49,6 +50,7 @@ const MindMapSideBar = (props) => {
 
   const {
     data: {
+      dataset,
       nodeName,
       selectedNodeName,
       borderColor,
@@ -97,7 +99,10 @@ const MindMapSideBar = (props) => {
     arrowWidthIncreaseHandler,
     imageHandler,
     nodeSizeDecreaseHandler,
-    nodeSizeIncreaseHandler
+    nodeSizeIncreaseHandler,
+    csvFileHandler,
+    myCsvFileHandler,
+    loaderFile
   } = multitabContext;
   const {showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
@@ -105,6 +110,7 @@ const MindMapSideBar = (props) => {
   const [labelColorHide, setLabelColoHide] = useState(false);
   const [arrowColorHide, setArrowColorHide] = useState(false);
   const [image, setImage] = useState(null)
+  // const{selectedTab} = props;
 
 
 //   const imageHandler = (e) => {
@@ -121,11 +127,63 @@ const MindMapSideBar = (props) => {
 //     alert('Only PNG file supported')
 // }
   // };
-
-  return (
-    <div>
+  // let nodeId = uuidv4();
+  const xNumber = Math.floor(Math.random() * 100 + 1);
+  const yNumber = Math.floor(Math.random() * 100 + 1);
+  const fileHandler = () =>{
+  const csvNode = {
+      id: uuidv4(),
+      type: 'default',
+      position: {x: xNumber, y: yNumber},
+      data: { label: 'new csv data' },
+      // style:{ width: '150px'},
+    };
+    let newCsvData = [...dataset[props.selectedTab], csvNode];
+      console.log('hello node', {newCsvData});
+    myCsvFileHandler(props.selectedTab, newCsvData )
+  }
+const _csvFileHandler = (e)=>{
+let myResult
+  const file = (e.target.files[0])
+    var reader = new FileReader();
+    reader.onload = function(event) {
+     myResult = event.target.result;
+     const data = csvToArray(myResult);
+  };
+    reader.readAsText(file);
+     let newCsvData
+ const csvToArray = (str, delimiter = ",") => {
+  const headers = str.slice(0, str.length ).split("\n");
+  
+  const arr = headers.map((row) =>{
+    
+const csvNode = {
+      id: uuidv4(),
+      type: 'default',
+      position: {x: xNumber, y: yNumber},
+      data: { label: row},
+      // style:{ width: '150px'},
+    };
   
     
+    
+    // console.log('hello node', newCsvData);
+     console.log('csv data', {newCsvData});
+        newCsvData = [...dataset[props.selectedTab], csvNode];
+        
+     loaderFile(props.selectedTab, newCsvData )
+     return row ;
+  });
+  
+
+  // return arr;
+ }
+
+    
+    // loaderFile(props.selectedTab, newCsvData )
+}
+  return (
+    <div>
       {showFormat ? (
         <div className="text_bg">
           <TextField
@@ -638,7 +696,11 @@ const MindMapSideBar = (props) => {
         </>
       ) : null}
       <DragAbleNodes />
-      <FileUploader/>
+      {/* <FileUploader/> */}
+       <input type = 'file' onChange={(e) => csvFileHandler(e, props.selectedTab)} />
+       <input type = 'file' onChange={_csvFileHandler} />
+       {/* <button onClick={() => csvFileHandler(props.selectedTab)}>hello </button> */}
+       <button onClick={fileHandler}>hello </button>
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
         <Button onClick={props.handleSave} fullWidth variant="contained">
