@@ -47,6 +47,11 @@ const NodeState = (props) => {
     nodeSize: 150,
     docID:null,
     isEmpty:true,
+    periodsData:'',
+    specificData:'',
+    periodsDataArray:[],
+    periodsNodesData:'',
+    periodsHeadData:[],
     
 
     
@@ -54,10 +59,9 @@ const NodeState = (props) => {
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize, previousState,nodeName, multiSelectNode} = state;
-
+  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState} = state;
   const onElementClickHandler = (element,treeDataUpdate) => {
-    console.log({element});
+    
   // element.style = { width };  
     let _previousState = ''
     let _nodeName = ''
@@ -445,59 +449,32 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
     payload:{selectedTab, nodeSizeDec}
   })  
 }
-// const csvFileHandler = (e, selectedTab) => {
-  
-//   let myResult
-//   const file = (e.target.files[0])
-//     var reader = new FileReader();
-//     reader.onload = function(event) {
-//     // The file's text will be printed here
-//      myResult = event.target.result;
-//      const data = csvToArray(myResult);
-//       // const myJSON = JSON.stringify(data);
-//     //  const resss = [myResult]
-//     //  console.log({resss});
-//     console.log(data)
-//   };
-
-//     reader.readAsText(file);
-//  function csvToArray(str, delimiter = ",") {
-//    console.log({str});
-//   const headers = str.slice(0, str.length ).split("\n");
-//   // const rows = str.slice(str.indexOf("\n") + 1).split("\n");
-//   // const rows = str.slice(0, str.indexOf("\n") +1).split(delimiter);
-//   console.log('headers',headers);
-//   console.log('header.length', headers.length);
-//   console.log(headers[0]);
-//   const arr = headers.map(function (row) {
-//     console.log("row object",{row});
-   
-//     // const values = row.split(delimiter);
-//     // const el = headers.reduce(function (object, header, index) {
-//     //   object[header] = values[index];
-//     //   return object;
-//     // }, {});
-//     // return el ;
-//   });
-
-//   return arr;
-// }
-// dispatch({
-//   type:actionTypes.CSV_FILE_LOADER,
-//   payload:{selectedTab}
-  
-// })
-// }
-const loaderFile = (selectedTab, newCsvData) =>{
+const loaderFile = (selectedTab, _newCsvData, arr9, arr4) =>{
+  console.log('qluq', arr9);
   dispatch({
-    type: actionTypes.CSV_FILE_LOADER,
-    payload :{selectedTab, newCsvData}
+    type: actionTypes._CSV_FILE_LOADER,
+    payload :{selectedTab, _newCsvData, arr9, arr4}
   })
 }
 const myCsvFileHandler = (selectedTab, newCsvData) =>{
   dispatch({
     type: actionTypes.CSV_FILE_UPLOADER,
     payload :{selectedTab, newCsvData}
+  })
+}
+const periodsDataHandler = (arr5) =>{
+  
+  dispatch({
+    type: actionTypes.ACTION_PERIODS_DATA,
+    payload:{arr5}
+  })
+}
+
+const specificDataHandler = (evt) => {
+  console.log('state event', evt);
+  dispatch({
+    type: actionTypes.SPECIFIC_DATA_HANDLER,
+    payload:{evt}
   })
 }
 // const nodeDragHandler = (selectedTab,node) =>{
@@ -559,7 +536,9 @@ const myCsvFileHandler = (selectedTab, newCsvData) =>{
           // csvFileHandler,
           // nodeDragHandler
           myCsvFileHandler,
-          loaderFile
+          loaderFile,
+          periodsDataHandler,
+          specificDataHandler
       }}
     >
       {props.children}

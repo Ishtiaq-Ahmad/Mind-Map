@@ -16,7 +16,7 @@ import NodeContext from './Context/auth/authContext'
 function App() {
   const authContext = useContext(NodeContext);
   const {data:{userId}}= authContext;
-  console.log('hi userid', userId);
+  
   return (
     <div className="App">
     <Router>

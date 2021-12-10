@@ -235,7 +235,7 @@ const FlowChart = (props) => {
     } else {
       finalData = [newNode];
     }
-
+console.log(finalData);
     // docID is our local context id if exists
 
     // let finalData = dataset;

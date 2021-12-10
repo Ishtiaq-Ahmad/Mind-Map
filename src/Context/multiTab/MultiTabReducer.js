@@ -919,42 +919,24 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeImage],
       };
     case actionTypes.NODE_SOURCE_POSITION:
-      // const {evt: nodeSourceEvt, selectedTab: selectedTab30} = action.payload
       let { evt: nodeSourceEvt, selectedTab: selectedTab30 } = action.payload;
       let targetSourceNode = [...state.dataset[selectedTab30]];
       const nodeSourceTarget = targetSourceNode.map((el) => {
         if (el.id === state.selectedNode) {
           if (state._nodeType === "input") {
-            // console.log('inputttttttttttttttt')
             el.sourcePosition = nodeSourceEvt;
-            // el.sourcePosition={...el.sourcePosition, sourcePosition: nodeSourceEvt}
-          } else if (state._nodeType === "output") {
+            } else if (state._nodeType === "output") {
             el.targetPosition = nodeSourceEvt;
-            // el.targetPosition ={...el.targetPosition, targetPosition: nodeSourceEvt}
-          } else if (state._nodeType === "default") {
+            } else if (state._nodeType === "default") {
             if (nodeSourceEvt === "Right & Left") {
               el.sourcePosition = "right";
-              // el.targetPosition = {nodeSourceEvt === left? nodeSourceEvt}
               el.targetPosition = "left";
             }
-            // else if(nodeSourceEvt === 'Right & Left'){
-            //   el.sourcePosition = nodeSourceEvt
-            //   el.targetPosition = 'right'
-            // }
             else if (nodeSourceEvt === "Top & Bottom") {
-              // el.sourcePosition = nodeSourceEvt
               el.targetPosition = "top";
               el.sourcePosition = "bottom";
             }
-            // else if(nodeSourceEvt === 'bottom'){
-            //   el.sourcePosition = nodeSourceEvt
-            //   el.targetPosition = 'top'
-            // }
-            // el.sourcePosition = nodeSourceEvt
-            // el.nodeSourceTarget = 'righ
-          }
-          // el.sourcePosition={...el.sourcePosition, sourcePosition:nodeSourceEvt}
-          // el.targetPosition={...el.targetPosition, targetPosition: nodeSourceEvt}
+          }   
         }
         return el;
       });
@@ -1040,43 +1022,14 @@ const authReducer = (state, action) => {
     //     // nodeFontColor: updateFontColor
     //   };
 
-    // case actionTypes.CSV_FILE_LOADER:
-    //   const _uId = uuidv4();
-    //   let { myResult: fileData, selectedTab: _selectedTab34 } = action.payload;
-    //   let targetCsvFile = [...state.dataset[_selectedTab34]];
-    //   let csvFileUpload = targetCsvFile.map((el) => {
-    //     // if (el.id === state.selectedNode) {
-    //     //   el.position = { ...el.position, x: xPosition, y: yPosition};
-    //     // }
-    //     const xNumber = Math.floor(Math.random() * 100 + 1);
-    //     const yNumber = Math.floor(Math.random() * 100 + 1);
-    //     el.id = _uId;
-    //     el.data = { label: "i am cv node" };
-    //     el.type = "default";
-    //     el.position = { x: xNumber, y: yNumber };
-    //     return el;
-    //   });
-
-    //   let cloneUploadCsvFile = [state.dataset];
-    //   cloneUploadCsvFile = cloneUploadCsvFile.map((tab, index) => {
-    //     if (_selectedTab34 === index) {
-    //       return csvFileUpload;
-    //     } else {
-    //       return tab;
-    //     }
-    //   });
-
-    //   return {
-    //     ...state,
-    //     dataset: [...cloneUploadCsvFile],
-    //   };
-    case actionTypes.CSV_FILE_LOADER:
-    let { selectedTab: _selectedTab37, _newCsvData} = action.payload;
+    case actionTypes._CSV_FILE_LOADER:
+    let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4} = action.payload;
       let _csvUpload = [...state.dataset];
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
      _csvUpload = _csvUpload.map((element, index) => {
           if (_selectedTab37 === index) {
+       
             return _newCsvData;
           }
           return element;
@@ -1087,8 +1040,11 @@ const authReducer = (state, action) => {
 
       return {
         ...state,
-        dataset: [..._csvUpload]
+        dataset: _csvUpload,
+        periodsDataArray: arr9,
+        periodsHeadData: arr4
         }
+
       case actionTypes.CSV_FILE_UPLOADER:
       let { selectedTab: _selectedTab35, newCsvData} = action.payload;
       let csvUpload = [...state.dataset];
@@ -1109,6 +1065,30 @@ const authReducer = (state, action) => {
         dataset: [...csvUpload],
         
       };
+      case actionTypes.ACTION_PERIODS_DATA:
+      
+      return {
+        ...state,
+        periodsData: action.payload.arr5
+      }
+      case actionTypes.SPECIFIC_DATA_HANDLER:
+      const{evt: specificDataEvent} = action.payload
+      let _periodsHeadData = state.periodsHeadData
+      let _periodsDataArray = state.periodsDataArray
+      console.log('headdddddd', _periodsHeadData);
+      console.log('sheeeeeeer', _periodsHeadData);
+      console.log('ssssssssssss', specificDataEvent);
+      console.log('jjjjjjjjj', _periodsDataArray);
+      // const inlc = _periodsHeadData.filter(res=>res.includes(specificDataEvent))
+      let _value =_periodsHeadData.findIndex(rank => rank === specificDataEvent);
+      console.log(_periodsDataArray[_value]);
+      let finalValue = _periodsDataArray[_value]
+
+      return{
+        ...state,
+        periodsNodesData:finalValue,
+        specificData: specificDataEvent
+      }
     default:
       return state;
   }

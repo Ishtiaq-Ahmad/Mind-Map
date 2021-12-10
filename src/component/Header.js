@@ -24,6 +24,7 @@ import FlowChartData, {
   nodeSourcePosition,
   defaultNodeSource,
 } from "./FlowChartData";
+import CsvPeriodsData from './CsvPeriodsData';
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import {
@@ -220,7 +221,8 @@ const Header = (props) => {
                 </Button>
               </Link>
             ) : null}
-
+         
+                  <CsvPeriodsData/>
             <Button
               variant="contained"
               style={{ display: `${dataset.length < 1 ? `none` : `block`}` }}

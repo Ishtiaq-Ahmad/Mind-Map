@@ -68,7 +68,8 @@ const MindMapSideBar = (props) => {
       edgeLabelColor,
       arrowColor,
       arrowWidth,
-      nodeSize
+      nodeSize,
+      periodsNodesData
     },
     bgColorHandler,
     nodeNameHandler,
@@ -102,7 +103,8 @@ const MindMapSideBar = (props) => {
     nodeSizeIncreaseHandler,
     csvFileHandler,
     myCsvFileHandler,
-    loaderFile
+    loaderFile,
+    periodsDataHandler
   } = multitabContext;
   const {showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
@@ -139,48 +141,56 @@ const MindMapSideBar = (props) => {
       // style:{ width: '150px'},
     };
     let newCsvData = [...dataset[props.selectedTab], csvNode];
-      console.log('hello node', {newCsvData});
     myCsvFileHandler(props.selectedTab, newCsvData )
   }
+
 const _csvFileHandler = (e)=>{
 let myResult
   const file = (e.target.files[0])
     var reader = new FileReader();
     reader.onload = function(event) {
      myResult = event.target.result;
-     const data = csvToArray(myResult);
-  };
-    reader.readAsText(file);
-     let newCsvData
- const csvToArray = (str, delimiter = ",") => {
-  const headers = str.slice(0, str.length ).split("\n");
   
-  const arr = headers.map((row) =>{
+    //  const myJSON = JSON.stringify(myResult);
+     const data = csvToArray(myResult);
+   
+  };
+   
+    reader.readAsText(file);
     
-const csvNode = {
+     let _newCsvData
+  const csvToArray = (str, delimiter = ",") => { 
+  const headers = str.slice(0, str.length-1  ).split("\n");
+  const arr1 = headers[0]
+  let arr2 = []
+  arr2 = arr1.split(',')
+  let arr3 = arr2.slice(0,2)
+  const arr4 = arr2.slice(2)
+  const arr5 = arr4.map((element) =>{
+    return (element)
+  })
+  periodsDataHandler(arr5)
+  let arr = []
+  for(let i = 1; i <= headers.length-1; i++){
+    const arr6  = headers[i]
+    const arr7 = arr6.split(',')
+    const arr8 = arr7.slice(0, 2)
+    const arr9 = arr7.slice(2)
+    console.log('evo ' ,arr9);
+    let _csvNode = {
       id: uuidv4(),
       type: 'default',
       position: {x: xNumber, y: yNumber},
-      data: { label: row},
-      // style:{ width: '150px'},
-    };
-  
-    
-    
-    // console.log('hello node', newCsvData);
-     console.log('csv data', {newCsvData});
-        newCsvData = [...dataset[props.selectedTab], csvNode];
-        
-     loaderFile(props.selectedTab, newCsvData )
-     return row ;
-  });
-  
+      // data: { label: headers[i].replace(/,/g, ' ')},   
+      data: {label : (<>{arr8}<strong> {periodsNodesData}</strong></>) } 
+    };  
+      arr.push(_csvNode)
+     _newCsvData = [...dataset[props.selectedTab], ...arr];
+     loaderFile(props.selectedTab, _newCsvData , arr9, arr4)
+      
+   }    
 
-  // return arr;
  }
-
-    
-    // loaderFile(props.selectedTab, newCsvData )
 }
   return (
     <div>
@@ -697,9 +707,7 @@ const csvNode = {
       ) : null}
       <DragAbleNodes />
       {/* <FileUploader/> */}
-       <input type = 'file' onChange={(e) => csvFileHandler(e, props.selectedTab)} />
        <input type = 'file' onChange={_csvFileHandler} />
-       {/* <button onClick={() => csvFileHandler(props.selectedTab)}>hello </button> */}
        <button onClick={fileHandler}>hello </button>
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
