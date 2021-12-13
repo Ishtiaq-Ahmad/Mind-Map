@@ -183,7 +183,9 @@ const authReducer = (state, action) => {
       } else if (state.multiSelectNode !== "" && bgColor !== "") {
         let targetEdgeLabelColor = [...state.dataset[_selectedTab]];
         _edge = targetEdgeLabelColor.map((el) => {
+          console.log('ehis is ', el);
           if (el.id === state.selectedNode) {
+            // console.log('muct color', el.style);
             el.style = { ...el.style, backgroundColor: bgColor };
           }
           return el;
@@ -1021,10 +1023,12 @@ const authReducer = (state, action) => {
     //     dataset: [...cloneNodePositionUpdate],
     //     // nodeFontColor: updateFontColor
     //   };
-
+ 
     case actionTypes._CSV_FILE_LOADER:
-    let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4} = action.payload;
-      let _csvUpload = [...state.dataset];
+    let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4,arr10} = action.payload;
+    
+   
+      let _csvUpload = [...state.dataset[_selectedTab37]];
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
      _csvUpload = _csvUpload.map((element, index) => {
@@ -1042,7 +1046,8 @@ const authReducer = (state, action) => {
         ...state,
         dataset: _csvUpload,
         periodsDataArray: arr9,
-        periodsHeadData: arr4
+        periodsHeadData: arr4,
+        periodsFirstColum: arr10
         }
 
       case actionTypes.CSV_FILE_UPLOADER:
@@ -1071,23 +1076,32 @@ const authReducer = (state, action) => {
         ...state,
         periodsData: action.payload.arr5
       }
-      case actionTypes.SPECIFIC_DATA_HANDLER:
-      const{evt: specificDataEvent} = action.payload
-      let _periodsHeadData = state.periodsHeadData
-      let _periodsDataArray = state.periodsDataArray
-      console.log('headdddddd', _periodsHeadData);
-      console.log('sheeeeeeer', _periodsHeadData);
-      console.log('ssssssssssss', specificDataEvent);
-      console.log('jjjjjjjjj', _periodsDataArray);
-      // const inlc = _periodsHeadData.filter(res=>res.includes(specificDataEvent))
-      let _value =_periodsHeadData.findIndex(rank => rank === specificDataEvent);
-      console.log(_periodsDataArray[_value]);
-      let finalValue = _periodsDataArray[_value]
 
+      case actionTypes.SPECIFIC_DATA_HANDLER:
+      
+      const{evt: specificDataEvent, selectedTab: selectedTab38} = action.payload
+       let _csvDataSet =''
+      
+      let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
+      let finalValue = state.periodsDataArray[_value]
+
+       let targetCsvDataSet = [...state.dataset[selectedTab38]]
+        let periodsFirstName =[...state.periodsFirstColum];
+        
+        targetCsvDataSet.forEach(element => {
+        
+          // for(let i = 0; i <= periodsFirstName.length-1; i++){
+         element.data ={...element.data, label:(<>{periodsFirstName}<strong> {finalValue}</strong></>)}
+        
+          // } 
+        })
+       
+     
       return{
         ...state,
-        periodsNodesData:finalValue,
-        specificData: specificDataEvent
+        // periodsNodesData:finalValue,
+        specificData: specificDataEvent,
+        dataset: [targetCsvDataSet]
       }
     default:
       return state;

@@ -55,26 +55,26 @@ const Header = (props) => {
   const nodeContext = useContext(NodeContext);
   const nodeMultiContext = useContext(MultiTabContext);
   const {
-    data: { role,userId,email,full_name},
-    editNode,
-    formatNode,
-    multiTabHandler,
-  } = nodeContext;
-  const {
-    data: {
-      dataset,
-      docID,
+    data: { role, userId, email, full_name },formatNode,multiTabHandler} = nodeContext;
+  const {data: {dataset,docID,
       isEmpty,
       sourcePosition,
       _nodeType,
       showSourcePosition,
+      specificData,
+      periodsData
     },
     nodeSourcePositionHandler,
     isEmptyHandler,
+    specificDataHandler
   } = nodeMultiContext;
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const arr8 = [...periodsData]
+  const act = arr8.map((item) => {
+  return { label: item}
+})
 
   // const _nodesData = [...dataset]
   //   console.log({_nodesData});
@@ -96,24 +96,14 @@ const Header = (props) => {
       });
       updateDocWithId("nodesData", docID, { dumpData: serializedData });
     } else {
-      // finalData = [newNode];
-      // alert("else")
-
       const myDocId = uuidv4();
-
-      // console.log({finalData});
-
       const serializedData = JSON.stringify({
         docId: myDocId,
         data: finalData,
       });
 
       // save our data set id in user collection 
-
-      
-
-
-      isEmptyHandler();
+    isEmptyHandler();
      await  updateDocWithId("users", userId, { nodeID:myDocId,role,email,full_name,uid:userId });
 
       await createDocWithID("nodesData", myDocId, {
@@ -133,7 +123,9 @@ const Header = (props) => {
     // } catch (error) {
     //   alert("oops error in user login", error);
     // }
+  
   };
+
   return (
     <div>
       <AppBar position="static">
@@ -221,8 +213,31 @@ const Header = (props) => {
                 </Button>
               </Link>
             ) : null}
-         
-                  <CsvPeriodsData/>
+           <TextField
+                    select
+                    value={specificData}
+                    name={specificData}
+                    onChange={
+                        (evt) => {
+                      specificDataHandler(
+                        evt.target.value,
+                        props.selectedTab
+                      );
+                    }}
+                    label="Periods Data"
+                    size="small"
+                    variant="outlined"
+                    style={{ width: "160px" }}
+                    // width="20px"
+                    // fullWidth
+                  >
+                    {act.map((option) => (
+                      <MenuItem key={option.label} value={option.label}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {/* <CsvPeriodsData/> */}
             <Button
               variant="contained"
               style={{ display: `${dataset.length < 1 ? `none` : `block`}` }}

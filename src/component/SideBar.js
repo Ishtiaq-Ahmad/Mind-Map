@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { TextField, Switch } from "@material-ui/core";
 import "./SideBar.css";
 import DragAbleNodes from "./DragAbleNodes";
@@ -112,6 +112,8 @@ const MindMapSideBar = (props) => {
   const [labelColorHide, setLabelColoHide] = useState(false);
   const [arrowColorHide, setArrowColorHide] = useState(false);
   const [image, setImage] = useState(null)
+ 
+ 
   // const{selectedTab} = props;
 
 
@@ -143,50 +145,57 @@ const MindMapSideBar = (props) => {
     let newCsvData = [...dataset[props.selectedTab], csvNode];
     myCsvFileHandler(props.selectedTab, newCsvData )
   }
-
+var i = 1;
 const _csvFileHandler = (e)=>{
-let myResult
+let myResult;
   const file = (e.target.files[0])
     var reader = new FileReader();
     reader.onload = function(event) {
      myResult = event.target.result;
-  
     //  const myJSON = JSON.stringify(myResult);
      const data = csvToArray(myResult);
-   
   };
-   
     reader.readAsText(file);
     
      let _newCsvData
   const csvToArray = (str, delimiter = ",") => { 
-  const headers = str.slice(0, str.length-1  ).split("\n");
+    console.log({str});
+  const headers = str.slice(0, str.length-1).split("\n");
+  console.log({headers});
   const arr1 = headers[0]
   let arr2 = []
   arr2 = arr1.split(',')
-  let arr3 = arr2.slice(0,2)
+  // let arr3 = arr2.slice(0,2)
   const arr4 = arr2.slice(2)
+  console.log({arr4});
   const arr5 = arr4.map((element) =>{
     return (element)
   })
   periodsDataHandler(arr5)
+  
   let arr = []
-  for(let i = 1; i <= headers.length-1; i++){
+  let arr10 = []
+  for( i = 1; i <= headers.length-1; i++){
+    console.log('head',headers);
     const arr6  = headers[i]
     const arr7 = arr6.split(',')
-    const arr8 = arr7.slice(0, 2)
+    const arr10 = arr7.slice(0, 2)
+    // console.log('arr8',arr8);
+    //  arr10.push(arr8)
+     
     const arr9 = arr7.slice(2)
-    console.log('evo ' ,arr9);
+ 
     let _csvNode = {
       id: uuidv4(),
       type: 'default',
       position: {x: xNumber, y: yNumber},
       // data: { label: headers[i].replace(/,/g, ' ')},   
-      data: {label : (<>{arr8}<strong> {periodsNodesData}</strong></>) } 
+      data: {label : (<>{arr10}<strong> {periodsNodesData}</strong></>) } 
     };  
       arr.push(_csvNode)
      _newCsvData = [...dataset[props.selectedTab], ...arr];
-     loaderFile(props.selectedTab, _newCsvData , arr9, arr4)
+     
+     loaderFile(props.selectedTab, _newCsvData , arr9, arr4,arr10)
       
    }    
 

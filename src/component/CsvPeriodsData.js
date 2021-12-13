@@ -26,21 +26,18 @@ const act = arr8.map((item) => {
 // const nodeSourcePositionHandler = (e) =>{
 //     _setPeriodsData(e.target.value)
 // }
+// console.log('innnnn',periodsDataArray);
     return (
-        <div> hello
+        <div> 
             {/* {periodsData} */}
             <TextField
                     select
                     value={specificData}
-                    // value='periods data'
                     name={specificData}
                     onChange={
-                      // nodeSourcePositionHandler}
                         (evt) => {
                       specificDataHandler(
                         evt.target.value,
-                        console.log('evt',evt.target.value)
-                        // props.selectedTab
                       );
                     }}
                     label="Periods Data"
@@ -53,7 +50,6 @@ const act = arr8.map((item) => {
                     {act.map((option) => (
                       <MenuItem key={option.label} value={option.label}>
                         {option.label}
-                        {/* {console.log('qqqqqqqqqqqq', option.label)} */}
                       </MenuItem>
                     ))}
                   </TextField>

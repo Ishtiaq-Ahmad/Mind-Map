@@ -73,7 +73,7 @@ const FlowChart = (props) => {
     }
     
 
-    console.log("@@@@@@@@@@@@@",{_nodesData});
+    // console.log("@@@@@@@@@@@@@",{_nodesData});
       if (_nodesData) {
         _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
