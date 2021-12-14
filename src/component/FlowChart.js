@@ -32,7 +32,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 let id = 0;
-// const getId = () => `dndnode_${id++}`;
+const getId = () => `node_${id++}`;
 
 const FlowChart = (props) => {
   // 
@@ -48,6 +48,7 @@ const FlowChart = (props) => {
     multipleSelectNode,
     paneClickHandler,
     loadDataHandler,
+    nodeDragIdHandler,
     nodeDragHandler
 
 
@@ -221,6 +222,7 @@ const FlowChart = (props) => {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
+    console.log('position', position);
     let DOCID = uuidv4();
     const newNode = {
       id: uuidv4(),
@@ -267,9 +269,20 @@ console.log(finalData);
     onEdgeHandler(edge);
   };
   
-const onNodeDragStop = (event, node) => {
-console.log('drag stop', node.position.x, node.position.y);
-// nodeDragHandler(selectedTab,node)
+const onNodeDragStop = async(event, node) => {
+
+// console.log('my node id', nodeId);
+let nodePositionX = node.position.x;
+let nodePositionY = node.position.y;
+// console.log('event x', nodePositionX);
+// console.log('event y', nodePositionY);
+// 
+nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
+}
+const onNodeDragStart = (event,node)=>{
+ let nodeId =  node.id;
+  
+  nodeDragIdHandler(nodeId)
 }
   return (
     <div>
@@ -319,6 +332,7 @@ console.log('drag stop', node.position.x, node.position.y);
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
                     onNodeDragStop={onNodeDragStop}
+                    onNodeDragStart = { onNodeDragStart}
                     // edgeTypes={{
                     //   smart: SmartEdge,
                     // }}

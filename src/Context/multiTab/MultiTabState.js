@@ -13,6 +13,7 @@ const NodeState = (props) => {
     dataset: [],
     // dataset: [nodesData],
     selectedNode:0,
+     nodeDragId:0,
     selectedTab:0,
     bgColor:"",
     nodeName:'Node Name',
@@ -52,7 +53,8 @@ const NodeState = (props) => {
     periodsDataArray:[],
     periodsNodesData:'',
     periodsHeadData:[],
-    periodsFirstColum:[]
+    periodsFirstColum:[],
+   
     
 
     
@@ -479,14 +481,23 @@ const specificDataHandler = (evt, selectedTab) => {
     payload:{evt, selectedTab}
   })
 }
-// const nodeDragHandler = (selectedTab,node) =>{
-//   const xPosition = node.position.x
-//   const yPosition = node.position.x
-//   dispatch({
-//     type: actionTypes.NODE_DRAG_HANDLER,
-//     payload:{selectedTab,xPosition, yPosition}
-//   })
-// }
+const nodeDragIdHandler = (nodeId)=>{
+dispatch({
+type:actionTypes.NODE_DRAG_ID_HANDLER,
+payload:{nodeId}
+})
+
+}
+const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
+  // const  xPosition = node.position.x;
+  // const yPosition = node.position.y;
+
+  dispatch({
+    type: actionTypes.NODE_DRAG_HANDLER,
+    payload:{selectedTab,nodePositionX, nodePositionY}
+  })
+}
+
   return (
     <MultiTabContext.Provider
       value={{
@@ -535,8 +546,9 @@ const specificDataHandler = (evt, selectedTab) => {
           nodeSizeIncreaseHandler,
           loadDataHandler,
           isEmptyHandler,
+          nodeDragIdHandler,
           // csvFileHandler,
-          // nodeDragHandler
+          nodeDragHandler,
           myCsvFileHandler,
           loaderFile,
           periodsDataHandler,

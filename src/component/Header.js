@@ -25,8 +25,8 @@ import FlowChartData, {
   defaultNodeSource,
 } from "./FlowChartData";
 import CsvPeriodsData from './CsvPeriodsData';
-import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
+// import { useHistory } from "react-router";
+import { Link, useHistory } from "react-router-dom";
 import {
   getAllData,
   createDocWithID,
@@ -112,13 +112,17 @@ const Header = (props) => {
       // handler
     }
   };
-  const signOutHandler = async () => {
+  const signOutHandler =  () => {
+    _signOut( history.push("/"))
+   
     // await signOut(auth)
     // console.log('signout')
-    await _signOut();
+    // await _signOut();
     // props.history.push('/login')
     // try {
-    //    _signOut();
+    //    _signOut(
+    //      props.history.push('/login')
+    //    );
 
     // } catch (error) {
     //   alert("oops error in user login", error);
@@ -278,7 +282,7 @@ const Header = (props) => {
             >
               <LogoutIcon />
             </IconButton>
-            <button onClick={signOutHandler}>Logout</button>
+            
           </label>
           <Modal
             open={open}

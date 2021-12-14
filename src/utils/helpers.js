@@ -36,8 +36,18 @@ onAuthStateChanged(auth, (user) => {
     // ...
   }
 });
-const _signOut = () => {
-  signOut(auth);
+const _signOut = async() => {
+ try {
+   await signOut(auth).then(
+    // alert('logout')
+    //  user.removeItem(user.id)
+    
+  );
+ } catch (error) {
+   alert(error)
+ }
+  
+  
 };
 
 const createDocWithID = (_collection, docID, docOBJ) => {

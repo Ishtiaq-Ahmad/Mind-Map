@@ -7,14 +7,13 @@ const authReducer = (state, action) => {
     case actionTypes.ON_ELEMENT_CLICK_HANDLER:
       let __previousData = "";
       let previousLabel = "";
-      // const ammm = action.payload.element.data.label.props.children[1].props.
-      // console.log('???????',action.payload.element.data.label.props.children[1]);
       if (state.previousState === null || state.previousState === "") {
         __previousData = action.payload.element.id;
       } else if (state.previousState !== action.payload.element.id) {
         __previousData = action.payload.element.id;
         previousLabel = action.payload.treeDataUpdate;
       }
+      console.log('idd', action.payload.element.id);
       return {
         ...state,
         selectedNode: action.payload.element.id,
@@ -999,35 +998,58 @@ const authReducer = (state, action) => {
         nodeSize: nodeSizeDec,
         dataset: [...cloneNodeSizeDec],
       };
+    case actionTypes.NODE_DRAG_ID_HANDLER:
+    return{
+      ...state,
+      nodeDragId: action.payload.nodeId
+    }
+     case actionTypes.NODE_DRAG_HANDLER:
+      let {selectedTab: _selectedTab33, nodePositionX, nodePositionY} = action.payload;
+      let targetNodePosition = [...state.dataset[_selectedTab33]];
+      let snode = state.nodeDragId;
+    
+let cloneNodePositionUpdate 
+      // let nodeFunction  = () =>{
+        let nodePositionChange = targetNodePosition.map((el) => {
+  
+      console.log('nodePositionX',nodePositionX);
+      console.log("nodePositionY",nodePositionY);
+     
+        if (el.id === snode) {
+          console.log('hey i am in');
+          el.position = { ...el.position, x: nodePositionX, y:nodePositionY};
+          
+        }
+       return el;
+        
+        
+      });
 
-    //  case actionTypes.NODE_DRAG_HANDLER:
-    //   let {selectedTab: _selectedTab33, xPosition, yPosition} = action.payload;
-    //   let targetNodePosition = [...state.dataset[_selectedTab33]];
-    //   let nodePositionChange = targetNodePosition.map((el) => {
-    //     if (el.id === state.selectedNode) {
-    //       el.position = { ...el.position, x: xPosition, y: yPosition};
-    //     }
-    //     return el;
-    //   });
-
-    //   let cloneNodePositionUpdate = [...state.dataset];
-    //   cloneNodePositionUpdate = cloneNodePositionUpdate.map((tab, index) => {
-    //     if (_selectedTab33 === index) {
-    //       return nodePositionChange;
-    //     } else {
-    //       return tab;
-    //     }
-    //   });
-    //   return {
-    //     ...state,
-    //     dataset: [...cloneNodePositionUpdate],
-    //     // nodeFontColor: updateFontColor
-    //   };
+      cloneNodePositionUpdate = [...state.dataset];
+      cloneNodePositionUpdate = cloneNodePositionUpdate.map((tab, index) => {
+        if (_selectedTab33 === index) {
+          return nodePositionChange;
+        } else {
+          return tab;
+        }
+      });
+      // }
+      // let getNodeData
+      // if(state.nodeDragId !== '' ){
+        
+      // }
+      
+      return {
+        ...state,
+        // nodeDragId:nodeId,
+        dataset: cloneNodePositionUpdate,
+      
+      };
  
     case actionTypes._CSV_FILE_LOADER:
     let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4,arr10} = action.payload;
     
-   
+    
       let _csvUpload = [...state.dataset[_selectedTab37]];
       if (_csvUpload.length > 0) {
         // newly initialized dataset array

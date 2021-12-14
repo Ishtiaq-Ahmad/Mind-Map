@@ -159,15 +159,14 @@ let myResult;
     
      let _newCsvData
   const csvToArray = (str, delimiter = ",") => { 
-    console.log({str});
+    
   const headers = str.slice(0, str.length-1).split("\n");
-  console.log({headers});
+  
   const arr1 = headers[0]
   let arr2 = []
   arr2 = arr1.split(',')
   // let arr3 = arr2.slice(0,2)
   const arr4 = arr2.slice(2)
-  console.log({arr4});
   const arr5 = arr4.map((element) =>{
     return (element)
   })
@@ -176,7 +175,7 @@ let myResult;
   let arr = []
   let arr10 = []
   for( i = 1; i <= headers.length-1; i++){
-    console.log('head',headers);
+   
     const arr6  = headers[i]
     const arr7 = arr6.split(',')
     const arr10 = arr7.slice(0, 2)
