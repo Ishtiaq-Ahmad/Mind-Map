@@ -36,19 +36,19 @@ onAuthStateChanged(auth, (user) => {
     // ...
   }
 });
-const _signOut = async() => {
- try {
-   await signOut(auth).then(
-    // alert('logout')
-    //  user.removeItem(user.id)
+// const _signOut = async() => {
+//  try {
+//    await signOut(auth).then(
+//     // alert('logout')
+//     //  user.removeItem(user.id)
     
-  );
- } catch (error) {
-   alert(error)
- }
+//   );
+//  } catch (error) {
+//    alert(error)
+//  }
   
   
-};
+// };
 
 const createDocWithID = (_collection, docID, docOBJ) => {
   return new Promise(async (resolve, reject) => {
@@ -220,7 +220,7 @@ export {
   signup,
   login,
   getAllData,
-  _signOut,
+  // _signOut,
   _deleteUser,
   createDocWithID,
   getDocById,

@@ -1048,8 +1048,6 @@ let cloneNodePositionUpdate
  
     case actionTypes._CSV_FILE_LOADER:
     let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4,arr10} = action.payload;
-    
-    
       let _csvUpload = [...state.dataset[_selectedTab37]];
       if (_csvUpload.length > 0) {
         // newly initialized dataset array

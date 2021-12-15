@@ -112,8 +112,8 @@ const Header = (props) => {
       // handler
     }
   };
-  const signOutHandler =  () => {
-    _signOut( history.push("/"))
+  // const signOutHandler =  () => {
+  //   _signOut( history.push("/"))
    
     // await signOut(auth)
     // console.log('signout')
@@ -128,7 +128,7 @@ const Header = (props) => {
     //   alert("oops error in user login", error);
     // }
   
-  };
+  // };
 
   return (
     <div>
@@ -278,7 +278,7 @@ const Header = (props) => {
             <IconButton
               color="primary"
               component="span"
-              onClick={signOutHandler}
+              // onClick={signOutHandler}
             >
               <LogoutIcon />
             </IconButton>
