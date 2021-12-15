@@ -18,6 +18,9 @@ const DragAbleNodes = () => {
       <div className="dragAble_output_node" onDragStart={(event) => onDragStart(event, 'output')} draggable>
         Output Node
       </div>
+      <div className="dragAble_output_node" onDragStart={(event) => onDragStart(event, 'special')} draggable>
+        Special Node
+      </div>
         </div>
     )
 }

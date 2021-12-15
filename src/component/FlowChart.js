@@ -20,7 +20,8 @@ import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
 import { SmartEdge, PathFindingEdge } from "@tisoap/react-flow-smart-edge";
 // import { PathFindingEdge  } from "@tisoap/react-flow-smart-edge";
-import ColorSelectorNode from "./SelectorNode";
+import CustomNodeComponent from './CustomNodeComponent';
+
 import {
   getAllData,
   createDocWithID,
@@ -31,6 +32,9 @@ import {
 } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 
+const nodeTypes = {
+    special: CustomNodeComponent,
+  };
 let id = 0;
 const getId = () => `node_${id++}`;
 
@@ -146,9 +150,7 @@ const FlowChart = (props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  const nodeTypes = {
-    selectorNode: ColorSelectorNode,
-  };
+  
   const onElementsRemove = (elementsToRemove) => {
     const deleteElement = removeElements(
       elementsToRemove,
@@ -170,7 +172,7 @@ const FlowChart = (props) => {
   };
 
   const onElementClick = (event, element) => {
-    console.log('element', element.position);
+   
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -222,7 +224,7 @@ const FlowChart = (props) => {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    console.log('position', position);
+    
     let DOCID = uuidv4();
     const newNode = {
       id: uuidv4(),
@@ -237,7 +239,7 @@ const FlowChart = (props) => {
     } else {
       finalData = [newNode];
     }
-console.log(finalData);
+
     // docID is our local context id if exists
 
     // let finalData = dataset;
@@ -333,10 +335,10 @@ const onNodeDragStart = (event,node)=>{
                     edgeTypes={{ smart: PathFindingEdge }}
                     onNodeDragStop={onNodeDragStop}
                     onNodeDragStart = { onNodeDragStart}
+                    nodeTypes={nodeTypes}
                     // edgeTypes={{
                     //   smart: SmartEdge,
                     // }}
-                    nodeTypes={nodeTypes}
                     onPaneClick={onPaneClick}
                   >
                     <Controls />

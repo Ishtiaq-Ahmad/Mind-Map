@@ -17,7 +17,7 @@
   padding-bottom: 4px;
 }
 .dragAble_input_node:hover {
-  border: 2px solid blue;
+  border: 3px solid blue;
   cursor: grab;
 }
 .dragAble_default_node {
@@ -30,7 +30,7 @@
   padding-bottom: 4px;
 }
 .dragAble_default_node:hover {
-  border: 2px solid black;
+  border: 3px solid black;
   cursor: grab;
 }
 .dragAble_output_node {
@@ -42,8 +42,21 @@
   padding-top: 4px;
   padding-bottom: 4px;
 }
+.dragAble_special_node {
+  border: 1px solid green;
+  border-radius: 3px;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.dragAble_special_node:hover {
+  border: 3px solid green;
+  cursor: grab;
+}
 .dragAble_output_node:hover {
-  border: 2px solid red;
+  border: 3px solid red;
   cursor: grab;
 }
 .arrow {

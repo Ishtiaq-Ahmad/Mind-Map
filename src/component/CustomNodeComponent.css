@@ -1,0 +1,29 @@
+.customNodeStyles{
+    
+    padding: 10px;
+   border-radius: 3px;
+   width: 150px;
+   font-size: 12px;
+   color: #222;
+   text-align: center;
+   border-width: 1px ;
+   border-style: solid;
+   border: 1px solid green;
+  
+}
+
+  
+  .customNodeStyles:hover{
+    box-shadow: 0 0 0 0.5px ;
+    border-width: 3px;
+    
+   } 
+     /* .customNodeStyles:c{
+      background-color: red;
+  } */
+  /* .customNodeStyles:link{
+      background-color: red;
+  } */
+  /* .react-flow__node-special{
+background: indigo;
+  } */
