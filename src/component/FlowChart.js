@@ -35,8 +35,8 @@ import { v4 as uuidv4 } from "uuid";
 const nodeTypes = {
     special: CustomNodeComponent,
   };
-let id = 0;
-const getId = () => `node_${id++}`;
+// let id = 0;
+// const getId = () => `node_${id++}`;
 
 const FlowChart = (props) => {
   // 
@@ -72,24 +72,22 @@ const FlowChart = (props) => {
       // alert(userId)
       let docId = null;
     let  _nodesData=null
+    
     if(nodeID){
     const  {data:_nodesDataa} = await getDocById("nodesData",nodeID);
+    
     _nodesData=_nodesDataa
     }
     
-
-    // console.log("@@@@@@@@@@@@@",{_nodesData});
       if (_nodesData) {
+      
         _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
         _nodesData=_nodesData.data
       }
       // alert(_nodesData);
       // check if our collection is not empty
-      let isCollectionEmpty =
-        _nodesData 
-          ? false
-          : true;
+      let isCollectionEmpty = _nodesData ? false : true;
       
       if (!isCollectionEmpty) {
         // alert("!empty");
@@ -116,10 +114,10 @@ const FlowChart = (props) => {
 
         loadDataHandler(myData, docId,false);
       } else {
-        alert("else part")
+        console.log("else part")
       }
     } catch (error) {
-      console.log({ error });
+      console.log('new issue',{ error });
     }
   };
 
@@ -271,16 +269,16 @@ const FlowChart = (props) => {
     onEdgeHandler(edge);
   };
   
-// const onNodeDragStop = async(event, node) => {
-// let nodePositionX = node.position.x;
-// let nodePositionY = node.position.y;
-// nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
-// }
-// const onNodeDragStart = (event,node)=>{
-//  let nodeId =  node.id;
+const onNodeDragStop = async(event, node) => {
+let nodePositionX = node.position.x;
+let nodePositionY = node.position.y;
+nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
+}
+const onNodeDragStart = (event,node)=>{
+ let nodeId =  node.id;
   
-//   nodeDragIdHandler(selectedTab,nodeId)
-// }
+  nodeDragIdHandler(selectedTab,nodeId)
+}
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -328,8 +326,8 @@ const FlowChart = (props) => {
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
-                    // onNodeDragStop={onNodeDragStop}
-                    // onNodeDragStart = { onNodeDragStart}
+                    onNodeDragStop={onNodeDragStop}
+                    onNodeDragStart = { onNodeDragStart}
                     nodeTypes={nodeTypes}
                     // edgeTypes={{
                     //   smart: SmartEdge,

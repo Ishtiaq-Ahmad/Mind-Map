@@ -175,13 +175,15 @@ let myResult;
   let arr = []
   let arr10 = []
   let valuesData = []
+  let _indexNumber = []
   for( i = 1; i <= headers.length-1; i++){
      const xNumber = Math.floor(Math.random() * 100 + 1);
   const yNumber = Math.floor(Math.random() * 100 + 1);
     const arr6  = headers[i]
     const arr7 = arr6.split(',')
-    // const indexNumber= arr7.find(element => element > 0);
-    const arr8 = arr7.slice(0, 2)
+    const indexNumber= arr7.find(element => element > 0);
+    _indexNumber.push(indexNumber)
+    const arr8 = arr7.slice(1, 2)
      arr10.push(arr8)
      const arr9 = arr7.slice(2)
       valuesData.push(arr9)
@@ -190,18 +192,18 @@ let myResult;
       type: 'default',
       position: {x: xNumber, y: yNumber},
       // data: { label: headers[i].replace(/,/g, ' ')},   
-      data: {label : (<>{arr8}<strong> {periodsNodesData}</strong></>) } 
+      data: {label : (<><strong>{`${indexNumber}  `}</strong>{arr8}<strong> {periodsNodesData}</strong></>) } 
     };  
       arr.push(_csvNode)
     //  _newCsvData = [...dataset[props.selectedTab], ...arr];
-    //  _newCsvData = [...dataset[props.selectedTab], ...arr];
+  
      let _newCsvData;
     if (dataset && dataset.length > 0) {
       _newCsvData = [...dataset[props.selectedTab], ...arr];
     } else {
       _newCsvData = [...arr];
     }
-     loaderFile(props.selectedTab, _newCsvData , valuesData, arr4,arr10)
+     loaderFile(props.selectedTab, _newCsvData , _indexNumber, valuesData, arr4,arr10,)
       
    }    
 

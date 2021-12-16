@@ -54,6 +54,7 @@ const NodeState = (props) => {
     periodsNodesData:'',
     periodsHeadData:[],
     periodsFirstColum:[],
+    periodIndexNumber:[]
    
     
 
@@ -453,11 +454,11 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
     payload:{selectedTab, nodeSizeDec}
   })  
 }
-const loaderFile = (selectedTab, _newCsvData, valuesData, arr4,arr10) =>{
+const loaderFile = (selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
   // console.log('mind', arr10);
   dispatch({
     type: actionTypes._CSV_FILE_LOADER,
-    payload :{selectedTab, _newCsvData, valuesData, arr4,arr10}
+    payload :{selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10}
   })
 }
 const myCsvFileHandler = (selectedTab, newCsvData) =>{
@@ -475,7 +476,6 @@ const periodsDataHandler = (arr5) =>{
 }
 
 const specificDataHandler = (evt, selectedTab) => {
-  // console.log('inside fuc', periodsFirstColum);
   dispatch({
     type: actionTypes.SPECIFIC_DATA_HANDLER,
     payload:{evt, selectedTab}
@@ -489,9 +489,6 @@ payload:{selectedTab,nodeId}
 
 }
 const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
-  // const  xPosition = node.position.x;
-  // const yPosition = node.position.y;
-
   dispatch({
     type: actionTypes.NODE_DRAG_HANDLER,
     payload:{selectedTab,nodePositionX, nodePositionY}

@@ -1030,9 +1030,9 @@ let cloneNodePositionUpdate
       };
  
     case actionTypes._CSV_FILE_LOADER:
-    let { selectedTab: _selectedTab37, _newCsvData, valuesData, arr4,arr10} = action.payload;
+    let { selectedTab: _selectedTab37, _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
       let _csvUpload = [...state.dataset];
-      console.log('fisrst data',_csvUpload);
+      
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
      
@@ -1051,6 +1051,7 @@ let cloneNodePositionUpdate
       return {
         ...state,
         dataset: [..._csvUpload],
+        periodIndexNumber : _indexNumber,
         periodsDataArray: valuesData,
         periodsHeadData: arr4,
         periodsFirstColum: arr10
@@ -1088,8 +1089,15 @@ let cloneNodePositionUpdate
     
       let periodsValueData = state.periodsDataArray
        let finalValue =[]
-       
+      //  let apple = state.dataset[selectedTab38]
+      //  apple.map((item) =>{
+      //   let childData = item.data.label
+      //   console.log(childData);
+      //    return item
+      //  })
+      //  console.log('nhi nhi',apple);
        periodsValueData.forEach(element => {
+         
         let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
           let secondValue = element[_value]
           finalValue.push(secondValue)
@@ -1097,11 +1105,10 @@ let cloneNodePositionUpdate
        });
        let targetCsvDataSet = [...state.dataset[selectedTab38]]
         let periodsFirstName =[...state.periodsFirstColum];
+        let _periodIndexNumber = [...state.periodIndexNumber]
        for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
+          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i]}  `}</strong>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
          } 
-       
-     
       return{
         ...state,
         // periodsNodesData:finalValue,

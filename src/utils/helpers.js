@@ -20,8 +20,6 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-// import NodeContext from '../Context/auth/authContext'
-// import NodeContext from "../Context/auth/authContext";
 const auth = getAuth();
 const user = auth.currentUser;
 
@@ -36,19 +34,19 @@ onAuthStateChanged(auth, (user) => {
     // ...
   }
 });
-// const _signOut = async() => {
-//  try {
-//    await signOut(auth).then(
-//     // alert('logout')
-//     //  user.removeItem(user.id)
+const _signOut = async() => {
+ try {
+   await signOut(auth).then(
+    // alert('logout')
+    //  user.removeItem(user.id)
     
-//   );
-//  } catch (error) {
-//    alert(error)
-//  }
+  );
+ } catch (error) {
+   alert(error)
+ }
   
   
-// };
+};
 
 const createDocWithID = (_collection, docID, docOBJ) => {
   return new Promise(async (resolve, reject) => {
@@ -152,10 +150,6 @@ const login = (email, password) => {
       .then(async (userCredential) => {
         // Signed in
         const user = userCredential.user;
-
-        console.log({ user });
-        console.log("i am your user", user.uid);
-        // userIdHandler(user.id)
         //
         // user  authenticated
         // authorize the user by getting its profile from user collection checking role 1 || 2
@@ -171,6 +165,7 @@ const login = (email, password) => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        console.log(errorMessage);
         reject(errorMessage);
       });
   });
@@ -220,7 +215,7 @@ export {
   signup,
   login,
   getAllData,
-  // _signOut,
+  _signOut,
   _deleteUser,
   createDocWithID,
   getDocById,
