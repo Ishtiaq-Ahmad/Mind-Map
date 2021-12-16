@@ -132,21 +132,21 @@ const MindMapSideBar = (props) => {
 // }
   // };
   // let nodeId = uuidv4();
-  const xNumber = Math.floor(Math.random() * 100 + 1);
-  const yNumber = Math.floor(Math.random() * 100 + 1);
-  const fileHandler = () =>{
-  const csvNode = {
-      id: uuidv4(),
-      type: 'default',
-      position: {x: xNumber, y: yNumber},
-      data: { label: 'new csv data' },
-      // style:{ width: '150px'},
-    };
-    let newCsvData = [...dataset[props.selectedTab], csvNode];
-    myCsvFileHandler(props.selectedTab, newCsvData )
-  }
+  
+  // const fileHandler = () =>{
+  // const csvNode = {
+  //     id: uuidv4(),
+  //     type: 'default',
+  //     position: {x: xNumber, y: yNumber},
+  //     data: { label: 'new csv data' },
+  //     // style:{ width: '150px'},
+  //   };
+  //   let newCsvData = [...dataset[props.selectedTab], csvNode];
+  //   myCsvFileHandler(props.selectedTab, newCsvData )
+  // }
 var i = 1;
 const _csvFileHandler = (e)=>{
+
 let myResult;
   const file = (e.target.files[0])
     var reader = new FileReader();
@@ -174,27 +174,34 @@ let myResult;
   
   let arr = []
   let arr10 = []
+  let valuesData = []
   for( i = 1; i <= headers.length-1; i++){
-   
+     const xNumber = Math.floor(Math.random() * 100 + 1);
+  const yNumber = Math.floor(Math.random() * 100 + 1);
     const arr6  = headers[i]
     const arr7 = arr6.split(',')
-    const arr10 = arr7.slice(0, 2)
-    // console.log('arr8',arr8);
-    //  arr10.push(arr8)
-     
-    const arr9 = arr7.slice(2)
- 
+    // const indexNumber= arr7.find(element => element > 0);
+    const arr8 = arr7.slice(0, 2)
+     arr10.push(arr8)
+     const arr9 = arr7.slice(2)
+      valuesData.push(arr9)
     let _csvNode = {
       id: uuidv4(),
       type: 'default',
       position: {x: xNumber, y: yNumber},
       // data: { label: headers[i].replace(/,/g, ' ')},   
-      data: {label : (<>{arr10}<strong> {periodsNodesData}</strong></>) } 
+      data: {label : (<>{arr8}<strong> {periodsNodesData}</strong></>) } 
     };  
       arr.push(_csvNode)
-     _newCsvData = [...dataset[props.selectedTab], ...arr];
-     
-     loaderFile(props.selectedTab, _newCsvData , arr9, arr4,arr10)
+    //  _newCsvData = [...dataset[props.selectedTab], ...arr];
+    //  _newCsvData = [...dataset[props.selectedTab], ...arr];
+     let _newCsvData;
+    if (dataset && dataset.length > 0) {
+      _newCsvData = [...dataset[props.selectedTab], ...arr];
+    } else {
+      _newCsvData = [...arr];
+    }
+     loaderFile(props.selectedTab, _newCsvData , valuesData, arr4,arr10)
       
    }    
 
@@ -716,7 +723,7 @@ let myResult;
       <DragAbleNodes />
       {/* <FileUploader/> */}
        <input type = 'file' onChange={_csvFileHandler} />
-       <button onClick={fileHandler}>hello </button>
+       {/* <button onClick={fileHandler}>hello </button> */}
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
         <Button onClick={props.handleSave} fullWidth variant="contained">

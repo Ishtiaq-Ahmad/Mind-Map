@@ -1009,20 +1009,11 @@ const authReducer = (state, action) => {
       let snode = state.nodeDragId;
     
 let cloneNodePositionUpdate 
-      // let nodeFunction  = () =>{
         let nodePositionChange = targetNodePosition.map((el) => {
-  
-      console.log('nodePositionX',nodePositionX);
-      console.log("nodePositionY",nodePositionY);
-     
         if (el.id === snode) {
-          console.log('hey i am in');
           el.position = { ...el.position, x: nodePositionX, y:nodePositionY};
-          
         }
-       return el;
-        
-        
+       return el; 
       });
 
       cloneNodePositionUpdate = [...state.dataset];
@@ -1033,24 +1024,18 @@ let cloneNodePositionUpdate
           return tab;
         }
       });
-      // }
-      // let getNodeData
-      // if(state.nodeDragId !== '' ){
-        
-      // }
-      
       return {
         ...state,
-        // nodeDragId:nodeId,
         dataset: cloneNodePositionUpdate,
-      
       };
  
     case actionTypes._CSV_FILE_LOADER:
-    let { selectedTab: _selectedTab37, _newCsvData, arr9, arr4,arr10} = action.payload;
-      let _csvUpload = [...state.dataset[_selectedTab37]];
+    let { selectedTab: _selectedTab37, _newCsvData, valuesData, arr4,arr10} = action.payload;
+      let _csvUpload = [...state.dataset];
+      console.log('fisrst data',_csvUpload);
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
+     
      _csvUpload = _csvUpload.map((element, index) => {
           if (_selectedTab37 === index) {
        
@@ -1059,13 +1044,14 @@ let cloneNodePositionUpdate
           return element;
         });
       } else {
+        
         _csvUpload = [_newCsvData];
       }
 
       return {
         ...state,
-        dataset: _csvUpload,
-        periodsDataArray: arr9,
+        dataset: [..._csvUpload],
+        periodsDataArray: valuesData,
         periodsHeadData: arr4,
         periodsFirstColum: arr10
         }
@@ -1098,23 +1084,22 @@ let cloneNodePositionUpdate
       }
 
       case actionTypes.SPECIFIC_DATA_HANDLER:
-      
       const{evt: specificDataEvent, selectedTab: selectedTab38} = action.payload
-       let _csvDataSet =''
-      
-      let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
-      let finalValue = state.periodsDataArray[_value]
-
+    
+      let periodsValueData = state.periodsDataArray
+       let finalValue =[]
+       
+       periodsValueData.forEach(element => {
+        let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
+          let secondValue = element[_value]
+          finalValue.push(secondValue)
+           
+       });
        let targetCsvDataSet = [...state.dataset[selectedTab38]]
         let periodsFirstName =[...state.periodsFirstColum];
-        
-        targetCsvDataSet.forEach(element => {
-        
-          // for(let i = 0; i <= periodsFirstName.length-1; i++){
-         element.data ={...element.data, label:(<>{periodsFirstName}<strong> {finalValue}</strong></>)}
-        
-          // } 
-        })
+       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
+          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
+         } 
        
      
       return{

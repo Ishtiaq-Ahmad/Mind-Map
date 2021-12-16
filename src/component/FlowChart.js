@@ -271,21 +271,16 @@ const FlowChart = (props) => {
     onEdgeHandler(edge);
   };
   
-const onNodeDragStop = async(event, node) => {
-
-// console.log('my node id', nodeId);
-let nodePositionX = node.position.x;
-let nodePositionY = node.position.y;
-// console.log('event x', nodePositionX);
-// console.log('event y', nodePositionY);
-// 
-nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
-}
-const onNodeDragStart = (event,node)=>{
- let nodeId =  node.id;
+// const onNodeDragStop = async(event, node) => {
+// let nodePositionX = node.position.x;
+// let nodePositionY = node.position.y;
+// nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
+// }
+// const onNodeDragStart = (event,node)=>{
+//  let nodeId =  node.id;
   
-  nodeDragIdHandler(nodeId)
-}
+//   nodeDragIdHandler(selectedTab,nodeId)
+// }
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -333,8 +328,8 @@ const onNodeDragStart = (event,node)=>{
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
-                    onNodeDragStop={onNodeDragStop}
-                    onNodeDragStart = { onNodeDragStart}
+                    // onNodeDragStop={onNodeDragStop}
+                    // onNodeDragStart = { onNodeDragStart}
                     nodeTypes={nodeTypes}
                     // edgeTypes={{
                     //   smart: SmartEdge,
