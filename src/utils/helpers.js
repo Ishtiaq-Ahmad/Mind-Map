@@ -1,5 +1,4 @@
 import { db, app } from "../backend/firebase";
-import React, { useContext } from "react";
 import {
   collection,
   getDocs,
@@ -155,7 +154,6 @@ const login = (email, password) => {
         // authorize the user by getting its profile from user collection checking role 1 || 2
 
         let { data } = await getDocById("users", user.uid);
-        console.log("userProfile got here >>>", { data });
         // store role and user email to context store
         //  setProfileHandler({data})
 

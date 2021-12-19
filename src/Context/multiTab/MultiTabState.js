@@ -54,30 +54,32 @@ const NodeState = (props) => {
     periodsNodesData:'',
     periodsHeadData:[],
     periodsFirstColum:[],
-    periodIndexNumber:[]
-   
-    
-
-    
-    
+    periodIndexNumber:[],
+    _csvData:[] ,
+    periodFinalData:'',
+    _periodsValue:''
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState,periodsFirstColum, periodsDataArray} = state;
-
+  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState} = state;
   const onElementClickHandler = (element,treeDataUpdate) => {
+    let currentFinalValue
+    try {
+       let currentPeriodsValue =  element.data.label.props.children[2];
     
-  // element.style = { width };  
+      currentFinalValue =  currentPeriodsValue.props.children[1];
+    } catch (error) {
+      console.log(' this node has not children value');
+    }
+    
+   
     let _previousState = ''
     let _nodeName = ''
-    // let _nodeSize = ''
     if(previousState === null || previousState === ''){
         _previousState = (element.id)
     }else if( previousState !== element.id){
       _previousState = (element.id)
       _nodeName = ''
-      // _nodeSize = nodeSize
-      // nodeState(element.id)
     }
       // let imagePicture=''
     // if( element.data && element.data.label && element.data.label.props && element.data.props.children){
@@ -125,11 +127,9 @@ const NodeState = (props) => {
       
       }
     const nodeType = element.type
-    // console.log('i am node label', multiLabel);
-    // console.log({multiLabel});
     dispatch({
       type: actionTypes.ON_ELEMENT_CLICK_HANDLER,
-      payload:{element, multiLabel,treeDataUpdate, nodeType ,_previousState,_nodeName}
+      payload:{element, multiLabel,treeDataUpdate, nodeType ,_previousState,_nodeName,currentFinalValue}
     })
   }
 
@@ -198,11 +198,11 @@ const bgColorHandler= (bgColor,selectedTab)=>{
       payload:{bgColor,selectedTab}
     })
 }
-const nodeNameHandler = (nodeName, selectedTab) => {
+const nodeNameHandler = (evt, selectedTab) => {
   
     dispatch({
       type: actionTypes.CHANGE_NODE_NAME,
-      payload:{nodeName, selectedTab}
+      payload:{evt, selectedTab}
       })
   }
   const borderColorHandler = (updatedColor, selectedTab) => {
@@ -455,7 +455,7 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
   })  
 }
 const loaderFile = (selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
-  // console.log('mind', arr10);
+  console.log('mind', _newCsvData);
   dispatch({
     type: actionTypes._CSV_FILE_LOADER,
     payload :{selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10}
@@ -494,7 +494,12 @@ const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
     payload:{selectedTab,nodePositionX, nodePositionY}
   })
 }
-
+const periodsValueHandler = (evt,selectedTab) =>{
+  dispatch({
+    type: actionTypes.PERIODS_VALUE_HANDLER,
+    payload:{evt,selectedTab}
+  })
+}
   return (
     <MultiTabContext.Provider
       value={{
@@ -502,7 +507,6 @@ const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
         addTabHandler,
         tabRemover,
         updateDataSetHandler,
-        // nodeBgColorHandler,
         onElementClickHandler,
         onDragHandler,
         activeTabHandler,
@@ -549,7 +553,8 @@ const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
           myCsvFileHandler,
           loaderFile,
           periodsDataHandler,
-          specificDataHandler
+          specificDataHandler,
+          periodsValueHandler
       }}
     >
       {props.children}

@@ -18,32 +18,21 @@ import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-import { SmartEdge, PathFindingEdge } from "@tisoap/react-flow-smart-edge";
-// import { PathFindingEdge  } from "@tisoap/react-flow-smart-edge";
-import CustomNodeComponent from './CustomNodeComponent';
-
-import {
-  getAllData,
-  createDocWithID,
-  getDocById,
-  updateDocWithId,
-  snapShot,
- 
-} from "../utils/helpers";
+import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
+import CustomNodeComponent from "./CustomNodeComponent";
+import { getDocById } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 
 const nodeTypes = {
-    special: CustomNodeComponent,
-  };
+  special: CustomNodeComponent,
+};
 // let id = 0;
 // const getId = () => `node_${id++}`;
 
 const FlowChart = (props) => {
-  // 
-
- const containerContext = useContext(ContainerData);
+  const containerContext = useContext(ContainerData);
   const {
-    data: { dataset, docID,selectedTab:_selectedTab },
+    data: { dataset, docID, selectedTab: _selectedTab },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -53,87 +42,65 @@ const FlowChart = (props) => {
     paneClickHandler,
     loadDataHandler,
     nodeDragIdHandler,
-    nodeDragHandler
-
-
+    nodeDragHandler,
   } = containerContext;
 
-  // 
-  //
   useEffect(() => {
     fetchData();
   }, []);
 
- 
-
-
   const fetchData = async () => {
     try {
-      // alert(userId)
       let docId = null;
-    let  _nodesData=null
-    
-    if(nodeID){
-    const  {data:_nodesDataa} = await getDocById("nodesData",nodeID);
-    
-    _nodesData=_nodesDataa
-    }
-    
-      if (_nodesData) {
+      let _nodesData = null;
+
+      if (nodeID) {
+        const { data: _nodesDataa } = await getDocById("nodesData", nodeID);
+        _nodesData = _nodesDataa;
+        console.log('csv first data', _nodesData);
+      }
       
+      if (_nodesData) {
         _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
-        _nodesData=_nodesData.data
+        _nodesData = _nodesData.data;
+        console.log('csv data',_nodesData);
       }
-      // alert(_nodesData);
-      // check if our collection is not empty
+    
       let isCollectionEmpty = _nodesData ? false : true;
-      
-      if (!isCollectionEmpty) {
-        // alert("!empty");
-        // we can get the docId from array at data[0]
-        
-        // alert(docId)
-        // dispatch action to set docID in store
 
-        // check length for multitab
+      // if (!isCollectionEmpty) {
 
-        let myData =
-          _nodesData 
-            ? _nodesData
-            : [];
-           
-            // setlength(myData)
+      //   let myData = _nodesData ? _nodesData : [];
+      //   console.log('aahhm',myData);
+      //   let __self = new Array(myData.length);
 
-            // setCounter([3])
-            let __self=new Array(myData.length);
+      //   __self.fill(8);
 
-            __self.fill(8);
+      //   setCounter(__self);
 
-            setCounter(__self)
-
-        loadDataHandler(myData, docId,false);
-      } else {
-        console.log("else part")
-      }
+      //   loadDataHandler(myData, docId, false);
+      // } else {
+      //   console.log("else part");
+      // }
     } catch (error) {
-      console.log('new issue',{ error });
+      console.log("new issue", { error });
     }
   };
 
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
- 
+
   const [selectedTab, setSelectedTab] = useState(_selectedTab);
-  // console.log({ dataset: dataset[selectedTab] });
-  // const [elements, setElements] = useState(dataset[selectedTab]);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
   const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
-  const { data:{tabs,userId,nodeID},multiTabHandler} = nodeContext;
+  const {
+    data: { tabs, nodeID },
+  } = nodeContext;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
   };
@@ -148,7 +115,7 @@ const FlowChart = (props) => {
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  
+
   const onElementsRemove = (elementsToRemove) => {
     const deleteElement = removeElements(
       elementsToRemove,
@@ -170,7 +137,6 @@ const FlowChart = (props) => {
   };
 
   const onElementClick = (event, element) => {
-   
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -191,28 +157,17 @@ const FlowChart = (props) => {
   };
   const onPaneClick = (event) => {
     paneClickHandler(event);
-    // setMultipleSelect([]);
   };
-  const addEdgeHandler = (...params) => {
-    console.log({ params });
-    return true;
-  };
-  //  useEffect(() => {
-  //  onLoad();
-  // }, [multiTabHandler])
-// multiTabHandler
+
   const onLoad = (reactFlowInstance) => {
     setReactFlowInstance(reactFlowInstance);
     reactFlowInstance.fitView();
-    
   };
- 
 
   // push merged
   const onDragOver = (event) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
-    
   };
   const onDrop = async (event) => {
     event.preventDefault();
@@ -222,14 +177,13 @@ const FlowChart = (props) => {
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    
+
     let DOCID = uuidv4();
     const newNode = {
       id: uuidv4(),
       type,
       position,
       data: { label: `${type} node` },
-      // style:{ width: '150px'},
     };
     let finalData;
     if (dataset && dataset.length > 0) {
@@ -247,7 +201,7 @@ const FlowChart = (props) => {
     //   // get docID from store
     //   finalData = [...dataset[selectedTab], newNode];
     //   const { data } = await getDocById("nodesData", docID);
-    //   // console.log({ data });
+
     //   updateDocWithId("nodesData", docID, {
     //     data: finalData,
     //     docId: docID,
@@ -261,24 +215,24 @@ const FlowChart = (props) => {
     //     data: finalData,
     //   });
     // }
-    onDragHandler(selectedTab, finalData, docID ? docID : DOCID,false);
+    onDragHandler(selectedTab, finalData, docID ? docID : DOCID, false);
   };
 
   const onEdgeDoubleClick = (event, edge) => {
     setShowArrow(true);
     onEdgeHandler(edge);
   };
-  
-const onNodeDragStop = async(event, node) => {
-let nodePositionX = node.position.x;
-let nodePositionY = node.position.y;
-nodeDragHandler(selectedTab,node, nodePositionX,nodePositionY)
-}
-const onNodeDragStart = (event,node)=>{
- let nodeId =  node.id;
-  
-  nodeDragIdHandler(selectedTab,nodeId)
-}
+
+  const onNodeDragStop = async (event, node) => {
+    let nodePositionX = node.position.x;
+    let nodePositionY = node.position.y;
+    nodeDragHandler(selectedTab, node, nodePositionX, nodePositionY);
+  };
+  const onNodeDragStart = (event, node) => {
+    let nodeId = node.id;
+
+    nodeDragIdHandler(selectedTab, nodeId);
+  };
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -288,7 +242,6 @@ const onNodeDragStart = (event,node)=>{
               onStartCapture={onStartCapture}
               handlePrint={handlePrint}
               selectedTab={selectedTab}
-              
               {...props}
             />
             <Grid container spacing={12}>
@@ -327,11 +280,8 @@ const onNodeDragStart = (event,node)=>{
                     onSelectionChange={onSelectionChange}
                     edgeTypes={{ smart: PathFindingEdge }}
                     onNodeDragStop={onNodeDragStop}
-                    onNodeDragStart = { onNodeDragStart}
+                    onNodeDragStart={onNodeDragStart}
                     nodeTypes={nodeTypes}
-                    // edgeTypes={{
-                    //   smart: SmartEdge,
-                    // }}
                     onPaneClick={onPaneClick}
                   >
                     <Controls />

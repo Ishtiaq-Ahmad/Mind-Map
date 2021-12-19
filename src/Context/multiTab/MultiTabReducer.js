@@ -13,7 +13,6 @@ const authReducer = (state, action) => {
         __previousData = action.payload.element.id;
         previousLabel = action.payload.treeDataUpdate;
       }
-      console.log('idd', action.payload.element.id);
       return {
         ...state,
         selectedNode: action.payload.element.id,
@@ -25,6 +24,8 @@ const authReducer = (state, action) => {
         previousState: action.payload._previousState,
         nodeName: action.payload._nodeName,
         nodeSize: state.nodeSize,
+        periodFinalData: action.payload.currentFinalValue,
+        _periodsValue: action.payload._nodeName
       };
 
     case actionTypes.MULTI_NODE_ELEMENTS:
@@ -33,7 +34,6 @@ const authReducer = (state, action) => {
         multiSelectNode: action.payload.multi,
       };
     case actionTypes.LOAD_DATA_FROM_DB:
-      // console.log("action.payload.data",action.payload.data);
       return {
         ...state,
         dataset: action.payload.data,
@@ -125,7 +125,7 @@ const authReducer = (state, action) => {
         dataset: [...cloneDelete],
       };
     case actionTypes.CHANGE_NODE_NAME:
-      let { nodeName, selectedTab: _selectedTab2 } = action.payload;
+      let { evt: nodeName, selectedTab: _selectedTab2 } = action.payload;
       let targetName = [...state.dataset[_selectedTab2]];
       const nameChange = targetName.map((el) => {
         if (el.id === state.selectedNode) {
@@ -1050,6 +1050,7 @@ let cloneNodePositionUpdate
 
       return {
         ...state,
+        _csvData :_newCsvData,
         dataset: [..._csvUpload],
         periodIndexNumber : _indexNumber,
         periodsDataArray: valuesData,
@@ -1086,34 +1087,62 @@ let cloneNodePositionUpdate
 
       case actionTypes.SPECIFIC_DATA_HANDLER:
       const{evt: specificDataEvent, selectedTab: selectedTab38} = action.payload
-    
       let periodsValueData = state.periodsDataArray
-       let finalValue =[]
-      //  let apple = state.dataset[selectedTab38]
-      //  apple.map((item) =>{
-      //   let childData = item.data.label
-      //   console.log(childData);
-      //    return item
-      //  })
-      //  console.log('nhi nhi',apple);
-       periodsValueData.forEach(element => {
-         
-        let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
-          let secondValue = element[_value]
-          finalValue.push(secondValue)
-           
+      let finalValue =[]
+      periodsValueData.forEach(element => {
+      let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
+      let secondValue = element[_value]
+      finalValue.push(secondValue)     
        });
-       let targetCsvDataSet = [...state.dataset[selectedTab38]]
-        let periodsFirstName =[...state.periodsFirstColum];
-        let _periodIndexNumber = [...state.periodIndexNumber]
-       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
+      let targetCsvDataSet = [...state.dataset[selectedTab38]]
+      let periodsFirstName =[...state.periodsFirstColum];
+      let _periodIndexNumber = [...state.periodIndexNumber]
+      for(let i = 0; i <= targetCsvDataSet.length-1; i++){
           targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i]}  `}</strong>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
          } 
       return{
         ...state,
-        // periodsNodesData:finalValue,
         specificData: specificDataEvent,
         dataset: [targetCsvDataSet]
+      }
+      case actionTypes.PERIODS_VALUE_HANDLER:
+      const {evt: periodsValue, selectedTab: _selectedTab38}= action.payload;
+      let allCsvData = [...state._csvData]
+      let periodsNameData
+      allCsvData.map((elem) =>{
+        if(elem.id === state.selectedNode){
+           periodsNameData =  elem.data.label.props.children[1];   
+        }
+      })
+      let periodsIndexFinal
+      allCsvData.map((elem) =>{
+        if(elem.id === state.selectedNode){
+          let periodsIndex =  elem.data.label.props.children[0];  
+           const{children: indexData} = periodsIndex.props;
+           periodsIndexFinal = indexData
+        }
+      })
+
+       let targetPeriodsValue = [...state.dataset[_selectedTab38]]
+       const nodePeriodsData = targetPeriodsValue.map((element) => {
+            if (element.id === state.selectedNode) {
+          element.data ={...element.data, 
+          label :(<><strong>{periodsIndexFinal}</strong>{periodsNameData}<strong> {periodsValue}</strong></>)}
+        }
+        return element;
+       })
+       let clonePeriodData = [...state.dataset];
+       clonePeriodData = clonePeriodData.map((tab, index) => {
+        if (_selectedTab38 === index) {
+          return nodePeriodsData;
+        } else {
+          return tab;
+        }
+      });
+      return{
+        ...state,
+        _periodsValue: periodsValue,
+        dataset:[...clonePeriodData]
       }
     default:
       return state;

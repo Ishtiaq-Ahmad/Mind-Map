@@ -25,7 +25,6 @@ import FlowChartData, {
   defaultNodeSource,
 } from "./FlowChartData";
 import CsvPeriodsData from './CsvPeriodsData';
-// import { useHistory } from "react-router";
 import { Link, useHistory } from "react-router-dom";
 import {
   getAllData,
@@ -101,8 +100,6 @@ const Header = (props) => {
         docId: myDocId,
         data: finalData,
       });
-
-      // save our data set id in user collection 
     isEmptyHandler();
      await  updateDocWithId("users", userId, { nodeID:myDocId,role,email,full_name,uid:userId });
 

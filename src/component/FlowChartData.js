@@ -36,13 +36,7 @@ export const nodesData = [
   //       width:'20%'
   //   }
   // },
-  // {
-  //   id: "3",
-  //   type: "output",
-  //   data: { label: "node 3" },
-  //   position: { x: 250, y: 250 },
-    
-  // },
+ 
   // {
   //   id: "4",
   //   data: {

@@ -7,9 +7,7 @@
 .MuiToolbar-regular{
     min-height: 50px !important; 
 }
-/* .react-flow__node-output.selected {
-    box-shadow: 0 0 0 1.5px #ff0072 !important;
-} */
+
 
 .react-flow__node-output.selected, .react-flow__node-output.selected:hover {
     box-shadow: 0 0 0 1.5px #ff0072 !important;

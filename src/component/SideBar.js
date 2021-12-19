@@ -69,7 +69,9 @@ const MindMapSideBar = (props) => {
       arrowColor,
       arrowWidth,
       nodeSize,
-      periodsNodesData
+      periodsNodesData,
+      periodFinalData,
+      _periodsValue
     },
     bgColorHandler,
     nodeNameHandler,
@@ -101,10 +103,9 @@ const MindMapSideBar = (props) => {
     imageHandler,
     nodeSizeDecreaseHandler,
     nodeSizeIncreaseHandler,
-    csvFileHandler,
-    myCsvFileHandler,
     loaderFile,
-    periodsDataHandler
+    periodsDataHandler,
+    periodsValueHandler
   } = multitabContext;
   const {showFormat } = nodeContext.data;
   const [color, setColor] = useState("primary");
@@ -221,6 +222,17 @@ let myResult;
             }}
             label={selectedNodeName}
             // placeholder={selectedNodeName}
+            size="small"
+            variant="outlined"
+          />
+          <TextField
+            className="node_label"
+            value={_periodsValue}
+            onChange={(evt) => {
+              periodsValueHandler(evt.target.value, props.selectedTab);
+            }}
+            label={periodFinalData}
+            // placeholder='Periods Value'
             size="small"
             variant="outlined"
           />
