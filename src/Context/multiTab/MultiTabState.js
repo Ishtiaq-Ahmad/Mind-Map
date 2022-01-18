@@ -11,7 +11,7 @@ const NodeState = (props) => {
   const initialState = {
     // dataset for each container
     dataset: [],
-    // dataset: [nodesData],
+    elementData: '',
     selectedNode:0,
      nodeDragId:0,
     selectedTab:0,
@@ -61,7 +61,8 @@ const NodeState = (props) => {
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState} = state;
+  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
+ console.log('arrowww', selectArrow);
   const onElementClickHandler = (element,treeDataUpdate) => {
     let currentFinalValue
     try {

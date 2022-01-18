@@ -15,6 +15,7 @@ const authReducer = (state, action) => {
       }
       return {
         ...state,
+        elementData: action.payload.element,
         selectedNode: action.payload.element.id,
         selectedNodeName: action.payload.multiLabel,
         multiTree: previousLabel,
@@ -1087,19 +1088,30 @@ let cloneNodePositionUpdate
 
       case actionTypes.SPECIFIC_DATA_HANDLER:
       const{evt: specificDataEvent, selectedTab: selectedTab38} = action.payload
-      let periodsValueData = state.periodsDataArray
-      let finalValue =[]
+      let periodsValueData = state.periodsDataArray;
+      let targetCsvDataSet
+      let bos = state.elementData.data.label;
+      
+      
+      console.log('sahi boe',state.elementData.data.label.props);
+      if(state.elementData.data.label.props ){
+        let finalValue =[]
       periodsValueData.forEach(element => {
       let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
       let secondValue = element[_value]
       finalValue.push(secondValue)     
        });
-      let targetCsvDataSet = [...state.dataset[selectedTab38]]
+       targetCsvDataSet = [...state.dataset[selectedTab38]]
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
           targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i]}  `}</strong>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
          } 
+      }
+      else{
+        console.log('i am other data');
+      }
+      
       return{
         ...state,
         specificData: specificDataEvent,

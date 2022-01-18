@@ -18,15 +18,16 @@ import NodeContext from "../Context/auth/authContext";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
+// import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
 import CustomNodeComponent from "./CustomNodeComponent";
 import { getDocById } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
+import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
 
 const nodeTypes = {
   special: CustomNodeComponent,
 };
-// let id = 0;
+// let id = 0; 
 // const getId = () => `node_${id++}`;
 
 const FlowChart = (props) => {
@@ -220,6 +221,7 @@ const FlowChart = (props) => {
 
   const onEdgeDoubleClick = (event, edge) => {
     setShowArrow(true);
+    console.log('edge', edge);
     onEdgeHandler(edge);
   };
 
@@ -255,15 +257,17 @@ const FlowChart = (props) => {
                   />
                 </Grid>
               ) : null}
+              
               <Grid
                 item
-                lg={tabs ? 8 : 10}
-                md={tabs ? 8 : 10}
+                // lg={tabs ? 7 : 9}
+                // md={tabs ? 8 : 10}
                 sm={tabs ? 8 : 10}
                 xs={12}
               >
                 {/* <div>tab container ....# {selectedTab}</div> */}
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
+                <SmartEdgeProvider options={{ debounceTime: 3000 , nodePadding: 10, gridRatio : 40, lineType : "straight", lessCorners : false}}>
                   <ReactFlow
                     ref={componentRef}
                     elements={dataset[selectedTab]}
@@ -278,7 +282,7 @@ const FlowChart = (props) => {
                     onDrop={onDrop}
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
-                    edgeTypes={{ smart: PathFindingEdge }}
+                    edgeTypes={{ smart: SmartEdge }}
                     onNodeDragStop={onNodeDragStop}
                     onNodeDragStart={onNodeDragStart}
                     nodeTypes={nodeTypes}
@@ -287,9 +291,10 @@ const FlowChart = (props) => {
                     <Controls />
                     <Background color="#aaa" gap={16} />
                   </ReactFlow>
+                  </SmartEdgeProvider>
                 </div>
               </Grid>
-              <Grid item lg={2} md={2} sm={2} className="sidebar">
+              <Grid item  xs={2} className="sidebar">
                 <MindMapSideBar
                   selectedTab={selectedTab}
                   showArrow={showArrow}

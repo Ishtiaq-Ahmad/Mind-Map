@@ -19,6 +19,7 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@material-ui/core";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { _signOut } from "../utils/helpers";
 import FlowChartData, {
   nodeSourcePosition,
@@ -126,6 +127,9 @@ const Header = (props) => {
     // }
   
   };
+  let multiUser = {
+    transform:"scale(.9)"
+  }
 
   return (
     <div>
@@ -142,13 +146,14 @@ const Header = (props) => {
             </Link>
 
             <Button
-              startIcon={<TabIcon />}
+              startIcon={<TabIcon style={multiUser} />}
               onClick={multiTabHandler}
               size="small"
               variant="outlined"
             >
               Multi Tabs
             </Button>
+              
 
             {/* {showSourcePosition ?  */}
             {showSourcePosition ? (
@@ -204,10 +209,10 @@ const Header = (props) => {
             ) : null}
             {role === 1 ? (
               <Link to="/admin-dashboard" style={{ textDecoration: "none" }}>
-                {" "}
+              
                 <Button
                   // onClick={() => props.history.push('/admin-dashboard')}
-                  size="small"
+                  size="medium"
                   variant="outlined"
                 >
                   Admin dashboard
@@ -258,8 +263,9 @@ const Header = (props) => {
             </IconButton>
 
             <IconButton color="primary" component="span" onClick={formatNode}>
-              <PaletteIcon />
+              <ColorLensIcon />
             </IconButton>
+           
 
             <IconButton
               color="primary"

@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
-import { TextField, Switch } from "@material-ui/core";
+// import { TextField, Switch } from "@material-ui/core";
+import TextField from '@mui/material/TextField';
+import { Switch } from "@material-ui/core";
 import "./SideBar.css";
 import DragAbleNodes from "./DragAbleNodes";
 import NodeContext from "../Context/auth/authContext";
@@ -225,6 +227,7 @@ let myResult;
             size="small"
             variant="outlined"
           />
+          <TextField size="small" label="Outlined" variant="outlined" />
           <TextField
             className="node_label"
             value={_periodsValue}
@@ -574,11 +577,11 @@ let myResult;
             />
           </div>
         </div>
-      ) : null}
+      ) : null} 
 
       {/* {showEdit ? <DragAbleNodes /> : null} */}
 
-      {props.showArrow ? (
+      {props.showArrow ? (  
         <>
         {/* <EdgeCustomization/> */}
           <div>
