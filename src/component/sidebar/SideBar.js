@@ -1,19 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
-// import { TextField, Switch } from "@material-ui/core";
 import TextField from '@mui/material/TextField';
 import { Switch } from "@material-ui/core";
-import "./SideBar.css";
-import DragAbleNodes from "./DragAbleNodes";
-import NodeContext from "../Context/auth/authContext";
-import MultiTabContext from "../Context/multiTab/MultiTabContext";
-import line from "../assets/images/straight_line2.png";
-import doted from "../assets/images/doted.png";
+import "../../style/SideBar.css";
+import DragAbleNodes from "../DragAbleNodes";
+import NodeContext from '../../Context/auth/authContext'
+import MultiTabContext from "../../Context/multiTab/MultiTabContext";
+import line from '../../assets/images/straight_line2.png'
+import doted from "../../assets/images/doted.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import FlowChartData, {
   arrowLabelColor,
   transformFont,
   nodeTransparentData,
-} from "./FlowChartData";
+} from "../FlowChartData.js";
 import {
   faBold,
   faItalic,
@@ -21,28 +20,29 @@ import {
   faStrikethrough,
 } from "@fortawesome/free-solid-svg-icons";
 import Button from "@mui/material/Button";
-import click from "../assets/images/click.jpg";
+import click from "../../assets/images/click.jpg";
 import { SketchPicker } from "react-color";
 import MenuItem from "@mui/material/MenuItem";
-import solidLine from "../assets/images/solid-line.jpg";
-import dottedLine from "../assets/images/dotted-line.jpg";
-import dashedLine from "../assets/images/dashed-line.png";
-import doubleLine from "../assets/images/double-line.png";
-import normal from "../assets/images/normal.png";
-import Oval from "../assets/images/oval-bold-shape.png";
-import rectangleRound from "../assets/images/rounded-rectangle.png";
-import rectangle from "../assets/images/rectangular-shape-outline.png";
-import smartRouting from '../assets/images/smart-routing.PNG';
-import shape from "../assets/images/shape.PNG";
-import EdgeCustomization from './EdgeCustomization';
-import Curved from "../assets/images/curved_arrow.PNG";
-import Smooth from "../assets/images/smooth_arrow.PNG";
-import Straight from "../assets/images/straight_arrow.PNG";
-import smoothStep from "../assets/images/smoothStep.png";
+import solidLine from "../../assets/images/solid-line.jpg";
+import dottedLine from "../../assets/images/dotted-line.jpg";
+import dashedLine from "../../assets/images/dashed-line.png";
+import doubleLine from "../../assets/images/double-line.png";
+import normal from "../../assets/images/normal.png";
+import Oval from "../../assets/images/oval-bold-shape.png";
+import rectangleRound from "../../assets/images/rounded-rectangle.png";
+import rectangle from "../../assets/images/rectangular-shape-outline.png";
+import smartRouting from '../../assets/images/smart-routing.PNG';
+import shape from "../../assets/images/shape.PNG";
+// import EdgeCustomization from './EdgeCustomization';
+import Curved from "../../assets/images/curved_arrow.PNG";
+import Smooth from "../../assets/images/smooth_arrow.PNG";
+import Straight from "../../assets/images/straight_arrow.PNG";
+import smoothStep from "../../assets/images/smoothStep.png";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import FileUploader from './CsvFile'
+import FileUploader from '../CsvFile'
 import { v4 as uuidv4 } from "uuid";
+
 const MindMapSideBar = (props) => {
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);

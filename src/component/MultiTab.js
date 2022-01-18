@@ -4,7 +4,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Divider from "@mui/material/Divider";
-import "./SideBar.css";
+import "../style/SideBar.css";
 import Box from "@mui/material/Box";
 import ContainerData from "../Context/multiTab/MultiTabContext";
 
@@ -35,7 +35,6 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
 //      counter.splice(props.selectedTab, 1)
 //    )
 //  }
-  console.log('are you select', props.selectedTab)
   return (
     <div>
     

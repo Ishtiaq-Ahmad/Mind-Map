@@ -7,19 +7,17 @@ import ReactFlow, {
   getOutgoers,
   getConnectedEdges,
 } from "react-flow-renderer";
-import Minimap from "./Minimap";
 import { Grid } from "@material-ui/core";
-import "./SideBar.css";
-import Header from "./Header";
-import MindMapSideBar from "./SideBar";
-import MultiTab from "./MultiTab";
-import "./Header.css";
-import NodeContext from "../Context/auth/authContext";
-import ContainerData from "../Context/multiTab/MultiTabContext";
+import '../style/SideBar.css'
+import Header from '../component/Header'
+import MindMapSideBar from '../component/sidebar/SideBar'
+import MultiTab from '../component/MultiTab'
+import '../style/Header.css'
+import NodeContext from '../Context/auth/authContext'
+import ContainerData from '../Context/multiTab/MultiTabContext'
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-// import { PathFindingEdge } from "@tisoap/react-flow-smart-edge";
-import CustomNodeComponent from "./CustomNodeComponent";
+import CustomNodeComponent from '../component/CustomNodeComponent';
 import { getDocById } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
@@ -41,7 +39,6 @@ const FlowChart = (props) => {
     removeElementHandler,
     multipleSelectNode,
     paneClickHandler,
-    loadDataHandler,
     nodeDragIdHandler,
     nodeDragHandler,
   } = containerContext;
@@ -260,8 +257,6 @@ const FlowChart = (props) => {
               
               <Grid
                 item
-                // lg={tabs ? 7 : 9}
-                // md={tabs ? 8 : 10}
                 sm={tabs ? 8 : 10}
                 xs={12}
               >

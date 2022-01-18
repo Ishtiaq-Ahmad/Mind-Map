@@ -1,5 +1,5 @@
 import React,{useContext} from 'react'
-import "./SideBar.css";
+import "../style/SideBar.css";
 import Curved from "../assets/images/curved_arrow.PNG";
 import Smooth from "../assets/images/smooth_arrow.PNG";
 import Straight from "../assets/images/straight_arrow.PNG";

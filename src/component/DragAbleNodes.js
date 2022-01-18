@@ -1,5 +1,5 @@
 import React from 'react'
-import './SideBar.css'
+import '../style/SideBar.css'
 
 const DragAbleNodes = () => {
     const onDragStart = (event, nodeType) => {

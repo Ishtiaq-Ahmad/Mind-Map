@@ -1,6 +1,6 @@
 import React from "react";
 import ReactFlow, { Handle } from "react-flow-renderer";
-import './CustomNodeComponent.css'
+import '../style/CustomNodeComponent.css'
 // import '../../node_modules/react-flow-renderer/dist/theme-default.css'
 
 // const customNodeStyles = {

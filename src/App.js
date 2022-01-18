@@ -1,13 +1,13 @@
 import React ,{useContext} from 'react';
 import './App.css';
-import FlowChart from './component/FlowChart';
+import FlowChart from './view/FlowChart';
 import Header from './component/Header';
 // import Auth from './component/authentication/Login'
 // import SignUp from './component/authentication/Registration'
 import Login from './component/authentication/Login';
 import Signup from './component/authentication/Registration'
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Dashboard from './views/Dashboard'
+import Dashboard from './view/Dashboard'
 import ProtectedRoute from './utils/ProtectedRoute'
 import NodeContext from './Context/auth/authContext'
 

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import "./Header.css";
+import "../style/Header.css";
 import NodeContext from "../Context/auth/authContext";
 import MultiTabContext from "../Context/multiTab/MultiTabContext";
 import Button from "@mui/material/Button";
