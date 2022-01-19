@@ -13,7 +13,7 @@ const MultiTab = (props) => {
   const [iconColor, setIconColor] = useState("primary");
   const containerContext = useContext(ContainerData);
   // const [counter, setCounter] = useState([0]);
-const {data: { dataset },addTabHandler, tabRemover} = containerContext;
+const {data: { dataset, selectedTab },addTabHandler, tabRemover, selectedTabHandler} = containerContext;
 
 
 // 
@@ -23,8 +23,8 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
  const tabGenerator = () => {
     return props.counter.map((element, index) => {
       return (
-        
-        <div className="tab" key={index} onClick={() => props.setSelectedTab(index)}>
+        // onClick={()=>selectedTabHandler(index)}
+        <div className="tab" key={index} onClick={()=>selectedTabHandler(index)}>
         <strong>Screen: {index}</strong>  
         </div>
       );
@@ -60,12 +60,12 @@ const {data: { dataset },addTabHandler, tabRemover} = containerContext;
           component="span"
           
           onClick={() =>{
-            if(props.selectedTab!== 0){
+            if(selectedTab!== 0){
   let __counter=[...props.counter];
   
-  __counter.splice(props.selectedTab,1)
+  __counter.splice(selectedTab,1)
              props.setCounter(__counter)
-            tabRemover(props.selectedTab)
+            tabRemover()
 
             } else{
               alert('default screen is not deletable')

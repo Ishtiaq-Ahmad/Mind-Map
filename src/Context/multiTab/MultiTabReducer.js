@@ -59,9 +59,9 @@ const authReducer = (state, action) => {
         dataset: [...state.dataset, nodesData],
       };
     case actionTypes.REMOVE_TAB:
-      let { selectedTab: removeSelectedTab } = action.payload;
+
       let tabToBeRemoved = [...state.dataset];
-      tabToBeRemoved.splice(removeSelectedTab, 1);
+      tabToBeRemoved.splice(state.selectedTab, 1);
       return {
         ...state,
         dataset: [...tabToBeRemoved],
@@ -78,12 +78,12 @@ const authReducer = (state, action) => {
         isEmpty: false,
       };
     case actionTypes.ON_DRAG_NODE:
-      let { selectedTab: selectedTab1, updatedNodeData, _docid } = action.payload;
+      let {  updatedNodeData, _docid } = action.payload;
       let drag = [...state.dataset];
       if (drag.length > 0) {
         // newly initialized dataset array
      drag = drag.map((element, index) => {
-          if (selectedTab1 === index) {
+          if (state.selectedTab === index) {
             return updatedNodeData;
           }
           return element;
@@ -98,10 +98,10 @@ const authReducer = (state, action) => {
         docID: state.docID ? state.docID : _docid,
       };
     case actionTypes.UPDATE_DATA_SET:
-      let { currentTab, generatedEdge } = action.payload;
+      let { generatedEdge } = action.payload;
       let clonedData = [...state.dataset];
       clonedData = clonedData.map((element, index) => {
-        if (currentTab === index) {
+        if (state.selectedTab === index) {
           return generatedEdge;
         }
         return element;
@@ -112,10 +112,10 @@ const authReducer = (state, action) => {
         dataset: [...clonedData],
       };
     case actionTypes.DELETE_ELEMENT:
-      let { selectedTab: tabSelect, deleteElement } = action.payload;
+      let {  deleteElement } = action.payload;
       let cloneDelete = [...state.dataset];
       cloneDelete = cloneDelete.map((element, index) => {
-        if (tabSelect === index) {
+        if (state.selectedTab === index) {
           return deleteElement;
         }
         return element;
@@ -126,8 +126,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneDelete],
       };
     case actionTypes.CHANGE_NODE_NAME:
-      let { evt: nodeName, selectedTab: _selectedTab2 } = action.payload;
-      let targetName = [...state.dataset[_selectedTab2]];
+      let { evt: nodeName } = action.payload;
+      let targetName = [...state.dataset[state.selectedTab]];
       const nameChange = targetName.map((el) => {
         if (el.id === state.selectedNode) {
           // alert(JSON.stringify(el.data))
@@ -156,7 +156,7 @@ const authReducer = (state, action) => {
       });
       let _nodeNameData = [...state.dataset];
       _nodeNameData = _nodeNameData.map((tab, index) => {
-        if (_selectedTab2 === index) {
+        if (state.selectedTab === index) {
           return nameChange;
         } else {
           return tab;
@@ -168,10 +168,10 @@ const authReducer = (state, action) => {
         nodeName: nodeName,
       };
     case actionTypes.BG_COLOR:
-      let { bgColor, selectedTab: _selectedTab } = action.payload;
+      let { bgColor } = action.payload;
       let _edge = "";
       if (bgColor !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -181,7 +181,7 @@ const authReducer = (state, action) => {
         });
         _edge = [...clonedElements];
       } else if (state.multiSelectNode !== "" && bgColor !== "") {
-        let targetEdgeLabelColor = [...state.dataset[_selectedTab]];
+        let targetEdgeLabelColor = [...state.dataset[state.selectedTab]];
         _edge = targetEdgeLabelColor.map((el) => {
           console.log('ehis is ', el);
           if (el.id === state.selectedNode) {
@@ -193,7 +193,7 @@ const authReducer = (state, action) => {
       }
       let _clonedData = [...state.dataset];
       _clonedData = _clonedData.map((tab, index) => {
-        if (_selectedTab === index) {
+        if (state.selectedTab === index) {
           return _edge;
         } else {
           return tab;
@@ -205,10 +205,10 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.CHANGE_NODE_BORDER_COLOR:
-      let { updatedColor, selectedTab: _selectedTab3 } = action.payload;
+      let { updatedColor } = action.payload;
       let borderChange = "";
       if (updatedColor !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab3]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -218,7 +218,7 @@ const authReducer = (state, action) => {
         });
         borderChange = [...clonedElements];
       } else if (state.multiSelectNode !== "" && updatedColor !== "") {
-        let targetBorder = [...state.dataset[_selectedTab3]];
+        let targetBorder = [...state.dataset[state.selectedTab]];
         borderChange = targetBorder.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, borderColor: updatedColor };
@@ -228,7 +228,7 @@ const authReducer = (state, action) => {
       }
       let _clonedBorderData = [...state.dataset];
       _clonedBorderData = _clonedBorderData.map((tab, index) => {
-        if (_selectedTab3 === index) {
+        if (state.selectedTab === index) {
           return borderChange;
         } else {
           return tab;
@@ -241,11 +241,11 @@ const authReducer = (state, action) => {
         borderColor: updatedColor,
       };
     case actionTypes.CHANGE_NODE_FONT_COLOR:
-      let { updatedColor: updateFontColor, selectedTab: _selectedTab4 } =
+      let { updatedColor: updateFontColor } =
         action.payload;
       let textColorChange = "";
       if (updateFontColor !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab4]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -255,7 +255,7 @@ const authReducer = (state, action) => {
         });
         textColorChange = [...clonedElements];
       } else if (state.multiSelectNode !== "" && updateFontColor !== "") {
-        let targetTextColor = [...state.dataset[_selectedTab4]];
+        let targetTextColor = [...state.dataset[state.selectedTab]];
         textColorChange = targetTextColor.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, color: updateFontColor };
@@ -265,7 +265,7 @@ const authReducer = (state, action) => {
       }
       let clonedNodeTextData = [...state.dataset];
       clonedNodeTextData = clonedNodeTextData.map((tab, index) => {
-        if (_selectedTab4 === index) {
+        if (state.selectedTab === index) {
           return textColorChange;
         } else {
           return tab;
@@ -277,11 +277,11 @@ const authReducer = (state, action) => {
         nodeFontColor: updateFontColor,
       };
     case actionTypes.TRANSPARENT_NODE:
-      let { updatedColor: updateTransparentNode, selectedTab: _selectedTab5 } =
+      let { updatedColor: updateTransparentNode } =
         action.payload;
       let nodeTransparentChange = "";
       if (updateTransparentNode !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab5]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -291,7 +291,7 @@ const authReducer = (state, action) => {
         });
         nodeTransparentChange = [...clonedElements];
       } else if (state.multiSelectNode !== "" && updateTransparentNode !== "") {
-        let targetNodeTransparent = [...state.dataset[_selectedTab5]];
+        let targetNodeTransparent = [...state.dataset[state.selectedTab]];
         nodeTransparentChange = targetNodeTransparent.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, opacity: updateTransparentNode };
@@ -301,7 +301,7 @@ const authReducer = (state, action) => {
       }
       let clonedNodeTransparent = [...state.dataset];
       clonedNodeTransparent = clonedNodeTransparent.map((tab, index) => {
-        if (_selectedTab5 === index) {
+        if (state.selectedTab === index) {
           return nodeTransparentChange;
         } else {
           return tab;
@@ -314,10 +314,10 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.BORDER_RADIOS_INCREASE:
-      let { selectedTab: _selectedTab6, radiosInc } = action.payload;
+      let {  radiosInc } = action.payload;
       let nodeBorderRadios = "";
       if (radiosInc !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab6]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -327,7 +327,7 @@ const authReducer = (state, action) => {
         });
         nodeBorderRadios = [...clonedElements];
       } else if (state.multiSelectNode !== "" && radiosInc !== "") {
-        let targetNodeBorderRadios = [...state.dataset[_selectedTab6]];
+        let targetNodeBorderRadios = [...state.dataset[state.selectedTab]];
         nodeBorderRadios = targetNodeBorderRadios.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, borderRadius: radiosInc };
@@ -337,7 +337,7 @@ const authReducer = (state, action) => {
       }
       let clonedNodeDataRadios = [...state.dataset];
       clonedNodeDataRadios = clonedNodeDataRadios.map((tab, index) => {
-        if (_selectedTab6 === index) {
+        if (state.selectedTab === index) {
           return nodeBorderRadios;
         } else {
           return tab;
@@ -349,10 +349,10 @@ const authReducer = (state, action) => {
         dataset: [...clonedNodeDataRadios],
       };
     case actionTypes.BORDER_RADIOS_DECREASE:
-      let { selectedTab: _selectedTab7, radiosDec } = action.payload;
+      let { radiosDec } = action.payload;
       let nodeBorderRadiosDecrease = "";
       if (radiosDec !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[_selectedTab7]];
+        let clonedElements = [...state.dataset[state.selectedTab]];
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["style"] = { ...multiple["style"] };
@@ -362,7 +362,7 @@ const authReducer = (state, action) => {
         });
         nodeBorderRadiosDecrease = [...clonedElements];
       } else if (state.multiSelectNode !== "" && radiosDec !== "") {
-        let targetNodeBorderRadiosDecrease = [...state.dataset[_selectedTab7]];
+        let targetNodeBorderRadiosDecrease = [...state.dataset[state.selectedTab]];
         nodeBorderRadiosDecrease = targetNodeBorderRadiosDecrease.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, borderRadius: radiosDec };
@@ -374,7 +374,7 @@ const authReducer = (state, action) => {
       let clonedNodeDataRadiosDecrease = [...state.dataset];
       clonedNodeDataRadiosDecrease = clonedNodeDataRadiosDecrease.map(
         (tab, index) => {
-          if (_selectedTab7 === index) {
+          if (state.selectedTab === index) {
             return nodeBorderRadiosDecrease;
           } else {
             return tab;
@@ -388,8 +388,8 @@ const authReducer = (state, action) => {
         dataset: [...clonedNodeDataRadiosDecrease],
       };
     case actionTypes.BORDER_WIDTH_INCREASE:
-      let { selectedTab: _selectedTab8, width: width1 } = action.payload;
-      let targetBorderWidth = [...state.dataset[_selectedTab8]];
+      let {  width: width1 } = action.payload;
+      let targetBorderWidth = [...state.dataset[state.selectedTab]];
       const nodeBorderWidth = targetBorderWidth.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderStyle: "solid", borderWidth: width1 };
@@ -398,7 +398,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeWidth = [...state.dataset];
       cloneNodeWidth = cloneNodeWidth.map((tab, index) => {
-        if (_selectedTab8 === index) {
+        if (state.selectedTab === index) {
           return nodeBorderWidth;
         } else {
           return tab;
@@ -410,8 +410,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeWidth],
       };
     case actionTypes.BORDER_WIDTH_DECREASE:
-      let { selectedTab: _selectedTab9, width2 } = action.payload;
-      let targetBorderWidthDecrease = [...state.dataset[_selectedTab9]];
+      let { width2 } = action.payload;
+      let targetBorderWidthDecrease = [...state.dataset[state.selectedTab]];
       const nodeBorderWidthDecrease = targetBorderWidthDecrease.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderStyle: "solid", borderWidth: width2 };
@@ -420,7 +420,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeWidthDecrease = [...state.dataset];
       cloneNodeWidthDecrease = cloneNodeWidthDecrease.map((tab, index) => {
-        if (_selectedTab9 === index) {
+        if (state.selectedTab === index) {
           return nodeBorderWidthDecrease;
         } else {
           return tab;
@@ -432,8 +432,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeWidthDecrease],
       };
     case actionTypes.FONT_SIZE_INCREASE:
-      let { selectedTab: _selectedTab10, nodeTextInc } = action.payload;
-      let targetFontSize = [...state.dataset[_selectedTab10]];
+      let {  nodeTextInc } = action.payload;
+      let targetFontSize = [...state.dataset[state.selectedTab]];
       const nodeFontSize = targetFontSize.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, fontSize: nodeTextInc };
@@ -442,7 +442,7 @@ const authReducer = (state, action) => {
       });
       let clonedFontSize = [...state.dataset];
       clonedFontSize = clonedFontSize.map((tab, index) => {
-        if (_selectedTab10 === index) {
+        if (state.selectedTab === index) {
           return nodeFontSize;
         } else {
           return tab;
@@ -454,8 +454,8 @@ const authReducer = (state, action) => {
         dataset: [...clonedFontSize],
       };
     case actionTypes.FONT_SIZE_DECREASE:
-      let { selectedTab: _selectedTab11, nodeTextDec } = action.payload;
-      let targetNodeFont = [...state.dataset[_selectedTab11]];
+      let { nodeTextDec } = action.payload;
+      let targetNodeFont = [...state.dataset[state.selectedTab]];
       const nodeTextSize = targetNodeFont.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, fontSize: nodeTextDec };
@@ -464,7 +464,7 @@ const authReducer = (state, action) => {
       });
       let clonedNodeFontSize = [...state.dataset];
       clonedNodeFontSize = clonedNodeFontSize.map((tab, index) => {
-        if (_selectedTab11 === index) {
+        if (state.selectedTab === index) {
           return nodeTextSize;
         } else {
           return tab;
@@ -476,8 +476,8 @@ const authReducer = (state, action) => {
         dataset: [...clonedNodeFontSize],
       };
     case actionTypes.NODE_BORDER_STYLE:
-      let { selectedTab: _selectedTab12, nodeBorderStyle } = action.payload;
-      let targetNodeBorderStyle = [...state.dataset[_selectedTab12]];
+      let {  nodeBorderStyle } = action.payload;
+      let targetNodeBorderStyle = [...state.dataset[state.selectedTab]];
       const _nodeBorderStyle = targetNodeBorderStyle.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderStyle: nodeBorderStyle };
@@ -486,7 +486,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeBorderStyle = [...state.dataset];
       cloneNodeBorderStyle = cloneNodeBorderStyle.map((tab, index) => {
-        if (_selectedTab12 === index) {
+        if (state.selectedTab === index) {
           return _nodeBorderStyle;
         } else {
           return tab;
@@ -497,8 +497,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeBorderStyle],
       };
     case actionTypes.NODE_FONT_STYLE:
-      let { selectedTab: _selectedTab13, fontStyle } = action.payload;
-      let targetNodeFontStyle = [...state.dataset[_selectedTab13]];
+      let {  fontStyle } = action.payload;
+      let targetNodeFontStyle = [...state.dataset[state.selectedTab]];
       const nodeFontStyle = targetNodeFontStyle.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = {
@@ -512,7 +512,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeFontStyle = [...state.dataset];
       cloneNodeFontStyle = cloneNodeFontStyle.map((tab, index) => {
-        if (_selectedTab13 === index) {
+        if (state.selectedTab === index) {
           return nodeFontStyle;
         } else {
           return tab;
@@ -524,8 +524,8 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.NODE_SHAPE:
-      let { selectedTab: _selectedTab14, nodeShape } = action.payload;
-      let targetNodeShape = [...state.dataset[_selectedTab14]];
+      let { nodeShape } = action.payload;
+      let targetNodeShape = [...state.dataset[state.selectedTab]];
       const nodeShapeStyle = targetNodeShape.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, borderRadius: nodeShape };
@@ -535,7 +535,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeShape = [...state.dataset];
       cloneNodeShape = cloneNodeShape.map((tab, index) => {
-        if (_selectedTab14 === index) {
+        if (state.selectedTab === index) {
           return nodeShapeStyle;
         } else {
           return tab;
@@ -547,8 +547,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeShape],
       };
     case actionTypes.NODE_TEXT_TRANSFORM:
-      let { e, selectedTab: _selectedTab15 } = action.payload;
-      let targetNodeTransform = [...state.dataset[_selectedTab15]];
+      let { e } = action.payload;
+      let targetNodeTransform = [...state.dataset[state.selectedTab]];
       const nodeTextTransform = targetNodeTransform.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, textTransform: e };
@@ -558,7 +558,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeTextTransform = [...state.dataset];
       cloneNodeTextTransform = cloneNodeTextTransform.map((tab, index) => {
-        if (_selectedTab15 === index) {
+        if (state.selectedTab === index) {
           return nodeTextTransform;
         } else {
           return tab;
@@ -571,15 +571,15 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeTextTransform],
       };
     case actionTypes.HIDE_ALL_NODES:
-      let { e: evt, selectedTab: _selectedTab16 } = action.payload;
-      let targetHideAllNodes = [...state.dataset[_selectedTab16]];
+      let { e: evt } = action.payload;
+      let targetHideAllNodes = [...state.dataset[state.selectedTab]];
       const hideAllNode = targetHideAllNodes.map((el) => {
         el.isHidden = evt;
         return el;
       });
       let cloneHideAllNode = [...state.dataset];
       cloneHideAllNode = cloneHideAllNode.map((tab, index) => {
-        if (_selectedTab16 === index) {
+        if (state.selectedTab === index) {
           return hideAllNode;
         } else {
           return tab;
@@ -592,8 +592,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneHideAllNode],
       };
     case actionTypes.HIDE_NODE:
-      let { e: hideElement, selectedTab: _selectedTab17 } = action.payload;
-      let targetHideElement = [...state.dataset[_selectedTab17]];
+      let { e: hideElement } = action.payload;
+      let targetHideElement = [...state.dataset[state.selectedTab]];
       let nodeHideElement = "";
       if (state.selectArrow) {
         nodeHideElement = targetHideElement.map((el) => {
@@ -613,7 +613,7 @@ const authReducer = (state, action) => {
 
       let cloneHideElement = [...state.dataset];
       cloneHideElement = cloneHideElement.map((tab, index) => {
-        if (_selectedTab17 === index) {
+        if (state.selectedTab === index) {
           return nodeHideElement;
         } else {
           return tab;
@@ -627,8 +627,8 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.HIDE_ALL_TREE:
-      let { e: selectTree, selectedTab: _selectedTab18 } = action.payload;
-      let targetSelectTree = [...state.dataset[_selectedTab18]];
+      let { e: selectTree } = action.payload;
+      let targetSelectTree = [...state.dataset[state.selectedTab]];
       const nodeHideTree = targetSelectTree.map((multiple) => {
         if (state.multiTree.includes(multiple.id)) {
           multiple.isHidden = selectTree;
@@ -637,7 +637,7 @@ const authReducer = (state, action) => {
       });
       let cloneHideTreeHandle = [...state.dataset];
       cloneHideTreeHandle = cloneHideTreeHandle.map((tab, index) => {
-        if (_selectedTab18 === index) {
+        if (state.selectedTab === index) {
           return nodeHideTree;
         } else {
           return tab;
@@ -651,8 +651,8 @@ const authReducer = (state, action) => {
 
     //  ************Arrow Customization*********************
     case actionTypes.ARROW_TYPE:
-      let { arrowTypeId, selectedTab: _selectedTab20 } = action.payload;
-      let targetArrowType = [...state.dataset[_selectedTab20]];
+      let { arrowTypeId } = action.payload;
+      let targetArrowType = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowType.findIndex(
           (item) => item.id === state.selectArrow
@@ -661,7 +661,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowType = [...state.dataset];
       cloneArrowType = cloneArrowType.map((tab, index) => {
-        if (_selectedTab20 === index) {
+        if (state.selectedTab === index) {
           return targetArrowType;
         } else {
           return tab;
@@ -672,8 +672,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowType],
       };
     case actionTypes.CHANGE_ARROW_LINE:
-      let { arrow, selectedTab: _selectedTab21 } = action.payload;
-      let targetArrowAnimation = [...state.dataset[_selectedTab21]];
+      let { arrow } = action.payload;
+      let targetArrowAnimation = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowAnimation.findIndex(
           (item) => item.id === state.selectArrow
@@ -682,7 +682,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowAnimation = [...state.dataset];
       cloneArrowAnimation = cloneArrowAnimation.map((tab, index) => {
-        if (_selectedTab21 === index) {
+        if (state.selectedTab === index) {
           return targetArrowAnimation;
         } else {
           return tab;
@@ -695,8 +695,8 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.EDGE_LABEL_NAME:
-      let { evt: name, selectedTab: _selectedTab22 } = action.payload;
-      let targetArrowLabelName = [...state.dataset[_selectedTab22]];
+      let { evt: name } = action.payload;
+      let targetArrowLabelName = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowLabelName.findIndex(
           (item) => item.id === state.selectArrow
@@ -705,7 +705,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowLabelName = [...state.dataset];
       cloneArrowLabelName = cloneArrowLabelName.map((tab, index) => {
-        if (_selectedTab22 === index) {
+        if (state.selectedTab === index) {
           return targetArrowLabelName;
         } else {
           return tab;
@@ -717,8 +717,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowLabelName],
       };
     case actionTypes.EDGE_LABEL_FONT:
-      let { evt: labelFont, selectedTab: _selectedTab23 } = action.payload;
-      let targetArrowLabelFont = [...state.dataset[_selectedTab23]];
+      let { evt: labelFont } = action.payload;
+      let targetArrowLabelFont = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowLabelFont.findIndex(
           (item) => item.id === state.selectArrow
@@ -730,7 +730,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowLabelFont = [...state.dataset];
       cloneArrowLabelFont = cloneArrowLabelFont.map((tab, index) => {
-        if (_selectedTab23 === index) {
+        if (state.selectedTab === index) {
           return targetArrowLabelFont;
         } else {
           return tab;
@@ -743,8 +743,8 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.EDGE_LABEL_COLOR:
-      let { bgColor: edgeColor, selectedTab: _selectedTab24 } = action.payload;
-      let targetTab = [...state.dataset[_selectedTab24]];
+      let { bgColor: edgeColor } = action.payload;
+      let targetTab = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetTab.findIndex(
           (item) => item.id === state.selectArrow
@@ -756,7 +756,7 @@ const authReducer = (state, action) => {
       }
       let cloneEdgeLabelColor = [...state.dataset];
       cloneEdgeLabelColor = cloneEdgeLabelColor.map((tab, index) => {
-        if (_selectedTab24 === index) {
+        if (state.selectedTab === index) {
           return targetTab;
         } else {
           return tab;
@@ -768,8 +768,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneEdgeLabelColor],
       };
     case actionTypes.EDGE_ARROW_COLOR:
-      let { bgColor: arrowColor, selectedTab: _selectedTab25 } = action.payload;
-      let targetArrowColor = [...state.dataset[_selectedTab25]];
+      let { bgColor: arrowColor} = action.payload;
+      let targetArrowColor = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowColor.findIndex(
           (item) => item.id === state.selectArrow
@@ -782,7 +782,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowColor = [...state.dataset];
       cloneArrowColor = cloneArrowColor.map((tab, index) => {
-        if (_selectedTab25 === index) {
+        if (state.selectedTab === index) {
           return targetArrowColor;
         } else {
           return tab;
@@ -794,8 +794,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowColor],
       };
     case actionTypes.ARROW_HEAD_STYLE:
-      let { head, selectedTab: _selectedTab26 } = action.payload;
-      let targetArrowHeadStyle = [...state.dataset[_selectedTab26]];
+      let { head } = action.payload;
+      let targetArrowHeadStyle = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowHeadStyle.findIndex(
           (item) => item.id === state.selectArrow
@@ -804,7 +804,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowHead = [...state.dataset];
       cloneArrowHead = cloneArrowHead.map((tab, index) => {
-        if (_selectedTab26 === index) {
+        if (state.selectedTab === index) {
           return targetArrowHeadStyle;
         } else {
           return tab;
@@ -816,8 +816,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowHead],
       };
     case actionTypes.ARROW_WIDTH_INCREASE:
-      let { arrowInc, selectedTab: _selectedTab27 } = action.payload;
-      let targetArrowIncrease = [...state.dataset[_selectedTab27]];
+      let { arrowInc } = action.payload;
+      let targetArrowIncrease = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowIncrease.findIndex(
           (item) => item.id === state.selectArrow
@@ -831,7 +831,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowSizeInc = [...state.dataset];
       cloneArrowSizeInc = cloneArrowSizeInc.map((tab, index) => {
-        if (_selectedTab27 === index) {
+        if (state.selectedTab === index) {
           return targetArrowIncrease;
         } else {
           return tab;
@@ -843,8 +843,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowSizeInc],
       };
     case actionTypes.ARROW_WIDTH_DECREASE:
-      let { arrowDec, selectedTab: _selectedTab28 } = action.payload;
-      let targetArrowDecrease = [...state.dataset[_selectedTab28]];
+      let { arrowDec } = action.payload;
+      let targetArrowDecrease = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowDecrease.findIndex(
           (item) => item.id === state.selectArrow
@@ -857,7 +857,7 @@ const authReducer = (state, action) => {
       }
       let cloneArrowSizeDecrease = [...state.dataset];
       cloneArrowSizeDecrease = cloneArrowSizeDecrease.map((tab, index) => {
-        if (_selectedTab28 === index) {
+        if (state.selectedTab === index) {
           return targetArrowDecrease;
         } else {
           return tab;
@@ -870,8 +870,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneArrowSizeDecrease],
       };
     case actionTypes.ADD_PNG_IMAGE:
-      let { imageLoad, selectedTab: _selectedTab29 } = action.payload;
-      let targetNodeImage = [...state.dataset[_selectedTab29]];
+      let { imageLoad } = action.payload;
+      let targetNodeImage = [...state.dataset[state.selectedTab]];
       const imagePng = targetNodeImage.map((el) => {
         if (el.id === state.selectedNode) {
           // let ImageView= <img style={{width:"100%", zIndex:'-5', position:'relatively'}} src={imageLoad} alt="nodeImage"/>
@@ -910,7 +910,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeImage = [...state.dataset];
       cloneNodeImage = cloneNodeImage.map((tab, index) => {
-        if (_selectedTab29 === index) {
+        if (state.selectedTab === index) {
           return imagePng;
         } else {
           return tab;
@@ -921,8 +921,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeImage],
       };
     case actionTypes.NODE_SOURCE_POSITION:
-      let { evt: nodeSourceEvt, selectedTab: selectedTab30 } = action.payload;
-      let targetSourceNode = [...state.dataset[selectedTab30]];
+      let { evt: nodeSourceEvt } = action.payload;
+      let targetSourceNode = [...state.dataset[state.selectedTab]];
       const nodeSourceTarget = targetSourceNode.map((el) => {
         if (el.id === state.selectedNode) {
           if (state._nodeType === "input") {
@@ -944,7 +944,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodePosition = [...state.dataset];
       cloneNodePosition = cloneNodePosition.map((tab, index) => {
-        if (selectedTab30 === index) {
+        if (state.selectedTab === index) {
           return nodeSourceTarget;
         } else {
           return tab;
@@ -956,8 +956,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodePosition],
       };
     case actionTypes.NODE_SIZE_INCREASE:
-      let { selectedTab: _selectedTab31, nodeSizeInc } = action.payload;
-      let targetNodeSizeInc = [...state.dataset[_selectedTab31]];
+      let {  nodeSizeInc } = action.payload;
+      let targetNodeSizeInc = [...state.dataset[state.selectedTab]];
       const nodeWidthSize = targetNodeSizeInc.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, width: nodeSizeInc };
@@ -966,7 +966,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeSizeInc = [...state.dataset];
       cloneNodeSizeInc = cloneNodeSizeInc.map((tab, index) => {
-        if (_selectedTab31 === index) {
+        if (state.selectedTab === index) {
           return nodeWidthSize;
         } else {
           return tab;
@@ -978,8 +978,8 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeSizeInc],
       };
     case actionTypes.NODE_SIZE_DECREASE:
-      let { selectedTab: _selectedTab32, nodeSizeDec } = action.payload;
-      let targetNodeSizeDec = [...state.dataset[_selectedTab32]];
+      let { nodeSizeDec } = action.payload;
+      let targetNodeSizeDec = [...state.dataset[state.selectedTab]];
       const nodeWidthSizeDec = targetNodeSizeDec.map((el) => {
         if (el.id === state.selectedNode) {
           el.style = { ...el.style, width: nodeSizeDec };
@@ -988,7 +988,7 @@ const authReducer = (state, action) => {
       });
       let cloneNodeSizeDec = [...state.dataset];
       cloneNodeSizeDec = cloneNodeSizeDec.map((tab, index) => {
-        if (_selectedTab32 === index) {
+        if (state.selectedTab === index) {
           return nodeWidthSizeDec;
         } else {
           return tab;
@@ -1005,8 +1005,8 @@ const authReducer = (state, action) => {
       nodeDragId: action.payload.nodeId
     }
      case actionTypes.NODE_DRAG_HANDLER:
-      let {selectedTab: _selectedTab33, nodePositionX, nodePositionY} = action.payload;
-      let targetNodePosition = [...state.dataset[_selectedTab33]];
+      let { nodePositionX, nodePositionY} = action.payload;
+      let targetNodePosition = [...state.dataset[state.selectedTab]];
       let snode = state.nodeDragId;
     
 let cloneNodePositionUpdate 
@@ -1019,7 +1019,7 @@ let cloneNodePositionUpdate
 
       cloneNodePositionUpdate = [...state.dataset];
       cloneNodePositionUpdate = cloneNodePositionUpdate.map((tab, index) => {
-        if (_selectedTab33 === index) {
+        if (state.selectedTab === index) {
           return nodePositionChange;
         } else {
           return tab;
@@ -1031,14 +1031,14 @@ let cloneNodePositionUpdate
       };
  
     case actionTypes._CSV_FILE_LOADER:
-    let { selectedTab: _selectedTab37, _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
+    let {  _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
       let _csvUpload = [...state.dataset];
       
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
      
      _csvUpload = _csvUpload.map((element, index) => {
-          if (_selectedTab37 === index) {
+          if (state.selectedTab === index) {
        
             return _newCsvData;
           }
@@ -1060,12 +1060,12 @@ let cloneNodePositionUpdate
         }
 
       case actionTypes.CSV_FILE_UPLOADER:
-      let { selectedTab: _selectedTab35, newCsvData} = action.payload;
+      let { newCsvData} = action.payload;
       let csvUpload = [...state.dataset];
       if (csvUpload.length > 0) {
         // newly initialized dataset array
      csvUpload = csvUpload.map((element, index) => {
-          if (_selectedTab35 === index) {
+          if (state.selectedTab === index) {
             return newCsvData;
           }
           return element;
@@ -1087,7 +1087,7 @@ let cloneNodePositionUpdate
       }
 
       case actionTypes.SPECIFIC_DATA_HANDLER:
-      const{evt: specificDataEvent, selectedTab: selectedTab38} = action.payload
+      const{evt: specificDataEvent} = action.payload
       let periodsValueData = state.periodsDataArray;
       let targetCsvDataSet
       let bos = state.elementData.data.label;
@@ -1101,7 +1101,7 @@ let cloneNodePositionUpdate
       let secondValue = element[_value]
       finalValue.push(secondValue)     
        });
-       targetCsvDataSet = [...state.dataset[selectedTab38]]
+       targetCsvDataSet = [...state.dataset[state.selectedTab]]
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
@@ -1118,7 +1118,7 @@ let cloneNodePositionUpdate
         dataset: [targetCsvDataSet]
       }
       case actionTypes.PERIODS_VALUE_HANDLER:
-      const {evt: periodsValue, selectedTab: _selectedTab38}= action.payload;
+      const {evt: periodsValue}= action.payload;
       let allCsvData = [...state._csvData]
       let periodsNameData
       allCsvData.map((elem) =>{
@@ -1135,7 +1135,7 @@ let cloneNodePositionUpdate
         }
       })
 
-       let targetPeriodsValue = [...state.dataset[_selectedTab38]]
+       let targetPeriodsValue = [...state.dataset[state.selectedTab]]
        const nodePeriodsData = targetPeriodsValue.map((element) => {
             if (element.id === state.selectedNode) {
           element.data ={...element.data, 
@@ -1145,7 +1145,7 @@ let cloneNodePositionUpdate
        })
        let clonePeriodData = [...state.dataset];
        clonePeriodData = clonePeriodData.map((tab, index) => {
-        if (_selectedTab38 === index) {
+        if (state.selectedTab === index) {
           return nodePeriodsData;
         } else {
           return tab;
@@ -1155,6 +1155,11 @@ let cloneNodePositionUpdate
         ...state,
         _periodsValue: periodsValue,
         dataset:[...clonePeriodData]
+      }
+      case actionTypes.SELECTED_TAB_HANDLER:
+       return {
+        ...state,
+        selectedTab: action.payload.index
       }
     default:
       return state;

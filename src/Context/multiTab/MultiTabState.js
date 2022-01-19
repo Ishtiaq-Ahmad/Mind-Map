@@ -61,8 +61,8 @@ const NodeState = (props) => {
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType,borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
- console.log('arrowww', selectArrow);
+  const {arrowWidth,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
+
   const onElementClickHandler = (element,treeDataUpdate) => {
     let currentFinalValue
     try {
@@ -158,31 +158,30 @@ const isEmptyHandler = ()=>{
       payload:{_edge}
     })
   }
-  const removeElementHandler = (selectedTab,deleteElement)=>{
+  const removeElementHandler = (deleteElement)=>{
     dispatch({
       type:actionTypes.DELETE_ELEMENT,
-      payload:{selectedTab,deleteElement}
+      payload:{deleteElement}
     })
   }
-  const onDragHandler = (selectedTab,updatedNodeData,_docid=null,empty) => {
+  const onDragHandler = (updatedNodeData,_docid=null,empty) => {
    
     dispatch({
       type:actionTypes.ON_DRAG_NODE,
-      payload:{selectedTab, updatedNodeData,_docid,empty}
+      payload: {updatedNodeData,_docid,empty}
     })
   }
   const addTabHandler = () => {
     dispatch({ type: actionTypes.ADD_TAB });
   };
-  const tabRemover = (selectedTab) => {
+  const tabRemover = () => {
     dispatch({ 
-      type: actionTypes.REMOVE_TAB, 
-      payload:{selectedTab}})
+      type: actionTypes.REMOVE_TAB})
   }
-  const updateDataSetHandler = (currentTab, generatedEdge) => {
+  const updateDataSetHandler = ( generatedEdge) => {
     dispatch({
       type: actionTypes.UPDATE_DATA_SET,
-      payload: { currentTab, generatedEdge },
+      payload: { generatedEdge },
     });
   };
 
@@ -193,35 +192,35 @@ const isEmptyHandler = ()=>{
     })
   }
 
-const bgColorHandler= (bgColor,selectedTab)=>{
+const bgColorHandler= (bgColor)=>{
  dispatch({
       type: actionTypes.BG_COLOR,
-      payload:{bgColor,selectedTab}
+      payload:{bgColor}
     })
 }
-const nodeNameHandler = (evt, selectedTab) => {
+const nodeNameHandler = (evt) => {
   
     dispatch({
       type: actionTypes.CHANGE_NODE_NAME,
-      payload:{evt, selectedTab}
+      payload:{evt}
       })
   }
-  const borderColorHandler = (updatedColor, selectedTab) => {
+  const borderColorHandler = (updatedColor) => {
     dispatch({
       type: actionTypes.CHANGE_NODE_BORDER_COLOR,
-      payload:{updatedColor, selectedTab}
+      payload:{updatedColor}
       })
   }
-  const textColorHandler = (updatedColor, selectedTab) => {
+  const textColorHandler = (updatedColor) => {
       dispatch({
       type: actionTypes.CHANGE_NODE_FONT_COLOR,
-      payload:{updatedColor, selectedTab}
+      payload:{updatedColor}
       })
   }
-  const nodeTransparentHandler = (updatedColor, selectedTab) => {
+  const nodeTransparentHandler = (updatedColor) => {
       dispatch({
       type: actionTypes.TRANSPARENT_NODE,
-      payload:{updatedColor, selectedTab}
+      payload:{updatedColor}
       })
   }
   //  const nodeBorder = () => {
@@ -235,7 +234,7 @@ const nodeNameHandler = (evt, selectedTab) => {
     
   // };
  
-  const borderRadiosDecreaseHandler = (selectedTab) =>{
+  const borderRadiosDecreaseHandler = () =>{
     let radiosDec= 0
      if(borderRadios > 0){
       radiosDec = borderRadios - 1
@@ -245,11 +244,11 @@ const nodeNameHandler = (evt, selectedTab) => {
    
     dispatch({
       type: actionTypes.BORDER_RADIOS_DECREASE,
-      payload: {selectedTab, radiosDec} 
+      payload: { radiosDec} 
     });
   }
   
-   const borderRadiosIncreaseHandler = (selectedTab) => {
+   const borderRadiosIncreaseHandler = () => {
      let radiosInc = 0
      if(borderRadios === '15px 0px 15px 0px'){
        alert(`pre-defined shape's radios is not customieabele`)
@@ -258,18 +257,18 @@ const nodeNameHandler = (evt, selectedTab) => {
      }
     dispatch({
       type: actionTypes.BORDER_RADIOS_INCREASE,
-      payload:  {selectedTab, radiosInc}
+      payload:  {radiosInc}
     });
   };
-   const borderWidthIncreaseHandler = (selectedTab) => {
+   const borderWidthIncreaseHandler = () => {
     
     let  width = borderWidth+1;
     dispatch({
       type: actionTypes.BORDER_WIDTH_INCREASE,
-      payload: { selectedTab, width  },
+      payload: {  width  },
     });
   };
-  const borderWidthDecreaseHandler = (selectedTab) => {
+  const borderWidthDecreaseHandler = () => {
      let width2= 0
      if(state.borderWidth > 0){
       width2 = state.borderWidth - 1
@@ -278,17 +277,17 @@ const nodeNameHandler = (evt, selectedTab) => {
      }
     dispatch({
       type: actionTypes.BORDER_WIDTH_DECREASE,
-      payload: { selectedTab, width2 },
+      payload: { width2 },
     });
   };
-  const fontSizeIncreaseHandler = (selectedTab) => {
+  const fontSizeIncreaseHandler = () => {
     let nodeTextInc = nodeFont + 1
     dispatch({
       type: actionTypes.FONT_SIZE_INCREASE,
-      payload: { selectedTab, nodeTextInc },
+      payload: {  nodeTextInc },
     });
   };
-  const fontSizeDecreaseHandler = (selectedTab) => {
+  const fontSizeDecreaseHandler = () => {
     let nodeTextDec= 0
      if(state.nodeFont > 0){
       nodeTextDec = state.nodeFont - 1
@@ -297,97 +296,96 @@ const nodeNameHandler = (evt, selectedTab) => {
      }
     dispatch({
       type: actionTypes.FONT_SIZE_DECREASE,
-      payload: {selectedTab, nodeTextDec },
+      payload: { nodeTextDec },
     });
   };
-  const borderStyleHandler = (e,selectedTab) => {
+  const borderStyleHandler = (e) => {
      const nodeBorderStyle = e.target.id;
      
     dispatch({
       type: actionTypes.NODE_BORDER_STYLE,
-      payload: { selectedTab,nodeBorderStyle },
+      payload: { nodeBorderStyle },
     });
   };
-   const fontStyleHandler = (e, selectedTab) => {
+   const fontStyleHandler = (e) => {
     console.log(e.target.id);
     const fontStyle = e.target.id  
     dispatch({ 
       type: actionTypes.NODE_FONT_STYLE, 
-      payload: { selectedTab, fontStyle } });
+      payload: {  fontStyle } });
   };
-   const nodeShapeHandler = (e, selectedTab) => {
+   const nodeShapeHandler = (e) => {
      const nodeShape = e.target.id
-     console.log('----->>>>>>>>', e.target.id);
-    dispatch({ type: actionTypes.NODE_SHAPE, payload: {selectedTab, nodeShape } });
+    dispatch({ type: actionTypes.NODE_SHAPE, payload: {nodeShape } });
   };
-    const nodeTextTransform = (e,selectedTab) => {
+    const nodeTextTransform = (e) => {
     dispatch({
       type: actionTypes.NODE_TEXT_TRANSFORM,
-      payload: { e, selectedTab },
+      payload: { e },
     })}
-    const hideAllNodesHandler = (e, selectedTab) => {
+    const hideAllNodesHandler = (e) => {
     dispatch({
       type: actionTypes.HIDE_ALL_NODES,
-      payload: { e, selectedTab },
+      payload: { e },
     });
   };
-  const hideNodeHandler = (e, selectedTab) => {
-      dispatch({ type: actionTypes.HIDE_NODE, payload: { e, selectedTab } });
+  const hideNodeHandler = (e) => {
+      dispatch({ type: actionTypes.HIDE_NODE, payload: { e } });
   }
-    const hideTreeHandler = (e, selectedTab) => {
+    const hideTreeHandler = (e) => {
     dispatch({
       type: actionTypes.HIDE_ALL_TREE,
-      payload: { e, selectedTab },
+      payload: { e },
     });
   };
-    const changeArrowType = (e,selectedTab) => {
+    const changeArrowType = (e) => {
     let arrowTypeId = e.target.id
-    dispatch({ type: actionTypes.ARROW_TYPE, payload: { arrowTypeId, selectedTab } });
+    dispatch({ type: actionTypes.ARROW_TYPE, payload: { arrowTypeId } });
   };
-   const changeLineHandler = (selectedTab) => {
+   const changeLineHandler = () => {
      let arrow = !arrowType
-    dispatch({ type: actionTypes.CHANGE_ARROW_LINE, payload: {arrow, selectedTab } });
+    dispatch({ type: actionTypes.CHANGE_ARROW_LINE, payload: {arrow } });
   };
-   const edgeLabelNameHandler = (evt, selectedTab) => {
+   const edgeLabelNameHandler = (evt) => {
     dispatch({
       type: actionTypes.EDGE_LABEL_NAME,
-      payload: { evt, selectedTab },
+      payload: { evt },
     });
   };
-  const labelFontWeightHandler = (evt,selectedTab) => {
+  const labelFontWeightHandler = (evt) => {
 
     dispatch({
       type: actionTypes.EDGE_LABEL_FONT,
-      payload: { evt, selectedTab },
+      payload: { evt },
     });
   };
-  const edgeLabelColorHandler= (bgColor,selectedTab)=>{
+  const edgeLabelColorHandler= (bgColor)=>{
  dispatch({
       type: actionTypes.EDGE_LABEL_COLOR,
-      payload:{bgColor,selectedTab}
+      payload:{bgColor}
     })
 }
- const arrowColorHandler= (bgColor,selectedTab)=>{
+ const arrowColorHandler= (bgColor)=>{
  dispatch({
       type: actionTypes.EDGE_ARROW_COLOR,
-      payload:{bgColor,selectedTab}
+      payload:{bgColor}
     })
 }
- const arrowHeadHandler= (e,selectedTab)=>{
+ const arrowHeadHandler= (e)=>{
 let head = e.target.id;
  dispatch({
       type: actionTypes.ARROW_HEAD_STYLE,
-      payload:{head,selectedTab}
+      payload:{head}
     })
 }
- const arrowWidthIncreaseHandler = (selectedTab) => {
+ const arrowWidthIncreaseHandler = () => {
     let arrowInc = arrowWidth + 1;
     dispatch({
       type: actionTypes.ARROW_WIDTH_INCREASE,
-      payload: { arrowInc, selectedTab },
+      payload: { arrowInc },
     });
   };
-  const arrowWidthDecreaseHandler = (selectedTab) => {
+  const arrowWidthDecreaseHandler = () => {
     let arrowDec = 0
       if(arrowWidth > 1){
         arrowDec = arrowWidth - 1
@@ -397,11 +395,11 @@ let head = e.target.id;
       }
     dispatch({
       type: actionTypes.ARROW_WIDTH_DECREASE,
-      payload: { arrowDec, selectedTab },
+      payload: { arrowDec },
       
     });
   };
-const imageHandler = (e,imageLoad, selectedTab) => {
+const imageHandler = (e,imageLoad) => {
 // const selectImage = e.target.files[0];
 // const allowed_types = ['image/png'];
 // let imageLoad=''
@@ -413,7 +411,7 @@ const imageHandler = (e,imageLoad, selectedTab) => {
 // }
 dispatch({
   type: actionTypes.ADD_PNG_IMAGE,
-  payload: {imageLoad, selectedTab}
+  payload: {imageLoad}
 })
   }
 const multipleSelectNode = (multi) => {
@@ -423,10 +421,10 @@ dispatch({
   payload:{multi}
 })
 }
-const nodeSourcePositionHandler = (evt, selectedTab) => {
+const nodeSourcePositionHandler = (evt) => {
   dispatch({
     type:actionTypes.NODE_SOURCE_POSITION,
-    payload:{evt, selectedTab}
+    payload:{evt}
   })
 }
 const paneClickHandler = (event) =>{
@@ -435,14 +433,14 @@ const paneClickHandler = (event) =>{
     payload:{event}
   })
 }
-const nodeSizeIncreaseHandler = (selectedTab) => {
+const nodeSizeIncreaseHandler = () => {
   let nodeSizeInc = nodeSize + 1;
   dispatch({
     type:actionTypes.NODE_SIZE_INCREASE,
-    payload:{selectedTab,nodeSizeInc}
+    payload:{nodeSizeInc}
   })
 }
-const nodeSizeDecreaseHandler = (selectedTab) => {
+const nodeSizeDecreaseHandler = () => {
   let nodeSizeDec = 0
       if(nodeSize > 1){
         nodeSizeDec = nodeSize - 1
@@ -452,20 +450,20 @@ const nodeSizeDecreaseHandler = (selectedTab) => {
       }
   dispatch({
     type:actionTypes.NODE_SIZE_DECREASE,
-    payload:{selectedTab, nodeSizeDec}
+    payload:{ nodeSizeDec}
   })  
 }
-const loaderFile = (selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
+const loaderFile = ( _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
   console.log('mind', _newCsvData);
   dispatch({
     type: actionTypes._CSV_FILE_LOADER,
-    payload :{selectedTab, _newCsvData,_indexNumber, valuesData, arr4,arr10}
+    payload :{ _newCsvData,_indexNumber, valuesData, arr4,arr10}
   })
 }
-const myCsvFileHandler = (selectedTab, newCsvData) =>{
+const myCsvFileHandler = ( newCsvData) =>{
   dispatch({
     type: actionTypes.CSV_FILE_UPLOADER,
-    payload :{selectedTab, newCsvData}
+    payload :{ newCsvData}
   })
 }
 const periodsDataHandler = (arr5) =>{
@@ -476,29 +474,35 @@ const periodsDataHandler = (arr5) =>{
   })
 }
 
-const specificDataHandler = (evt, selectedTab) => {
+const specificDataHandler = (evt) => {
   dispatch({
     type: actionTypes.SPECIFIC_DATA_HANDLER,
-    payload:{evt, selectedTab}
+    payload:{evt}
   })
 }
-const nodeDragIdHandler = (selectedTab,nodeId)=>{
+const nodeDragIdHandler = (nodeId)=>{
 dispatch({
 type:actionTypes.NODE_DRAG_ID_HANDLER,
-payload:{selectedTab,nodeId}
+payload:{nodeId}
 })
 
 }
-const nodeDragHandler = (selectedTab,node, nodePositionX, nodePositionY) =>{
+const nodeDragHandler = (node, nodePositionX, nodePositionY) =>{
   dispatch({
     type: actionTypes.NODE_DRAG_HANDLER,
-    payload:{selectedTab,nodePositionX, nodePositionY}
+    payload:{nodePositionX, nodePositionY}
   })
 }
-const periodsValueHandler = (evt,selectedTab) =>{
+const periodsValueHandler = (evt) =>{
   dispatch({
     type: actionTypes.PERIODS_VALUE_HANDLER,
-    payload:{evt,selectedTab}
+    payload:{evt}
+  })
+}
+const selectedTabHandler = (index) => {
+  dispatch({
+    type: actionTypes.SELECTED_TAB_HANDLER,
+    payload: {index}
   })
 }
   return (
@@ -555,7 +559,8 @@ const periodsValueHandler = (evt,selectedTab) =>{
           loaderFile,
           periodsDataHandler,
           specificDataHandler,
-          periodsValueHandler
+          periodsValueHandler,
+          selectedTabHandler
       }}
     >
       {props.children}

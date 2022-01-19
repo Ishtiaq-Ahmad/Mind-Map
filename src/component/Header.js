@@ -165,8 +165,7 @@ const Header = (props) => {
                     name={sourcePosition}
                     onChange={(evt) => {
                       nodeSourcePositionHandler(
-                        evt.target.value,
-                        props.selectedTab
+                        evt.target.value
                       );
                     }}
                     label="Source Position"
@@ -189,8 +188,7 @@ const Header = (props) => {
                     name={sourcePosition}
                     onChange={(evt) => {
                       nodeSourcePositionHandler(
-                        evt.target.value,
-                        props.selectedTab
+                        evt.target.value
                       );
                     }}
                     label="Source Position"
@@ -226,8 +224,7 @@ const Header = (props) => {
                     onChange={
                         (evt) => {
                       specificDataHandler(
-                        evt.target.value,
-                        props.selectedTab
+                        evt.target.value
                       );
                     }}
                     label="Periods Data"

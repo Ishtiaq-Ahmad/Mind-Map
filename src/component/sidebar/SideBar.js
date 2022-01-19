@@ -73,7 +73,8 @@ const MindMapSideBar = (props) => {
       nodeSize,
       periodsNodesData,
       periodFinalData,
-      _periodsValue
+      _periodsValue,
+      selectedTab
     },
     bgColorHandler,
     nodeNameHandler,
@@ -202,11 +203,11 @@ let myResult;
   
      let _newCsvData;
     if (dataset && dataset.length > 0) {
-      _newCsvData = [...dataset[props.selectedTab], ...arr];
+      _newCsvData = [...dataset[selectedTab], ...arr];
     } else {
       _newCsvData = [...arr];
     }
-     loaderFile(props.selectedTab, _newCsvData , _indexNumber, valuesData, arr4,arr10,)
+     loaderFile( _newCsvData , _indexNumber, valuesData, arr4,arr10,)
       
    }    
 
@@ -220,7 +221,7 @@ let myResult;
             className="node_label"
             value={nodeName}
             onChange={(evt) => {
-              nodeNameHandler(evt.target.value, props.selectedTab);
+              nodeNameHandler(evt.target.value);
             }}
             label={selectedNodeName}
             // placeholder={selectedNodeName}
@@ -232,7 +233,7 @@ let myResult;
             className="node_label"
             value={_periodsValue}
             onChange={(evt) => {
-              periodsValueHandler(evt.target.value, props.selectedTab);
+              periodsValueHandler(evt.target.value);
             }}
             label={periodFinalData}
             // placeholder='Periods Value'
@@ -245,7 +246,7 @@ let myResult;
                 const allowed_types = ['image/png'];
                 if(selectImage && allowed_types.includes(selectImage.type)){
               let imageLoad =  URL.createObjectURL(selectImage)
-                imageHandler(e,imageLoad , props.selectedTab)
+                imageHandler(e,imageLoad)
                   //  let reader = new FileReader()
                   //  let bsdk = '';
                   //   reader.onloadend = () => {
@@ -272,7 +273,7 @@ let myResult;
               // title={nodeBackground}
               onChange={(updatedColor) => {
                 setSelectedColor(updatedColor.hex);
-                bgColorHandler(updatedColor.hex, props.selectedTab);
+                bgColorHandler(updatedColor.hex);
               }}
             />
           )}
@@ -290,7 +291,7 @@ let myResult;
             <SketchPicker
               color={borderColor}
               onChange={(updatedColor) => {
-                borderColorHandler(updatedColor.hex, props.selectedTab);
+                borderColorHandler(updatedColor.hex);
               }}
             />
           )}
@@ -306,7 +307,7 @@ let myResult;
             <SketchPicker
               color={nodeFontColor}
               onChange={(updatedColor) =>
-                textColorHandler(updatedColor.hex, props.selectedTab)
+                textColorHandler(updatedColor.hex)
               }
             />
           )}
@@ -324,7 +325,7 @@ let myResult;
               value={nodeTransparent}
               name={nodeTransparent}
               onChange={(evt) => {
-                nodeTransparentHandler(evt.target.value, props.selectedTab);
+                nodeTransparentHandler(evt.target.value);
               }}
               label="Transparent Node"
               size="small"
@@ -342,14 +343,14 @@ let myResult;
             <label>Node Size</label>
             <span className="borderWidth">
               <button
-                onClick={() => nodeSizeDecreaseHandler(props.selectedTab)}
+                onClick={() => nodeSizeDecreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>-</strong>
               </button>
               <h4 className="borderFont">{nodeSize}px</h4>
               <button
-                onClick={() => nodeSizeIncreaseHandler(props.selectedTab)}
+                onClick={() => nodeSizeIncreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>+</strong>
@@ -360,14 +361,14 @@ let myResult;
             <label>Border Radius</label>
             <span className="borderWidth">
               <button
-                onClick={() => borderRadiosDecreaseHandler(props.selectedTab)}
+                onClick={() => borderRadiosDecreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>-</strong>
               </button>
               <h4 className="borderFont">{borderRadios}px</h4>
               <button
-                onClick={() => borderRadiosIncreaseHandler(props.selectedTab)}
+                onClick={() => borderRadiosIncreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>+</strong>
@@ -379,14 +380,14 @@ let myResult;
             <br />
             <span className="borderWidth">
               <button
-                onClick={() => borderWidthDecreaseHandler(props.selectedTab)}
+                onClick={() => borderWidthDecreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>-</strong>
               </button>
               <h4 className="borderFont">{borderWidth}px</h4>
               <button
-                onClick={() => borderWidthIncreaseHandler(props.selectedTab)}
+                onClick={() => borderWidthIncreaseHandler()}
                 className="borderWidthButton"
               >
                 {" "}
@@ -399,14 +400,14 @@ let myResult;
             <br />
             <span className="borderWidth">
               <button
-                onClick={() => fontSizeDecreaseHandler(props.selectedTab)}
+                onClick={() => fontSizeDecreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>-</strong>
               </button>
               <h4 className="borderFont">{nodeFont}px</h4>
               <button
-                onClick={() => fontSizeIncreaseHandler(props.selectedTab)}
+                onClick={() => fontSizeIncreaseHandler()}
                 className="borderWidthButton"
               >
                 {" "}
@@ -420,7 +421,7 @@ let myResult;
               src={dottedLine}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              onClick={(e) => borderStyleHandler(e)}
               id="dotted"
               // value={props.borderStyle}
             />
@@ -428,21 +429,21 @@ let myResult;
               src={dashedLine}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              onClick={(e) => borderStyleHandler(e)}
               id="dashed"
             />
             <img
               src={doubleLine}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              onClick={(e) => borderStyleHandler(e)}
               id="double"
             />
             <img
               src={solidLine}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => borderStyleHandler(e, props.selectedTab)}
+              onClick={(e) => borderStyleHandler(e)}
               id="solid"
             />
           </div>
@@ -453,34 +454,34 @@ let myResult;
               src={normal}
               alt="captial A "
               className="normal"
-              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              onClick={(e) => fontStyleHandler(e)}
               id="normal"
             />
             <FontAwesomeIcon
               icon={faBold}
               className="edit_text_style"
-              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              onClick={(e) => fontStyleHandler(e)}
               size="lg"
               id="bold"
             />
             <FontAwesomeIcon
               icon={faItalic}
               className="edit_text_style"
-              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              onClick={(e) => fontStyleHandler(e)}
               size="lg"
               id="italic"
             />
             <FontAwesomeIcon
               icon={faUnderline}
               className="edit_text_style"
-              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              onClick={(e) => fontStyleHandler(e)}
               size="lg"
               id="underLine"
             />
             <FontAwesomeIcon
               icon={faStrikethrough}
               className="edit_text_style"
-              onClick={(e) => fontStyleHandler(e, props.selectedTab)}
+              onClick={(e) => fontStyleHandler(e)}
               size="lg"
               id="line-through"
             />
@@ -492,7 +493,7 @@ let myResult;
               value={nodeText}
               name={nodeText}
               onChange={(evt) =>
-                nodeTextTransform(evt.target.value, props.selectedTab)
+                nodeTextTransform(evt.target.value)
               }
               label="Select Text Transfrom"
               size="small"
@@ -512,28 +513,28 @@ let myResult;
               src={shape}
               alt="dottedLine "
               className="lineStyle1"
-              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              onClick={(e) => nodeShapeHandler(e)}
               id="15px 0px 15px 0px"
             />
             <img
               src={Oval}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              onClick={(e) => nodeShapeHandler(e)}
               id="116px / 24px"
             />
             <img
               src={rectangleRound}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              onClick={(e) => nodeShapeHandler(e)}
               id="25px"
             />
             <img
               src={rectangle}
               alt="dottedLine "
               className="lineStyle"
-              onClick={(e) => nodeShapeHandler(e, props.selectedTab)}
+              onClick={(e) => nodeShapeHandler(e)}
               id="0px"
             />
           </div>
@@ -542,7 +543,7 @@ let myResult;
             <Switch
               checked={_hideAllNodes}
               onChange={(evt) =>
-                hideAllNodesHandler(evt.target.checked, props.selectedTab)
+                hideAllNodesHandler(evt.target.checked)
               }
               color="primary"
               name="checkedB"
@@ -555,7 +556,7 @@ let myResult;
             <Switch
               checked={nodeHide}
               onChange={(evt) =>
-                hideNodeHandler(evt.target.checked, props.selectedTab)
+                hideNodeHandler(evt.target.checked)
               }
               color="primary"
               name="checkedB"
@@ -568,7 +569,7 @@ let myResult;
             <Switch
               checked={hideTree}
               onChange={(evt) =>
-                hideTreeHandler(evt.target.checked, props.selectedTab)
+                hideTreeHandler(evt.target.checked)
               }
               color="primary"
               name="checkedB"
@@ -591,35 +592,35 @@ let myResult;
                 src={Curved}
                 alt="curved arrow"
                 className="curved"
-                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                onClick={(e) => changeArrowType(e)}
                 id='curved'
               />
               <img
                 src={Smooth}
                 alt="step arrow"
                 className="curved"
-                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                onClick={(e) => changeArrowType(e)}
                  id='step'
               />
               <img
                 src={smoothStep}
                 alt="smooth arrow"
                 className="curved"
-                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                onClick={(e) => changeArrowType(e)}
                   id='smoothstep'
               />
               <img
                 src={Straight}
                 alt="straight arrow"
                 className="curved"
-                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                onClick={(e) => changeArrowType(e)}
                 id='straight'
               />
                <img
                 src={smartRouting}
                 alt="straight arrow"
                 className="curved"
-                onClick={(e) => changeArrowType(e,props.selectedTab)}
+                onClick={(e) => changeArrowType(e)}
                 id='smart'
               />
             </span>
@@ -630,13 +631,13 @@ let myResult;
                 src={line}
                 alt="straight line"
                 className="line"
-                onClick={() => changeLineHandler(props.selectedTab)}
+                onClick={() => changeLineHandler()}
               />
               <img
                 src={doted}
                 alt="Doted line"
                 className="line"
-                onClick={() => changeLineHandler(props.selectedTab)}
+                onClick={() => changeLineHandler()}
               />
             </span>
           </div>
@@ -645,7 +646,7 @@ let myResult;
             className="node_label"
             value={edgeLabelName}
             name={edgeLabelName}
-            onChange={(evt) => edgeLabelNameHandler(evt.target.value,props.selectedTab)}
+            onChange={(evt) => edgeLabelNameHandler(evt.target.value)}
             label="Label Name"
             size="small"
             variant="outlined"
@@ -656,7 +657,7 @@ let myResult;
               select
               value={edgeLabelFont}
               name={edgeLabelFont}
-              onChange={(evt) => labelFontWeightHandler(evt.target.value, props.selectedTab)}
+              onChange={(evt) => labelFontWeightHandler(evt.target.value)}
               label="Font Weight"
               size="small"
               variant="outlined"
@@ -684,7 +685,7 @@ let myResult;
                 color={edgeLabelColor}
                 title={edgeLabelColor}
                 onChange={(updatedColor) =>
-                  edgeLabelColorHandler(updatedColor.hex,props.selectedTab)
+                  edgeLabelColorHandler(updatedColor.hex)
                 
                 }
               />
@@ -705,29 +706,29 @@ let myResult;
             <SketchPicker
               color={arrowColor}
               title={arrowColor}
-              onChange={(updatedColor) => arrowColorHandler(updatedColor.hex,props.selectedTab)}
+              onChange={(updatedColor) => arrowColorHandler(updatedColor.hex)}
             />
           )}
            <div className="font_style">
             <KeyboardArrowRightIcon 
             className="arrow_head"
-             onClick={(e) => arrowHeadHandler(e,props.selectedTab)}
+             onClick={(e) => arrowHeadHandler(e)}
              id ='arrow' />
             <ArrowRightIcon 
             
-            onClick={(e) => arrowHeadHandler(e,props.selectedTab)}
+            onClick={(e) => arrowHeadHandler(e)}
             className="arrow_head"
              id='arrowclosed' />
           </div>
            <div className="border">
             <label>Arrow width</label>
             <span className="borderWidth">
-              <button onClick={() => arrowWidthDecreaseHandler(props.selectedTab)} className="borderWidthButton">
+              <button onClick={() => arrowWidthDecreaseHandler()} className="borderWidthButton">
                 <strong>-</strong>
               </button>
               <h4 className="borderFont">{arrowWidth}px</h4>
               <button
-                onClick={() => arrowWidthIncreaseHandler(props.selectedTab)}
+                onClick={() => arrowWidthIncreaseHandler()}
                 className="borderWidthButton"
               >
                 <strong>+</strong>

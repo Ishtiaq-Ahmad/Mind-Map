@@ -18,7 +18,7 @@ import ContainerData from '../Context/multiTab/MultiTabContext'
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
 import CustomNodeComponent from '../component/CustomNodeComponent';
-import { getDocById } from "../utils/helpers";
+import {getDocById} from '../utils/helpers'
 import { v4 as uuidv4 } from "uuid";
 import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
 
@@ -31,7 +31,7 @@ const nodeTypes = {
 const FlowChart = (props) => {
   const containerContext = useContext(ContainerData);
   const {
-    data: { dataset, docID, selectedTab: _selectedTab },
+    data: { dataset, docID, selectedTab },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -90,7 +90,7 @@ const FlowChart = (props) => {
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
-  const [selectedTab, setSelectedTab] = useState(_selectedTab);
+  // const [selectedTab, setSelectedTab] = useState(_selectedTab);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
   const [showArrow, setShowArrow] = useState(false);
@@ -119,7 +119,7 @@ const FlowChart = (props) => {
       elementsToRemove,
       dataset[selectedTab]
     );
-    removeElementHandler(selectedTab, deleteElement);
+    removeElementHandler( deleteElement);
   };
   const onConnect = (params) => {
     const generatedEdge = addEdge(
@@ -131,7 +131,7 @@ const FlowChart = (props) => {
       },
       dataset[selectedTab]
     );
-    updateDataSetHandler(selectedTab, generatedEdge);
+    updateDataSetHandler(generatedEdge);
   };
 
   const onElementClick = (event, element) => {
@@ -213,7 +213,7 @@ const FlowChart = (props) => {
     //     data: finalData,
     //   });
     // }
-    onDragHandler(selectedTab, finalData, docID ? docID : DOCID, false);
+    onDragHandler( finalData, docID ? docID : DOCID, false);
   };
 
   const onEdgeDoubleClick = (event, edge) => {
@@ -225,12 +225,12 @@ const FlowChart = (props) => {
   const onNodeDragStop = async (event, node) => {
     let nodePositionX = node.position.x;
     let nodePositionY = node.position.y;
-    nodeDragHandler(selectedTab, node, nodePositionX, nodePositionY);
+    nodeDragHandler( node, nodePositionX, nodePositionY);
   };
   const onNodeDragStart = (event, node) => {
     let nodeId = node.id;
 
-    nodeDragIdHandler(selectedTab, nodeId);
+    nodeDragIdHandler( nodeId);
   };
   return (
     <div>
@@ -240,15 +240,15 @@ const FlowChart = (props) => {
             <Header
               onStartCapture={onStartCapture}
               handlePrint={handlePrint}
-              selectedTab={selectedTab}
+              // selectedTab={selectedTab}
               {...props}
             />
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
                   <MultiTab
-                    selectedTab={selectedTab}
-                    setSelectedTab={setSelectedTab}
+                    // selectedTab={selectedTab}
+                    // setSelectedTab={setSelectedTab}
                     setCounter={setCounter}
                     counter={counter}
                   />
@@ -291,7 +291,7 @@ const FlowChart = (props) => {
               </Grid>
               <Grid item  xs={2} className="sidebar">
                 <MindMapSideBar
-                  selectedTab={selectedTab}
+                  // selectedTab={selectedTab}
                   showArrow={showArrow}
                   uploadImage={uploadImage}
                   setUploadImage={setUploadImage}
