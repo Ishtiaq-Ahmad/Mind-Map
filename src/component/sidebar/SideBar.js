@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import EditNode from "./EditNode";
 import EditEdge from "./EditEdge";
 
+
 const MindMapSideBar = (props) => {
   const nodeContext = useContext(NodeContext);
   const multitabContext = useContext(MultiTabContext);
@@ -119,7 +120,8 @@ const MindMapSideBar = (props) => {
   };
   return (
     <div>
-      {showFormat ? <EditNode /> : null}
+      {/* {showFormat ? <EditNode /> : null} */}
+      <EditNode/>
       {/* {showEdit ? <DragAbleNodes /> : null} */}
       {props.showArrow ? <EditEdge /> : null}
       <DragAbleNodes />

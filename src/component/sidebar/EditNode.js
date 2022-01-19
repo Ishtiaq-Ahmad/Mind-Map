@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
 import MultiTabContext from "../../Context/multiTab/MultiTabContext";
 import { SketchPicker } from "react-color";
-import { Switch } from "@material-ui/core";
+import Switch from '@mui/material/Switch';
 import Button from "@mui/material/Button";
 import FlowChartData, {
   transformFont,
@@ -25,7 +25,9 @@ import rectangle from "../../assets/images/rectangular-shape-outline.png";
 import shape from "../../assets/images/shape.PNG";
 import MenuItem from "@mui/material/MenuItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import '../../style/SideBar.css'
+import '../../style/SideBar.css';
+import '../../style/Header.css';
+import { Input } from '@mui/material';
 
 const EditNode = () => {
   const multitabContext = useContext(MultiTabContext);
@@ -90,7 +92,6 @@ const EditNode = () => {
           size="small"
           variant="outlined"
         />
-        <TextField size="small" label="Outlined" variant="outlined" />
         <TextField
           className="node_label"
           value={_periodsValue}
@@ -98,12 +99,12 @@ const EditNode = () => {
             periodsValueHandler(evt.target.value);
           }}
           label={periodFinalData}
-          // placeholder='Periods Value'
+          placeholder='Periods Value'
           size="small"
           variant="outlined"
         />
         <label> Upload an Image </label>
-        <input
+        <Input
           type="file"
           onChange={(e) => {
             const selectImage = e.target.files[0];
@@ -149,6 +150,7 @@ const EditNode = () => {
         >
           {hidden ? `Close Background Color` : "Background Color"}{" "}
         </Button>
+         
 
         <label>Border color</label>
         {hiddenBorder && (
@@ -186,9 +188,7 @@ const EditNode = () => {
             select
             value={nodeTransparent}
             name={nodeTransparent}
-            onChange={(evt) => {
-              nodeTransparentHandler(evt.target.value);
-            }}
+            onChange={(evt) => nodeTransparentHandler(evt.target.value)}
             label="Transparent Node"
             size="small"
             variant="outlined"

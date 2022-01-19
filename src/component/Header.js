@@ -221,12 +221,7 @@ const Header = (props) => {
                     select
                     value={specificData}
                     name={specificData}
-                    onChange={
-                        (evt) => {
-                      specificDataHandler(
-                        evt.target.value
-                      );
-                    }}
+                    onChange={(evt) => specificDataHandler(evt.target.value) }
                     label="Periods Data"
                     size="small"
                     variant="outlined"

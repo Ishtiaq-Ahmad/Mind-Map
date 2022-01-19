@@ -17,7 +17,8 @@ import smoothStep from "../../assets/images/smoothStep.png";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { v4 as uuidv4 } from "uuid";
-import EditNode from "./EditNode";
+import '../../style/SideBar.css';
+import '../../style/Header.css'
 
 const EditEdge = () => {
   const nodeContext = useContext(NodeContext);
