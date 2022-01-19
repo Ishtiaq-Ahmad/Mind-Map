@@ -337,5 +337,13 @@
   cursor: pointer;
 }
 
-  
-  
+/* .css-1h9z7r5-MuiButtonBase-root-MuiTab-root{
+  min-width: 0px !important;
+} */
+.css-13xfq8m-MuiTabPanel-root{
+padding: 0px !important;
+}
+.css-1t4lqmc-MuiButtonBase-root-MuiTab-root{
+  min-width: 0px !important;
+  /* padding: 0px !important; */
+}

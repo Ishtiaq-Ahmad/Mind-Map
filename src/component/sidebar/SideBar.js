@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { v4 as uuidv4 } from "uuid";
 import EditNode from "./EditNode";
 import EditEdge from "./EditEdge";
+import Tabs from './Tabs'
 
 
 const MindMapSideBar = (props) => {
@@ -120,11 +121,11 @@ const MindMapSideBar = (props) => {
   };
   return (
     <div>
+      <Tabs/>
       {/* {showFormat ? <EditNode /> : null} */}
-      <EditNode/>
       {/* {showEdit ? <DragAbleNodes /> : null} */}
-      {props.showArrow ? <EditEdge /> : null}
-      <DragAbleNodes />
+      {/* {props.showArrow ? <EditEdge /> : null} */}
+      {/* <DragAbleNodes /> */}
       {/* <FileUploader/> */}
       <input type="file" onChange={_csvFileHandler} />
       <img className="captureImage" src={props.screenCapture} />

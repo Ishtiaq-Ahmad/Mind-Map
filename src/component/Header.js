@@ -19,7 +19,7 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@material-ui/core";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
-import ColorLensIcon from '@mui/icons-material/ColorLens';
+// import ColorLensIcon from '@mui/icons-material/ColorLens';
 import { _signOut } from "../utils/helpers";
 import FlowChartData, {
   nodeSourcePosition,
@@ -254,9 +254,9 @@ const Header = (props) => {
               <PhotoCamera color="#616161" />
             </IconButton>
 
-            <IconButton color="primary" component="span" onClick={formatNode}>
+            {/* <IconButton color="primary" component="span" onClick={formatNode}>
               <ColorLensIcon />
-            </IconButton>
+            </IconButton> */}
            
 
             <IconButton
