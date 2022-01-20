@@ -57,7 +57,8 @@ const NodeState = (props) => {
     periodIndexNumber:[],
     _csvData:[] ,
     periodFinalData:'',
-    _periodsValue:''
+    _periodsValue:'',
+    showCsv: false
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
@@ -454,7 +455,6 @@ const nodeSizeDecreaseHandler = () => {
   })  
 }
 const loaderFile = ( _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
-  console.log('mind', _newCsvData);
   dispatch({
     type: actionTypes._CSV_FILE_LOADER,
     payload :{ _newCsvData,_indexNumber, valuesData, arr4,arr10}
@@ -503,6 +503,11 @@ const selectedTabHandler = (index) => {
   dispatch({
     type: actionTypes.SELECTED_TAB_HANDLER,
     payload: {index}
+  })
+}
+const showScvData = () => {
+  dispatch ({
+    type: actionTypes.SHOW_CSV_DATA
   })
 }
   return (
@@ -560,7 +565,8 @@ const selectedTabHandler = (index) => {
           periodsDataHandler,
           specificDataHandler,
           periodsValueHandler,
-          selectedTabHandler
+          selectedTabHandler,
+          showScvData
       }}
     >
       {props.children}

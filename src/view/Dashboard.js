@@ -73,7 +73,7 @@ const Dashboard = (props) => {
       </Button>
     </Link>
      
-      <Button
+      <Button 
         variant="contained"
         onClick={handleOpen}
         style={{ float: "right" }}

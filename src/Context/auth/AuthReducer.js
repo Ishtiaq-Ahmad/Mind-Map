@@ -4,7 +4,8 @@ import {
   CHANGE_LINE_ANIMATED,
   FORMAT_NODE,
   MULTI_TAB,
-  SET_PROFILE
+  SET_PROFILE,
+  SHOW_CSV_DATA
 } from "../types";
 
 const authReducer = (state, action) => {
@@ -44,6 +45,7 @@ const authReducer = (state, action) => {
       full_name
     }
 
+    
     default:
       return state;
   }

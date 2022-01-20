@@ -1,5 +1,5 @@
 import React, { useReducer, useRef, useState, useEffect } from "react";
-import { EDIT_THE_NODE,CHANGE_DOTED_LINE_ANIMATED,CHANGE_LINE_ANIMATED,SET_PROFILE,FORMAT_NODE,MULTI_TAB } from "../types";
+import { EDIT_THE_NODE,CHANGE_DOTED_LINE_ANIMATED,CHANGE_LINE_ANIMATED,SET_PROFILE,FORMAT_NODE,MULTI_TAB, SHOW_CSV_DATA } from "../types";
 import AuthContext from "./authContext";
 import AuthReducer from "./AuthReducer";
 
@@ -13,7 +13,8 @@ const NodeState = (props) => {
     email:'',
     role:'',
     userId: false,
-    nodeID:null
+    nodeID:null,
+  
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
@@ -51,7 +52,7 @@ const NodeState = (props) => {
         changeDotedLine,
         changeStraightLine,
         multiTabHandler,
-        setProfileHandler
+        setProfileHandler,
         
       }}
     >

@@ -5,14 +5,14 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import DragAbleNodes from '../DragAbleNodes'
+import DragAbleNodes from './DragAbleNodes'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 import EditNode from './EditNode';
 import EditEdge from './EditEdge';
 
-const Tabs = () => {
+const MTabs = () => {
      const [value, setValue] = React.useState('1');
 
   const handleChange = (event, newValue) => {
@@ -20,19 +20,21 @@ const Tabs = () => {
   };  
 
   return <div>
-      {/* <Box sx={{ width: '100%', typography: 'body1' }}> */}
+      {/* <Box sx={{ width: '100%' }}> */}
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
+        <div style={{borderBottom: '1px solid #bebfc0'}}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{display:'flex',justifyContent:"space-between"}}>
           AddBoxIcon
-          {/* <div style={{Background:"red"}}> */}
+          {/* <div style={{display:"flex", justifyContent: 'space-between'}}> */}
             <Tab icon={<AddBoxIcon />} value="1" />
             <Tab icon={<ListAltIcon />} value="2" /> 
             <Tab icon={<ColorLensIcon />}  value="3" />
             <Tab icon={<FormatPaintIcon />}  value="4" />
           {/* </div> */}
           </TabList>
-        </Box>
+        {/* </Box> */}
+        </div>
         <TabPanel value="1">{<DragAbleNodes/> }</TabPanel>
         <TabPanel value="2">Two</TabPanel>
         <TabPanel value="3">{<EditNode/>}</TabPanel>
@@ -43,4 +45,4 @@ const Tabs = () => {
   </div>;
 };
 
-export default Tabs;
+export default MTabs;

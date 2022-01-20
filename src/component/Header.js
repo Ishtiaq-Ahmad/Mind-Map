@@ -62,7 +62,8 @@ const Header = (props) => {
       _nodeType,
       showSourcePosition,
       specificData,
-      periodsData
+      periodsData,
+      showCsv
     },
     nodeSourcePositionHandler,
     isEmptyHandler,
@@ -217,7 +218,9 @@ const Header = (props) => {
                 </Button>
               </Link>
             ) : null}
-           <TextField
+            {
+              showCsv ? (
+                 <TextField
                     select
                     value={specificData}
                     name={specificData}
@@ -226,6 +229,7 @@ const Header = (props) => {
                     size="small"
                     variant="outlined"
                     style={{ width: "160px" }}
+                    color="primary"
                     // width="20px"
                     // fullWidth
                   >
@@ -235,7 +239,9 @@ const Header = (props) => {
                       </MenuItem>
                     ))}
                   </TextField>
-                  {/* <CsvPeriodsData/> */}
+              ) : null
+            }
+         
             <Button
               variant="contained"
               style={{ display: `${dataset.length < 1 ? `none` : `block`}` }}

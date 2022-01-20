@@ -55,14 +55,14 @@ const FlowChart = (props) => {
       if (nodeID) {
         const { data: _nodesDataa } = await getDocById("nodesData", nodeID);
         _nodesData = _nodesDataa;
-        console.log('csv first data', _nodesData);
+        
       }
       
       if (_nodesData) {
         _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
         _nodesData = _nodesData.data;
-        console.log('csv data',_nodesData);
+        
       }
     
       let isCollectionEmpty = _nodesData ? false : true;

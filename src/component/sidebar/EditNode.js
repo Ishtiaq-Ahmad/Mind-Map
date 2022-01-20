@@ -87,8 +87,8 @@ const EditNode = () => {
           onChange={(evt) => {
             nodeNameHandler(evt.target.value);
           }}
-          label={selectedNodeName}
-          // placeholder={selectedNodeName}
+          // label={selectedNodeName}
+          placeholder={selectedNodeName}
           size="small"
           variant="outlined"
         />

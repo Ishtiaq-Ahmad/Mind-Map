@@ -1,5 +1,6 @@
 import React from 'react'
-import '../style/SideBar.css'
+import '../../style/SideBar.css';
+import CsvFile from './CsvFile'
 
 const DragAbleNodes = () => {
     const onDragStart = (event, nodeType) => {
@@ -21,6 +22,7 @@ const DragAbleNodes = () => {
       <div className="dragAble_special_node" onDragStart={(event) => onDragStart(event, 'special')} draggable>
         Special Node
       </div>
+      <CsvFile/>
         </div>
     )
 }

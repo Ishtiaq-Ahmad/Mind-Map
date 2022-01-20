@@ -1056,7 +1056,9 @@ let cloneNodePositionUpdate
         periodIndexNumber : _indexNumber,
         periodsDataArray: valuesData,
         periodsHeadData: arr4,
-        periodsFirstColum: arr10
+        periodsFirstColum: arr10,
+        
+
         }
 
       case actionTypes.CSV_FILE_UPLOADER:
@@ -1090,10 +1092,6 @@ let cloneNodePositionUpdate
       const{evt: specificDataEvent} = action.payload
       let periodsValueData = state.periodsDataArray;
       let targetCsvDataSet
-      let bos = state.elementData.data.label;
-      
-      
-      console.log('sahi boe',state.elementData.data.label.props);
       if(state.elementData.data.label.props ){
         let finalValue =[]
       periodsValueData.forEach(element => {
@@ -1160,6 +1158,11 @@ let cloneNodePositionUpdate
        return {
         ...state,
         selectedTab: action.payload.index
+      }
+      case actionTypes.SHOW_CSV_DATA:
+      return{
+        ...state,
+        showCsv: !state.showCsv
       }
     default:
       return state;
