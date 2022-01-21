@@ -93,7 +93,7 @@ const FlowChart = (props) => {
   // const [selectedTab, setSelectedTab] = useState(_selectedTab);
   const [uploadImage, setUploadImage] = useState([]);
   const nodeContext = useContext(NodeContext);
-  const [showArrow, setShowArrow] = useState(false);
+  // const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
   const {
@@ -134,7 +134,9 @@ const FlowChart = (props) => {
     updateDataSetHandler(generatedEdge);
   };
 
-  const onElementClick = (event, element) => {
+  const onElementClick = (event, element, edge) => {
+  console.log(element);
+  console.log(edge);
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -217,8 +219,7 @@ const FlowChart = (props) => {
   };
 
   const onEdgeDoubleClick = (event, edge) => {
-    setShowArrow(true);
-    console.log('edge', edge);
+    // setShowArrow(true);
     onEdgeHandler(edge);
   };
 
@@ -291,8 +292,6 @@ const FlowChart = (props) => {
               </Grid>
               <Grid item  xs={2} className="sidebar">
                 <MindMapSideBar
-                  // selectedTab={selectedTab}
-                  showArrow={showArrow}
                   uploadImage={uploadImage}
                   setUploadImage={setUploadImage}
                   handleSave={handleSave}

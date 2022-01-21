@@ -221,7 +221,7 @@ const authReducer = (state, action) => {
         let targetBorder = [...state.dataset[state.selectedTab]];
         borderChange = targetBorder.map((el) => {
           if (el.id === state.selectedNode) {
-            el.style = { ...el.style, borderColor: updatedColor };
+            el.style = { ...el.style, borderStyle: 'solid',  borderColor: updatedColor };
           }
           return el;
         });

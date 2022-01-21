@@ -363,6 +363,20 @@ justify-content: space-between !important;
   padding: 8.5px !important;
   /* padding: 12px !important; */
 }
-.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input{
 
+.react-flow__node-special{
+border-width: 1px;
+border-color: green;
+border-style: solid;
+width: 150px;
+text-align: center;
+padding: 10px;
+border-radius: 4px;
 }
+.react-flow__node-special:hover{
+  box-shadow: 0 0 0 0.5px ;
+  border-width: 3px;
+}
+/* .react-flow__node-input{
+  border-color: #0041d0;
+} */

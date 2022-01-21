@@ -1,50 +1,48 @@
-import React from "react";
+import React,{useState} from "react";
 import ReactFlow, { Handle } from "react-flow-renderer";
 import '../style/CustomNodeComponent.css'
 // import '../../node_modules/react-flow-renderer/dist/theme-default.css'
 
-// const customNodeStyles = {
+const customNodeStyles = {
 //  padding: '10px',
-//   borderRadius: '3px',
-//   width: '150px',
-//   fontSize: '12px',
-//   color: '#222',
-//   textAlign: 'center',
-//   borderWidth: '1px',
-//   borderStyle: 'solid',
-// };
+  // borderRadius: '3px',
+  // width: '150px',
+  // fontSize: '12px',
+  // color: '#222',
+  // textAlign: 'center',
+  // borderWidth: '1px',
+  // borderStyle: 'solid',
+  // borderColor:'blue',
+  // borderRadius:'3px'
+};
 
 const CustomNodeComponent = ({ data, isConnectable}) => {
+  
   return (
-    <div className="customNodeStyles" >
+    <div >
       <Handle
         type="target"
         position="left"
-        // style={{ borderRadius: 0 }}
         isConnectable={isConnectable}
+        id='a'
       />
       <div >{data.label}</div>
-      
-      {/* <div>{style:{}}</div> */}
       <Handle
         type="source"
         position="right"
-        id="a"
-        // style={{  background: 'yellow' }}
+        id="b"
         isConnectable={isConnectable}
       />
       <Handle
         type="target"
         position="top"
-        id="b"
-        // style={{ top: "70%", borderRadius: 0 }}
+        id="c"
         isConnectable={isConnectable}
       />
        <Handle
         type="source"
         position="bottom"
-        id="b"
-        // style={{ top: "70%", borderRadius: 0 }}
+        id="d"
         isConnectable={isConnectable}
       />
     </div>

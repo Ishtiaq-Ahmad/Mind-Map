@@ -1,9 +1,5 @@
 import React from "react";
-import checkImage from "../assets/images/test.png";
-import hello from '../assets/images/node (1).png'
-// const hello =() =>{
 
-// }
 export const nodesData = [
   // {
   //   id: "1",
