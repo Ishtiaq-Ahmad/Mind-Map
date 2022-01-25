@@ -234,6 +234,25 @@ export const defaultNodeSource = [
 
 ];
 
+export const smartLineType = [
+  {
+    // value: 'USD',
+    label: 'curve',
+  },
+  {
+    // value: 'EUR',
+    label: 'straight',
+  },
+];
+export const smartLessCorners = [
+  {
+    label: 'false',
+  },
+  {
+    label: 'true',
+  },
+];
+
 const FlowChartData = (props) => {
   return <div></div>;
 };

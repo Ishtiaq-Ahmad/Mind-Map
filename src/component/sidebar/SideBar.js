@@ -43,11 +43,8 @@ const MindMapSideBar = (props) => {
 
  
   return (
-    <div>
+    <div style={{background: '#ffff'}}>
       <Tabs/>
-      {/* {showFormat ? <EditNode /> : null} */}
-      {/* {showEdit ? <DragAbleNodes /> : null} */}
-      {/* {props.showArrow ? <EditEdge /> : null} */}
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
         <Button onClick={props.handleSave} fullWidth variant="contained">

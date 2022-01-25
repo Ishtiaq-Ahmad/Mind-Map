@@ -58,13 +58,19 @@ const NodeState = (props) => {
     _csvData:[] ,
     periodFinalData:'',
     _periodsValue:'',
-    showCsv: false
+    showCsv: false,
+    smartPadding: 10,
+    smartGrid: 10,
+    smartLine: 'curve',
+    smartCorner: false,
+    showSmartCustom: false
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
   const {arrowWidth,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
 
   const onElementClickHandler = (element,treeDataUpdate) => {
+  
     let currentFinalValue
     try {
        let currentPeriodsValue =  element.data.label.props.children[2];
@@ -510,6 +516,40 @@ const showScvData = () => {
     type: actionTypes.SHOW_CSV_DATA
   })
 }
+const smartPaddingHandler = (evt) => {
+  
+  dispatch({
+    type: actionTypes.SMART_PADDING_HANDLER,
+    payload: {evt }
+  })
+}
+
+const smartGridHandler = (evt) => {
+  dispatch ({
+    type: actionTypes.SMART_GRID_HANDLER,
+    payload: {evt}
+  })
+}
+const smartLineTypHandler = (evt) => {
+  dispatch({
+    type: actionTypes.SMART_LINE_TYPE_HANDLER,
+    payload: {evt}
+  })
+}
+const lessCornerHandler = (evt) =>{
+  
+  dispatch({
+    type: actionTypes.SMART_LESS_CORNER,
+    payload: {evt}
+  })
+}
+const showSmartCustomization = () => {
+  dispatch ({ type: actionTypes.SHOW_SMART_CUSTOMIZATION})
+}
+const showSmoothCustomization = () => {
+  dispatch ({ type: actionTypes.SHOW_SMOOTH_CUSTOMIZATION})
+}
+
   return (
     <MultiTabContext.Provider
       value={{
@@ -566,7 +606,13 @@ const showScvData = () => {
           specificDataHandler,
           periodsValueHandler,
           selectedTabHandler,
-          showScvData
+          showScvData,
+          smartPaddingHandler,
+          smartGridHandler,
+          smartLineTypHandler,
+          lessCornerHandler,
+          showSmartCustomization,
+          showSmoothCustomization
       }}
     >
       {props.children}

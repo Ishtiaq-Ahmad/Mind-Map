@@ -1,11 +1,10 @@
 import React, { useContext, useState } from "react";
 import TextField from "@mui/material/TextField";
 import "../../style/SideBar.css";
-import NodeContext from "../../Context/auth/authContext";
 import MultiTabContext from "../../Context/multiTab/MultiTabContext";
 import line from "../../assets/images/straight_line2.png";
 import doted from "../../assets/images/doted.png";
-import FlowChartData, { arrowLabelColor } from "../FlowChartData.js";
+import { arrowLabelColor } from "../FlowChartData.js";
 import Button from "@mui/material/Button";
 import { SketchPicker } from "react-color";
 import MenuItem from "@mui/material/MenuItem";
@@ -17,11 +16,13 @@ import smoothStep from "../../assets/images/smoothStep.png";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { v4 as uuidv4 } from "uuid";
-import '../../style/SideBar.css';
-import '../../style/Header.css'
+import "../../style/SideBar.css";
+import "../../style/Header.css";
+import { smartLineType, smartLessCorners } from "../FlowChartData";
+import Typography from "@mui/material/Typography";
 
 const EditEdge = () => {
-  const nodeContext = useContext(NodeContext);
+
   const multitabContext = useContext(MultiTabContext);
   const {
     data: {
@@ -30,6 +31,9 @@ const EditEdge = () => {
       edgeLabelColor,
       arrowColor,
       arrowWidth,
+      smartLine,
+      smartCorner,
+      showSmartCustom,
     },
     changeArrowType,
     changeLineHandler,
@@ -40,52 +44,134 @@ const EditEdge = () => {
     arrowHeadHandler,
     arrowWidthDecreaseHandler,
     arrowWidthIncreaseHandler,
+    smartPaddingHandler,
+    smartGridHandler,
+    smartLineTypHandler,
+    lessCornerHandler,
+    showSmartCustomization,
+    showSmoothCustomization,
   } = multitabContext;
   const [labelColorHide, setLabelColoHide] = useState(false);
   const [arrowColorHide, setArrowColorHide] = useState(false);
+
   return (
-    <div>
+    <div style={{ padding: "5px" }}>
       <div>
-        <h4>Select Arrow</h4>
+        <Typography variant="body2" gutterBottom component="div">
+          Select Arrow:
+        </Typography>
         <span className="arrow">
           <img
             src={Curved}
             alt="curved arrow"
             className="curved"
-            onClick={(e) => changeArrowType(e)}
+            onClick={(e) => {
+              changeArrowType(e);
+              showSmoothCustomization();
+            }}
             id="curved"
           />
           <img
             src={Smooth}
             alt="step arrow"
             className="curved"
-            onClick={(e) => changeArrowType(e)}
+            onClick={(e) => {
+              changeArrowType(e);
+              showSmoothCustomization();
+            }}
             id="step"
           />
           <img
             src={smoothStep}
             alt="smooth arrow"
             className="curved"
-            onClick={(e) => changeArrowType(e)}
+            onClick={(e) => {
+              changeArrowType(e);
+              showSmoothCustomization();
+            }}
             id="smoothstep"
           />
           <img
             src={Straight}
             alt="straight arrow"
             className="curved"
-            onClick={(e) => changeArrowType(e)}
+            onClick={(e) => {
+              changeArrowType(e);
+              showSmoothCustomization();
+            }}
             id="straight"
           />
           <img
             src={smartRouting}
             alt="straight arrow"
             className="curved"
-            onClick={(e) => changeArrowType(e)}
+            onClick={(e) => {
+              changeArrowType(e);
+              showSmartCustomization();
+            }}
             id="smart"
           />
         </span>
+        {showSmartCustom ? (
+          <div className="smartLineStyle">
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                type="number"
+                size="small"
+                label="Smart Padding"
+                onChange={(evt) => smartPaddingHandler(evt.target.value)}
+              />
+              <TextField
+                id="standard-basic"
+                variant="standard"
+                type="number"
+                size="small"
+                label="Grid Ratio"
+                onChange={(evt) => smartGridHandler(evt.target.value)}
+              />
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <TextField
+                variant="standard"
+                id="outlined-select-currency"
+                select
+                label="Line Type"
+                size="small"
+                value={smartLine}
+                onChange={(evt) => smartLineTypHandler(evt.target.value)}
+              >
+                {smartLineType.map((option) => (
+                  <MenuItem key={option.label} value={option.label}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                id="outlined-select-currency"
+                variant="standard"
+                select
+                label="Less Corner"
+                size="small"
+                value={smartCorner}
+                onChange={(evt) => lessCornerHandler(evt.target.value)}
+                // helperText="Please lessConers"
+              >
+                {smartLessCorners.map((option) => (
+                  <MenuItem key={option.label} value={option.label}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </div>
+          </div>
+        ) : null}
+
         <div>
-          <h4>Select Animation</h4>
+          <Typography variant="body2" gutterBottom component="div">
+            Select Animation:
+          </Typography>
           <span className="animation">
             <img
               src={line}
@@ -101,7 +187,9 @@ const EditEdge = () => {
             />
           </span>
         </div>
-        <h4>Change Label Name</h4>
+        <Typography variant="body2" gutterBottom component="div">
+          Change Label Name:
+        </Typography>
         <TextField
           className="node_label"
           value={edgeLabelName}
@@ -110,6 +198,7 @@ const EditEdge = () => {
           label="Label Name"
           size="small"
           variant="outlined"
+          color="primary"
         />
         <div>
           <TextField
@@ -121,7 +210,7 @@ const EditEdge = () => {
             label="Font Weight"
             size="small"
             variant="outlined"
-            helperText="Select Font weight for Label"
+            // helperText="Select Font weight for Label"
             fullWidth
           >
             {arrowLabelColor.map((option) => (
@@ -130,8 +219,11 @@ const EditEdge = () => {
               </MenuItem>
             ))}
           </TextField>
+
           <div style={{ marginBottom: "10px" }}>
-            <label>Change Label Color</label>
+            <Typography variant="body2" gutterBottom component="div">
+              Change Label Color:
+            </Typography>
             <Button
               variant="outlined"
               fullWidth
@@ -151,7 +243,9 @@ const EditEdge = () => {
             )}
           </div>
         </div>
-        <label>Change Arrow Color</label>
+        <Typography variant="body2" gutterBottom component="div">
+          Change Arrow Color:
+        </Typography>
         <Button
           variant="outlined"
           fullWidth
@@ -180,7 +274,9 @@ const EditEdge = () => {
           />
         </div>
         <div className="border">
-          <label>Arrow width</label>
+          <Typography variant="body2" gutterBottom component="div">
+            Arrow Width:
+          </Typography>
           <span className="borderWidth">
             <button
               onClick={() => arrowWidthDecreaseHandler()}

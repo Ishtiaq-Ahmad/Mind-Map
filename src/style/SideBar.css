@@ -281,6 +281,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    margin-bottom: 10px;
+    padding-right: 10px;
   }
   .curved {
     width: 21%;
@@ -377,6 +379,15 @@ border-radius: 4px;
   box-shadow: 0 0 0 0.5px ;
   border-width: 3px;
 }
-/* .react-flow__node-input{
-  border-color: #0041d0;
-} */
+
+.smartLineStyle{
+border: 1px solid rgb(134, 134, 134);
+border-radius: 4px;
+padding: 0px 1px 5px 1px;
+margin-top: 10px;
+}
+.smartLineStyle:hover{
+  border: 1px solid #1c7ddd ;
+  
+  
+}

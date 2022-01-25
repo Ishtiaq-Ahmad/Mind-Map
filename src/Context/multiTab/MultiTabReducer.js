@@ -1164,6 +1164,66 @@ let cloneNodePositionUpdate
         ...state,
         showCsv: !state.showCsv
       }
+      case actionTypes.SMART_PADDING_HANDLER:
+      const {evt: paddingValue} = action.payload
+       let targetSmartPadding = [...state.dataset[state.selectedTab]];
+      const nodeSmartPadding = targetSmartPadding.map((el) => {
+       if (el.id === state.selectArrow) {
+         console.log('taliban', el.type);
+            return el
+          }
+        return el;
+      });
+  
+    
+      let cloneSmartPadding = [...state.dataset];
+
+      cloneSmartPadding = cloneSmartPadding.map((tab, index) => {
+        if(state.selectedTab === index){
+          return nodeSmartPadding
+        }
+        else {
+          return tab
+        }
+
+      })
+
+      return {
+        ...state,
+        smartPadding: paddingValue,
+        dataset: [...cloneSmartPadding],
+
+      }
+      case actionTypes.SMART_GRID_HANDLER:
+      const {evt: _smartGrid} = action.payload
+      return {
+        ...state,
+        smartGrid : _smartGrid
+      }
+      case actionTypes.SMART_LINE_TYPE_HANDLER:
+      const {evt: _smartLineType} = action.payload
+      return {
+        ...state,
+        smartLine: _smartLineType
+        
+      }
+      case actionTypes.SMART_LESS_CORNER:
+      const {evt: _smartLessCorner} = action.payload;
+      return {
+        ...state,
+        smartCorner: !state.smartCorner
+      }
+      case actionTypes.SHOW_SMART_CUSTOMIZATION:
+    
+      return {
+        ...state,
+        showSmartCustom: true
+      }
+      case actionTypes.SHOW_SMOOTH_CUSTOMIZATION:
+      return{
+        ...state,
+        showSmartCustom: false
+      }
     default:
       return state;
   }

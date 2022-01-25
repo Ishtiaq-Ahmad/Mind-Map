@@ -30,8 +30,9 @@ const nodeTypes = {
 
 const FlowChart = (props) => {
   const containerContext = useContext(ContainerData);
+  // const [nodePadding , setNodePadding] = useState(20)
   const {
-    data: { dataset, docID, selectedTab },
+    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -135,8 +136,8 @@ const FlowChart = (props) => {
   };
 
   const onElementClick = (event, element, edge) => {
-  console.log(element);
-  console.log(edge);
+  console.log(' i m edge ',edge);
+  console.log('i am element', element);
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -145,7 +146,7 @@ const FlowChart = (props) => {
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
-    onElementClickHandler(element, treeDataUpdate);
+    onElementClickHandler(element,  treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
     if (seletedElements && seletedElements.length > 1) {
@@ -220,6 +221,7 @@ const FlowChart = (props) => {
 
   const onEdgeDoubleClick = (event, edge) => {
     // setShowArrow(true);
+    console.log({edge});
     onEdgeHandler(edge);
   };
 
@@ -263,7 +265,7 @@ const FlowChart = (props) => {
               >
                 {/* <div>tab container ....# {selectedTab}</div> */}
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
-                <SmartEdgeProvider options={{ debounceTime: 3000 , nodePadding: 10, gridRatio : 40, lineType : "straight", lessCorners : false}}>
+                <SmartEdgeProvider options={{ debounceTime: 3000 , nodePadding: smartPadding, gridRatio : smartGrid, lineType : smartLine, lessCorners : smartCorner }}>
                   <ReactFlow
                     ref={componentRef}
                     elements={dataset[selectedTab]}
