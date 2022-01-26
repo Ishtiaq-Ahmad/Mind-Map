@@ -9,6 +9,7 @@ import MultiTabReducer from "./MultiTabReducer";
 const NodeState = (props) => {
    const imageRef = useRef(null)
   const initialState = {
+    options: {},
     // dataset for each container
     dataset: [],
     elementData: '',
@@ -385,27 +386,33 @@ let head = e.target.id;
       payload:{head}
     })
 }
- const arrowWidthIncreaseHandler = () => {
-    let arrowInc = arrowWidth + 1;
-    dispatch({
-      type: actionTypes.ARROW_WIDTH_INCREASE,
-      payload: { arrowInc },
-    });
-  };
-  const arrowWidthDecreaseHandler = () => {
-    let arrowDec = 0
-      if(arrowWidth > 1){
-        arrowDec = arrowWidth - 1
-      }
-      else{
-        arrowDec = arrowWidth
-      }
-    dispatch({
-      type: actionTypes.ARROW_WIDTH_DECREASE,
-      payload: { arrowDec },
+//  const arrowWidthIncreaseHandler = () => {
+//     let arrowInc = arrowWidth + 1;
+//     dispatch({
+//       type: actionTypes.ARROW_WIDTH_INCREASE,
+//       payload: { arrowInc },
+//     });
+//   };
+  // const arrowWidthDecreaseHandler = () => {
+  //   let arrowDec = 0
+  //     if(arrowWidth > 1){
+  //       arrowDec = arrowWidth - 1
+  //     }
+  //     else{
+  //       arrowDec = arrowWidth
+  //     }
+  //   dispatch({
+  //     type: actionTypes.ARROW_WIDTH_DECREASE,
+  //     payload: { arrowDec },
       
-    });
-  };
+  //   });
+  // };
+  const arrowWidthHandler = (evt) => {
+    dispatch ({
+      type: actionTypes.ARROW_WIDTH_HANDLER,
+      payload: {evt}
+    })
+  }
 const imageHandler = (e,imageLoad) => {
 // const selectImage = e.target.files[0];
 // const allowed_types = ['image/png'];
@@ -459,6 +466,12 @@ const nodeSizeDecreaseHandler = () => {
     type:actionTypes.NODE_SIZE_DECREASE,
     payload:{ nodeSizeDec}
   })  
+}
+const nodeSizeHandler = (evt) => {
+ dispatch({
+type: actionTypes.NODE_SIZE_HANDLER,
+payload: {evt}
+ })
 }
 const loaderFile = ( _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
   dispatch({
@@ -586,8 +599,8 @@ const showSmoothCustomization = () => {
         edgeLabelColorHandler,
         arrowColorHandler,
         arrowHeadHandler,
-        arrowWidthDecreaseHandler,
-        arrowWidthIncreaseHandler,
+        // arrowWidthDecreaseHandler,
+        // arrowWidthIncreaseHandler,
         removeElementHandler,
         imageHandler,
         multipleSelectNode,
@@ -612,7 +625,9 @@ const showSmoothCustomization = () => {
           smartLineTypHandler,
           lessCornerHandler,
           showSmartCustomization,
-          showSmoothCustomization
+          showSmoothCustomization,
+          arrowWidthHandler,
+          nodeSizeHandler
       }}
     >
       {props.children}

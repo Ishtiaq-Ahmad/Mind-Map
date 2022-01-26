@@ -11,6 +11,7 @@ import ColorLensIcon from '@mui/icons-material/ColorLens';
 import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 import EditNode from './EditNode';
 import EditEdge from './EditEdge';
+import NodesInfo from './NodesInfo'
 
 const MTabs = () => {
      const [value, setValue] = React.useState('1');
@@ -36,7 +37,7 @@ const MTabs = () => {
         {/* </Box> */}
         </div>
         <TabPanel value="1">{<DragAbleNodes/> }</TabPanel>
-        <TabPanel value="2">Two</TabPanel>
+        <TabPanel value="2">{<NodesInfo/>}</TabPanel>
         <TabPanel value="3">{<EditNode/>}</TabPanel>
         <TabPanel value="4">{<EditEdge/>}</TabPanel>
 

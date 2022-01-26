@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef } from "react";
 import TextField from "@mui/material/TextField";
 import MultiTabContext from "../../Context/multiTab/MultiTabContext";
 import { SketchPicker } from "react-color";
@@ -28,6 +28,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import '../../style/SideBar.css';
 import '../../style/Header.css';
 import { Input } from '@mui/material';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import InputAdornment from '@mui/material/InputAdornment';
+import IconButton from '@mui/material/IconButton';
 
 const EditNode = () => {
   const multitabContext = useContext(MultiTabContext);
@@ -53,6 +57,7 @@ const EditNode = () => {
       periodFinalData,
       _periodsValue,
       _hideAllNodes,
+      selectedNode
     },
     nodeNameHandler,
     periodsValueHandler,
@@ -76,7 +81,17 @@ const EditNode = () => {
     hideTreeHandler,
     nodeSizeDecreaseHandler,
     nodeSizeIncreaseHandler,
+    nodeSizeHandler
     } = multitabContext;
+  const [copySuccess, setCopySuccess] = useState('');
+  const textAreaRef = useRef(null);
+  const copyToClipBoard = (e) =>{
+    textAreaRef.current.select();
+  document.execCommand('copy');
+   e.target.focus();
+    setCopySuccess('Copied!');
+
+  }
 
   return (
     <div>
@@ -103,6 +118,33 @@ const EditNode = () => {
           size="small"
           variant="outlined"
         />
+        <TextareaAutosize
+      aria-label="empty textarea"
+      placeholder="Node ID"
+      // style={{ width: 200 }}
+      value={selectedNode}
+      readOnly 
+      ref={textAreaRef}
+      // fullWidth
+      // helperText={copySuccess}
+      endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={copyToClipBoard}
+                  // onMouseDown={handleMouseDownPassword}
+                >
+                  <ContentCopyIcon/>
+                </IconButton>
+              </InputAdornment>
+            }
+    />
+    {/* <textarea
+            ref={(textarea) => textArea = textarea}
+            value={selectedNode}
+            readOnly
+          /> */}
+    <button onClick={copyToClipBoard}>Copy</button>
         <label> Upload an Image </label>
         <Input
           type="file"
@@ -201,6 +243,16 @@ const EditNode = () => {
             ))}
           </TextField>
         </div>
+        {/* <TextField
+                id="standard-basic"
+                variant="standard"
+                type="number"
+                size="small"
+                label="Node Width"
+                value ={nodeSize}
+                onChange={(evt) => nodeSizeHandler(evt.target.value)}
+              /> */}
+          
         <div className="border">
           <label>Node Size</label>
           <span className="borderWidth">

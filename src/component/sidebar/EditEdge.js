@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import TextField from "@mui/material/TextField";
+import TextField from '@mui/material/TextField';
 import "../../style/SideBar.css";
 import MultiTabContext from "../../Context/multiTab/MultiTabContext";
 import line from "../../assets/images/straight_line2.png";
@@ -18,7 +18,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { v4 as uuidv4 } from "uuid";
 import "../../style/SideBar.css";
 import "../../style/Header.css";
-import { smartLineType, smartLessCorners } from "../FlowChartData";
+import { smartLineType, smartLessCorners, arrowWidthArray } from "../FlowChartData";
 import Typography from "@mui/material/Typography";
 
 const EditEdge = () => {
@@ -50,6 +50,7 @@ const EditEdge = () => {
     lessCornerHandler,
     showSmartCustomization,
     showSmoothCustomization,
+    arrowWidthHandler
   } = multitabContext;
   const [labelColorHide, setLabelColoHide] = useState(false);
   const [arrowColorHide, setArrowColorHide] = useState(false);
@@ -114,7 +115,7 @@ const EditEdge = () => {
         </span>
         {showSmartCustom ? (
           <div className="smartLineStyle">
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex" }}>
               <TextField
                 id="standard-basic"
                 variant="standard"
@@ -132,13 +133,13 @@ const EditEdge = () => {
                 onChange={(evt) => smartGridHandler(evt.target.value)}
               />
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex" }}>
               <TextField
                 variant="standard"
                 id="outlined-select-currency"
                 select
                 label="Line Type"
-                size="small"
+                fullWidth
                 value={smartLine}
                 onChange={(evt) => smartLineTypHandler(evt.target.value)}
               >
@@ -153,7 +154,7 @@ const EditEdge = () => {
                 variant="standard"
                 select
                 label="Less Corner"
-                size="small"
+                fullWidth
                 value={smartCorner}
                 onChange={(evt) => lessCornerHandler(evt.target.value)}
                 // helperText="Please lessConers"
@@ -273,11 +274,26 @@ const EditEdge = () => {
             id="arrowclosed"
           />
         </div>
-        <div className="border">
-          <Typography variant="body2" gutterBottom component="div">
+        {/* <div className="border"> */}
+          {/* <Typography variant="body2" gutterBottom component="div">
             Arrow Width:
-          </Typography>
-          <span className="borderWidth">
+          </Typography> */}
+        <TextField
+                variant="outlined"
+                id="outlined-select-currency"
+                select
+                label="Arrow Width"
+                fullWidth
+                value={arrowWidth}
+                onChange={(evt) => arrowWidthHandler(evt.target.value)}
+              >
+                {arrowWidthArray.map((option) => (
+                  <MenuItem key={option.label} value={option.label}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+          {/* <span className="borderWidth">
             <button
               onClick={() => arrowWidthDecreaseHandler()}
               className="borderWidthButton"
@@ -291,8 +307,8 @@ const EditEdge = () => {
             >
               <strong>+</strong>
             </button>
-          </span>
-        </div>
+          </span> */}
+        {/* </div> */}
       </div>
     </div>
   );

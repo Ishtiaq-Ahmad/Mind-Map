@@ -652,6 +652,8 @@ const authReducer = (state, action) => {
     //  ************Arrow Customization*********************
     case actionTypes.ARROW_TYPE:
       let { arrowTypeId } = action.payload;
+      console.log('hello tab', state.selectedTab);
+      console.log('chimpensi', state.dataset);
       let targetArrowType = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowType.findIndex(
@@ -815,42 +817,69 @@ const authReducer = (state, action) => {
         arrowHead: head,
         dataset: [...cloneArrowHead],
       };
-    case actionTypes.ARROW_WIDTH_INCREASE:
-      let { arrowInc } = action.payload;
-      let targetArrowIncrease = [...state.dataset[state.selectedTab]];
-      if (state.selectArrow) {
-        const index = targetArrowIncrease.findIndex(
-          (item) => item.id === state.selectArrow
-        );
-        targetArrowIncrease[index].style = {
-          strokeWidth: arrowInc,
-          stroke: state.edgeLabelColor,
-          arrowHeadType: state.arrowHead,
-        };
-        //  {strokeWidth: arrowInc};
-      }
-      let cloneArrowSizeInc = [...state.dataset];
-      cloneArrowSizeInc = cloneArrowSizeInc.map((tab, index) => {
-        if (state.selectedTab === index) {
-          return targetArrowIncrease;
-        } else {
-          return tab;
-        }
-      });
-      return {
-        ...state,
-        arrowWidth: arrowInc,
-        dataset: [...cloneArrowSizeInc],
-      };
-    case actionTypes.ARROW_WIDTH_DECREASE:
-      let { arrowDec } = action.payload;
-      let targetArrowDecrease = [...state.dataset[state.selectedTab]];
+    // case actionTypes.ARROW_WIDTH_INCREASE:
+    //   let { arrowInc } = action.payload;
+    //   let targetArrowIncrease = [...state.dataset[state.selectedTab]];
+    //   if (state.selectArrow) {
+    //     const index = targetArrowIncrease.findIndex(
+    //       (item) => item.id === state.selectArrow
+    //     );
+    //     targetArrowIncrease[index].style = {
+    //       strokeWidth: arrowInc,
+    //       stroke: state.edgeLabelColor,
+    //       arrowHeadType: state.arrowHead,
+    //     };
+    //     //  {strokeWidth: arrowInc};
+    //   }
+    //   let cloneArrowSizeInc = [...state.dataset];
+    //   cloneArrowSizeInc = cloneArrowSizeInc.map((tab, index) => {
+    //     if (state.selectedTab === index) {
+    //       return targetArrowIncrease;
+    //     } else {
+    //       return tab;
+    //     }
+    //   });
+    //   return {
+    //     ...state,
+    //     arrowWidth: arrowInc,
+    //     dataset: [...cloneArrowSizeInc],
+    //   };
+    // case actionTypes.ARROW_WIDTH_DECREASE:
+    //   let { arrowDec } = action.payload;
+    //   let targetArrowDecrease = [...state.dataset[state.selectedTab]];
+    //   if (state.selectArrow) {
+    //     const index = targetArrowDecrease.findIndex(
+    //       (item) => item.id === state.selectArrow
+    //     );
+    //     targetArrowDecrease[index].style = {
+    //       strokeWidth: arrowDec,
+    //       stroke: state.edgeLabelColor,
+    //       arrowHeadType: state.arrowHead,
+    //     };
+    //   }
+    //   let cloneArrowSizeDecrease = [...state.dataset];
+    //   cloneArrowSizeDecrease = cloneArrowSizeDecrease.map((tab, index) => {
+    //     if (state.selectedTab === index) {
+    //       return targetArrowDecrease;
+    //     } else {
+    //       return tab;
+    //     }
+    //   });
+
+    //   return {
+    //     ...state,
+    //     arrowWidth: arrowDec,
+    //     dataset: [...cloneArrowSizeDecrease],
+    //   };
+      case actionTypes.ARROW_WIDTH_HANDLER:
+    const {evt: _arrowWidth } = action.payload;
+     let targetArrowDecrease = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowDecrease.findIndex(
           (item) => item.id === state.selectArrow
         );
         targetArrowDecrease[index].style = {
-          strokeWidth: arrowDec,
+          strokeWidth: _arrowWidth,
           stroke: state.edgeLabelColor,
           arrowHeadType: state.arrowHead,
         };
@@ -866,9 +895,9 @@ const authReducer = (state, action) => {
 
       return {
         ...state,
-        arrowWidth: arrowDec,
+        arrowWidth: _arrowWidth,
         dataset: [...cloneArrowSizeDecrease],
-      };
+      }
     case actionTypes.ADD_PNG_IMAGE:
       let { imageLoad } = action.payload;
       let targetNodeImage = [...state.dataset[state.selectedTab]];
@@ -999,6 +1028,31 @@ const authReducer = (state, action) => {
         nodeSize: nodeSizeDec,
         dataset: [...cloneNodeSizeDec],
       };
+
+      case actionTypes.NODE_SIZE_HANDLER:
+      const {evt: _nodeSize} = action.payload;
+      
+      let _targetNodeSize = [...state.dataset[state.selectedTab]];
+      const _nodeWidthSize = _targetNodeSize.map((el) => {
+        if (el.id === state.selectedNode) {
+          el.style = { ...el.style, width:  _nodeSize};
+        }
+        return el;
+      });
+      let cloneNodeSize = [...state.dataset];
+      cloneNodeSize = cloneNodeSize.map((tab, index) => {
+        if (state.selectedTab === index) {
+          return _nodeWidthSize;
+        } else {
+          return tab;
+        }
+      });
+      return {
+        ...state,
+        nodeSize: _nodeSize,
+        dataset: [...cloneNodeSize],
+      };
+
     case actionTypes.NODE_DRAG_ID_HANDLER:
     return{
       ...state,
@@ -1165,12 +1219,19 @@ let cloneNodePositionUpdate
         showCsv: !state.showCsv
       }
       case actionTypes.SMART_PADDING_HANDLER:
-      const {evt: paddingValue} = action.payload
+      const {evt: paddingValue} = action.payload;
+      console.log('yes', state.options);
+      let smartOption = [state.options];
        let targetSmartPadding = [...state.dataset[state.selectedTab]];
       const nodeSmartPadding = targetSmartPadding.map((el) => {
        if (el.id === state.selectArrow) {
-         console.log('taliban', el.type);
-            return el
+          smartOption.map((opt) => {
+          console.log('hey log', opt);
+          //  opt.options={...opt.options, nodePadding: paddingValue }
+          //  el.style = { ...el.style, borderStyle: "solid", borderWidth: width2 };
+          return opt
+         })
+            
           }
         return el;
       });

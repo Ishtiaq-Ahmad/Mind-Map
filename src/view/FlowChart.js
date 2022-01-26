@@ -32,7 +32,7 @@ const FlowChart = (props) => {
   const containerContext = useContext(ContainerData);
   // const [nodePadding , setNodePadding] = useState(20)
   const {
-    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner },
+    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner , options  },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -47,6 +47,9 @@ const FlowChart = (props) => {
   useEffect(() => {
     fetchData();
   }, []);
+  
+  
+  
 
   const fetchData = async () => {
     try {
@@ -129,6 +132,7 @@ const FlowChart = (props) => {
         type: "buttonedge",
         label: "label",
         arrowHeadType: "arrowclosed",
+        
       },
       dataset[selectedTab]
     );
@@ -136,8 +140,6 @@ const FlowChart = (props) => {
   };
 
   const onElementClick = (event, element, edge) => {
-  console.log(' i m edge ',edge);
-  console.log('i am element', element);
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);
@@ -235,6 +237,11 @@ const FlowChart = (props) => {
 
     nodeDragIdHandler( nodeId);
   };
+  // const options = (event)=> {
+  //   // nodePadding : '400',
+  //   console.log('hello evetn', event);
+
+  // }
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -265,7 +272,8 @@ const FlowChart = (props) => {
               >
                 {/* <div>tab container ....# {selectedTab}</div> */}
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
-                <SmartEdgeProvider options={{ debounceTime: 3000 , nodePadding: smartPadding, gridRatio : smartGrid, lineType : smartLine, lessCorners : smartCorner }}>
+                <SmartEdgeProvider options={{  nodePadding: smartPadding, gridRatio : smartGrid, lineType : smartLine, lessCorners : smartCorner }}>
+                {/* <SmartEdgeProvider options={options} > */}
                   <ReactFlow
                     ref={componentRef}
                     elements={dataset[selectedTab]}
@@ -285,6 +293,9 @@ const FlowChart = (props) => {
                     onNodeDragStart={onNodeDragStart}
                     nodeTypes={nodeTypes}
                     onPaneClick={onPaneClick}
+                    connectionMode="loose"
+                    arrowHeadColor= 'blue'
+                    
                   >
                     <Controls />
                     <Background color="#aaa" gap={16} />

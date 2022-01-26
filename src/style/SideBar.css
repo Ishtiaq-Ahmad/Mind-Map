@@ -193,20 +193,20 @@
     border: 1px solid black;
     border-radius: 3px;
   }
-  .borderWidthButton {
+   .borderWidthButton {
     background-color: whitesmoke;
     border: 1px solid black;
     border-radius: 3px;
     height: 30px;
     width: 30px;
     font-size: 25px;
-  }
+  } 
   .borderWidthButton:hover {
     background-color: lightblue;
   }
   .borderWidthButton:active {
     background-color: lightseagreen;
-  }
+  } 
   .borderFont {
     margin-left: 15px;
     margin-right: 15px;
@@ -383,7 +383,7 @@ border-radius: 4px;
 .smartLineStyle{
 border: 1px solid rgb(134, 134, 134);
 border-radius: 4px;
-padding: 0px 1px 5px 1px;
+padding: 5px 5px 5px 5px;
 margin-top: 10px;
 }
 .smartLineStyle:hover{
