@@ -29,7 +29,7 @@ try{
           <Typography variant="caption" gutterBottom component="div">
             <strong>Node ID:</strong> {element.id}
           </Typography>
-
+  
           <Typography variant="caption" gutterBottom component="div">
             <strong>Node Name: </strong> {element.data.label}
           </Typography>

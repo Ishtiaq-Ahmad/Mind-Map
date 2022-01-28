@@ -1145,11 +1145,15 @@ let cloneNodePositionUpdate
       case actionTypes.SPECIFIC_DATA_HANDLER:
       const{evt: specificDataEvent} = action.payload
       let periodsValueData = state.periodsDataArray;
+      console.log('periodsValueData', periodsValueData);
+      console.log('periodsHeadData', state.periodsHeadData);
       let targetCsvDataSet
-      if(state.elementData.data.label.props ){
+      // if(state.elementData.data.label.props ){
         let finalValue =[]
       periodsValueData.forEach(element => {
+        
       let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
+      console.log('value', _value);
       let secondValue = element[_value]
       finalValue.push(secondValue)     
        });
@@ -1157,12 +1161,12 @@ let cloneNodePositionUpdate
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i]}  `}</strong>{periodsFirstName[i]}<strong> {finalValue[i]}</strong></>)}
+          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i-1]}  `}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
          } 
-      }
-      else{
-        console.log('i am other data');
-      }
+      // }
+      // else{
+      //   console.log('i am other data');
+      // }
       
       return{
         ...state,

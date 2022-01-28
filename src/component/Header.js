@@ -203,7 +203,7 @@ const Header = (props) => {
                       </MenuItem>
                     ))}
                   </TextField>
-                )}{" "}
+                )}
               </>
             ) : null}
             {role === 1 ? (
@@ -218,8 +218,8 @@ const Header = (props) => {
                 </Button>
               </Link>
             ) : null}
-            {
-              showCsv ? (
+            {/* { */}
+              {/* showCsv ? ( */}
                  <TextField
                     select
                     value={specificData}
@@ -227,7 +227,7 @@ const Header = (props) => {
                     onChange={(evt) => specificDataHandler(evt.target.value) }
                     label="Periods Data"
                     size="small"
-                    variant="outlined"
+                    variant= "outlined"
                     style={{ width: "160px" }}
                     color="primary"
                     // width="20px"
@@ -239,8 +239,8 @@ const Header = (props) => {
                       </MenuItem>
                     ))}
                   </TextField>
-              ) : null
-            }
+              {/* ) : null */}
+            {/* } */}
          
             <Button
               variant="contained"

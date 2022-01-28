@@ -494,6 +494,7 @@ const periodsDataHandler = (arr5) =>{
 }
 
 const specificDataHandler = (evt) => {
+  
   dispatch({
     type: actionTypes.SPECIFIC_DATA_HANDLER,
     payload:{evt}

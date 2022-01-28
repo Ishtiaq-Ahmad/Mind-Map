@@ -32,6 +32,7 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
 
 const EditNode = () => {
   const multitabContext = useContext(MultiTabContext);
@@ -116,7 +117,7 @@ const EditNode = () => {
           label={periodFinalData}
           placeholder='Periods Value'
           size="small"
-          variant="outlined"
+          variant="standard"
         />
         <TextareaAutosize
       aria-label="empty textarea"
@@ -144,6 +145,9 @@ const EditNode = () => {
             value={selectedNode}
             readOnly
           /> */}
+        <Typography variant="overline" display="block" gutterBottom>
+        {copySuccess}
+      </Typography>
     <button onClick={copyToClipBoard}>Copy</button>
         <label> Upload an Image </label>
         <Input
