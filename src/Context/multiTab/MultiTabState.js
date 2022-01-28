@@ -64,12 +64,16 @@ const NodeState = (props) => {
     smartGrid: 10,
     smartLine: 'curve',
     smartCorner: false,
-    showSmartCustom: false
+    showSmartCustom: false,
+    hideAllNodeNumber: true,
+
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {arrowWidth,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
-
+  const {dataset,arrowWidth,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
+   
+   
+   
   const onElementClickHandler = (element,treeDataUpdate) => {
   
     let currentFinalValue
@@ -563,6 +567,12 @@ const showSmartCustomization = () => {
 const showSmoothCustomization = () => {
   dispatch ({ type: actionTypes.SHOW_SMOOTH_CUSTOMIZATION})
 }
+const hideNodeNumber = (eve) =>{
+  dispatch({
+    type: actionTypes.HIDE_NODE_NUMBER,
+    payload: {eve}
+  })
+}
 
   return (
     <MultiTabContext.Provider
@@ -628,7 +638,8 @@ const showSmoothCustomization = () => {
           showSmartCustomization,
           showSmoothCustomization,
           arrowWidthHandler,
-          nodeSizeHandler
+          nodeSizeHandler,
+          hideNodeNumber
       }}
     >
       {props.children}

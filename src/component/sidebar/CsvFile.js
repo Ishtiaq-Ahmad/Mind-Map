@@ -14,7 +14,7 @@ const multitabContext = useContext(MultiTabContext);
     periodsDataHandler,
     showScvData
   } = multitabContext;
- 
+
 // *************** Testing start*****************
 const dataset1 = dataset[0]
 // const nodesIdList = dataset1.map((element) => {
@@ -198,7 +198,7 @@ const dataset1 = dataset[0]
           data: {
             label: (
               <>
-                <strong>{`${indexNumber}  `}</strong>
+               <strong>  {indexNumber}  </strong>
                 {arr8}
                 <strong> {periodsNodesData}</strong>
               </>
@@ -209,7 +209,7 @@ const dataset1 = dataset[0]
         else{
           alert('plase match node id first')
         }
-      console.log('im log', {periodsNodesData});
+      
         arr.push(_csvNode);
         //  _newCsvData = [...dataset[props.selectedTab], ...arr];
 

@@ -58,7 +58,8 @@ const EditNode = () => {
       periodFinalData,
       _periodsValue,
       _hideAllNodes,
-      selectedNode
+      selectedNode,
+      hideAllNodeNumber
     },
     nodeNameHandler,
     periodsValueHandler,
@@ -82,8 +83,10 @@ const EditNode = () => {
     hideTreeHandler,
     nodeSizeDecreaseHandler,
     nodeSizeIncreaseHandler,
-    nodeSizeHandler
+    nodeSizeHandler,
+    hideNodeNumber
     } = multitabContext;
+    
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
   const copyToClipBoard = (e) =>{
@@ -483,6 +486,17 @@ const EditNode = () => {
             onChange={(evt) => hideTreeHandler(evt.target.checked)}
             color="primary"
             name="checkedB"
+            className="switchHide"
+            inputProps={{ "aria-label": "primary checkbox" }}
+          />
+        </div>
+         <div className="hideElements">
+          <label>Hide Node Number:</label>
+          <Switch
+            checked={hideAllNodeNumber}
+            onChange={(evt) => hideNodeNumber(evt.target.checked)}
+            color="primary"
+            // name="checkedB"
             className="switchHide"
             inputProps={{ "aria-label": "primary checkbox" }}
           />

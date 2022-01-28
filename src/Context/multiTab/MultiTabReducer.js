@@ -1086,7 +1086,7 @@ let cloneNodePositionUpdate
  
     case actionTypes._CSV_FILE_LOADER:
     let {  _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
-      let _csvUpload = [...state.dataset];
+      let _csvUpload = [...state.dataset[state.selectedTab]];
       
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
@@ -1144,16 +1144,15 @@ let cloneNodePositionUpdate
 
       case actionTypes.SPECIFIC_DATA_HANDLER:
       const{evt: specificDataEvent} = action.payload
+      
       let periodsValueData = state.periodsDataArray;
       console.log('periodsValueData', periodsValueData);
-      console.log('periodsHeadData', state.periodsHeadData);
+      // console.log('periodsHeadData', state.periodsHeadData);
       let targetCsvDataSet
       // if(state.elementData.data.label.props ){
         let finalValue =[]
-      periodsValueData.forEach(element => {
-        
+      periodsValueData.forEach(element => {  
       let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
-      console.log('value', _value);
       let secondValue = element[_value]
       finalValue.push(secondValue)     
        });
@@ -1161,7 +1160,7 @@ let cloneNodePositionUpdate
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{` ${_periodIndexNumber[i-1]}  `}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
+          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{_periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
          } 
       // }
       // else{
@@ -1289,6 +1288,31 @@ let cloneNodePositionUpdate
         ...state,
         showSmartCustom: false
       }
+      case actionTypes.HIDE_NODE_NUMBER:
+      const {eve: _nodeNumber} = action.payload
+let nodeNumberData = state.periodsDataArray;  
+       let _finalValue =[]
+      nodeNumberData.forEach(element => {  
+      let _value =state.periodsHeadData.findIndex(index => index === state.specificData);
+      let secondValue = element[_value]
+      _finalValue.push(secondValue)     
+       });
+      let targetNodeNumber = [...state.dataset[state.selectedTab]]
+      
+      let periodsNodeName =[...state.periodsFirstColum];
+      let _periodsNodeNumber = [...state.periodIndexNumber]
+      for(let i = 0; i <= targetNodeNumber.length-1; i++){
+          targetNodeNumber[i].data = {...targetNodeNumber[i].data, label:(<><strong>{state.hideAllNodeNumber ? _periodsNodeNumber[i-1]: null}</strong>{periodsNodeName[i-1]}<strong> {_finalValue[i-1]}</strong></>)}
+         } 
+      
+      return{
+        ...state,
+        hideAllNodeNumber: !state.hideAllNodeNumber,
+        dataset: [targetNodeNumber]
+      }
+
+     
+
     default:
       return state;
   }
