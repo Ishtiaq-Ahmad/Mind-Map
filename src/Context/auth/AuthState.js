@@ -14,6 +14,7 @@ const NodeState = (props) => {
     role:'',
     userId: false,
     nodeID:null,
+    fullName:''
   
   };
 
@@ -36,6 +37,7 @@ const NodeState = (props) => {
   }
   const setProfileHandler =({isLoggedIn:{email,role, uid,nodeID,full_name}}) => {
     console.log('email.....',email, role, uid);
+    
     dispatch({
         type: SET_PROFILE, 
         payload:{email, role, uid,nodeID,full_name}

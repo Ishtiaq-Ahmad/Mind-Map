@@ -42,7 +42,8 @@ const authReducer = (state, action) => {
       email, role,
       userId: uid,
       nodeID,
-      full_name
+      full_name,
+      fullName: full_name
     }
 
     

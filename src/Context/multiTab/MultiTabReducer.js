@@ -1146,8 +1146,6 @@ let cloneNodePositionUpdate
       const{evt: specificDataEvent} = action.payload
       
       let periodsValueData = state.periodsDataArray;
-      console.log('periodsValueData', periodsValueData);
-      // console.log('periodsHeadData', state.periodsHeadData);
       let targetCsvDataSet
       // if(state.elementData.data.label.props ){
         let finalValue =[]
@@ -1160,7 +1158,7 @@ let cloneNodePositionUpdate
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{_periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
+          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
          } 
       // }
       // else{
@@ -1176,6 +1174,7 @@ let cloneNodePositionUpdate
       const {evt: periodsValue}= action.payload;
       let allCsvData = [...state._csvData]
       let periodsNameData
+      // console.log('state.hideAllNodeNumber', state.hideAllNodeNumber);
       allCsvData.map((elem) =>{
         if(elem.id === state.selectedNode){
            periodsNameData =  elem.data.label.props.children[1];   
@@ -1189,12 +1188,13 @@ let cloneNodePositionUpdate
            periodsIndexFinal = indexData
         }
       })
+      
 
        let targetPeriodsValue = [...state.dataset[state.selectedTab]]
        const nodePeriodsData = targetPeriodsValue.map((element) => {
             if (element.id === state.selectedNode) {
           element.data ={...element.data, 
-          label :(<><strong>{periodsIndexFinal}</strong>{periodsNameData}<strong> {periodsValue}</strong></>)}
+          label :(<><strong>{state.hideAllNodeNumber? periodsIndexFinal: null}</strong>{periodsNameData}<strong> {periodsValue}</strong></>)}
         }
         return element;
        })

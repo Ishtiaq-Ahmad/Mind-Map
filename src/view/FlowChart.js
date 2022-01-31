@@ -7,6 +7,7 @@ import ReactFlow, {
   getOutgoers,
   getConnectedEdges,
 } from "react-flow-renderer";
+import '../App.css';
 import { Grid } from "@material-ui/core";
 import '../style/SideBar.css'
 import Header from '../component/Header'
@@ -21,6 +22,7 @@ import CustomNodeComponent from '../component/CustomNodeComponent';
 import {getDocById} from '../utils/helpers'
 import { v4 as uuidv4 } from "uuid";
 import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
+import logo from '../assets/images/logo512.png'
 
 const nodeTypes = {
   special: CustomNodeComponent,
@@ -32,7 +34,7 @@ const FlowChart = (props) => {
   const containerContext = useContext(ContainerData);
   // const [nodePadding , setNodePadding] = useState(20)
   const {
-    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner , options  },
+    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner , specificData },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -101,7 +103,7 @@ const FlowChart = (props) => {
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
   const {
-    data: { tabs, nodeID },
+    data: { tabs, nodeID,  fullName,role},
   } = nodeContext;
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
@@ -114,8 +116,29 @@ const FlowChart = (props) => {
     downloadLink.download = fileName;
     downloadLink.click();
   };
+  let currentDate = new Date();
+
+  let date = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
+   let  time = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
   const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
+    content: () => {
+      // const comre = componentRef.current
+      const tableStat = componentRef.current.cloneNode(true);
+      const PrintElem = document.createElement('div');
+      const header = 
+        `${role !== 1 ?(`<img src="${logo}" alt="" class="watermark"/>`) : ''}` + 
+        `<div class="page-footer">Model Name: <strong>${window.location.hostname} </strong> Tab Name: <strong> Screen: ${selectedTab} </strong> 
+        Date <strong>${date + ' ' + time}</strong>  
+        Period: <strong>${specificData}</strong> 
+        User: <strong>${fullName}</strong>
+        Software Owner: <strong>Fritz</strong>
+        Software Developer: <strong>Ishtiaq Ahmad</strong>
+
+        </div>`;
+      PrintElem.innerHTML = header;
+      PrintElem.appendChild(tableStat);
+      return PrintElem;
+    },
   });
 
   const onElementsRemove = (elementsToRemove) => {

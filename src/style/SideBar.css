@@ -375,6 +375,7 @@ text-align: center;
 padding: 10px;
 border-radius: 4px;
 background-color: #ffff;
+font-size: 12px;
 }
 .react-flow__node-special:hover{
   box-shadow: 0 0 0 0.5px ;

@@ -50,7 +50,7 @@ const NodeState = (props) => {
     docID:null,
     isEmpty:true,
     periodsData:'',
-    specificData:'',
+    specificData:'Not Imported',
     periodsDataArray:'',
     periodsNodesData:'',
     periodsHeadData:[],
@@ -65,7 +65,7 @@ const NodeState = (props) => {
     smartLine: 'curve',
     smartCorner: false,
     showSmartCustom: false,
-    hideAllNodeNumber: true,
+    hideAllNodeNumber: false,
 
   };
 
