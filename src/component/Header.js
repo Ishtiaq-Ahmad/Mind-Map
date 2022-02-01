@@ -26,7 +26,8 @@ import FlowChartData, {
   defaultNodeSource,
 } from "./FlowChartData";
 import CsvPeriodsData from './CsvPeriodsData';
-import { Link, useHistory } from "react-router-dom";
+// import { Link, useHistory } from "react-router-dom";
+import { useNavigate, Link } from 'react-router-dom';
 import {
   getAllData,
   createDocWithID,
@@ -51,11 +52,12 @@ const style = {
 };
 
 const Header = (props) => {
-  let history = useHistory();
+  // let history = useHistory();
+  const navigate = useNavigate();
   const nodeContext = useContext(NodeContext);
   const nodeMultiContext = useContext(MultiTabContext);
   const {
-    data: { role, userId, email, full_name },formatNode,multiTabHandler} = nodeContext;
+    data: { role, userId, email, full_name },multiTabHandler} = nodeContext;
   const {data: {dataset,docID,
       isEmpty,
       sourcePosition,
@@ -63,7 +65,8 @@ const Header = (props) => {
       showSourcePosition,
       specificData,
       periodsData,
-      showCsv
+      multiNodeName
+      
     },
     nodeSourcePositionHandler,
     isEmptyHandler,
@@ -112,7 +115,8 @@ const Header = (props) => {
     }
   };
   const signOutHandler =  () => {
-    _signOut( history.push("/"))
+    // _signOut( history.push("/"))
+    _signOut(navigate('/'))
    
     // await signOut(auth)
     // console.log('signout')
@@ -293,11 +297,29 @@ const Header = (props) => {
           >
             <Box sx={style}>
               <Typography id="modal-modal-title" variant="h6" component="h2">
-                Short Cuts
+              Group Nodes:
               </Typography>
-              <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-                Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-              </Typography>
+             
+              {
+                multiNodeName.map((item, index) =>(
+                  <fragment key={item.map}>
+                   <Typography variant="caption" gutterBottom component="div">
+            <strong>Node Number:</strong> { index + 1}
+          </Typography>
+          <Typography variant="caption" gutterBottom component="div">
+            <strong>Node ID:</strong> { item.id}
+          </Typography>
+  
+          <Typography variant="caption" gutterBottom component="div">
+            {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
+           <strong>Node Name: </strong> { item.data.label}
+          
+          </Typography>
+          <Divider />
+
+                  </fragment>
+                ) )
+              }
             </Box>
           </Modal>
           {/* <div className="right_icons">

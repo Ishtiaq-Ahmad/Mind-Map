@@ -19,20 +19,23 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-const auth = getAuth();
+const auth = getAuth(app);
 const user = auth.currentUser;
 
-onAuthStateChanged(auth, (user) => {
+
+const _stateChange = async() =>{
+await onAuthStateChanged(auth, (user) => {
   if (user) {
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
+    console.log('user already login');
     const uid = user.uid;
     // ...
   } else {
-    // User is signed out
-    // ...
+
+    console.log('user not login');
   }
 });
+}
+
 const _signOut = async() => {
  try {
    await signOut(auth).then(
@@ -51,8 +54,6 @@ const createDocWithID = (_collection, docID, docOBJ) => {
   return new Promise(async (resolve, reject) => {
     try {
       const createdDoc = await setDoc(doc(db, _collection, docID), docOBJ);
-      console.log({ createdDoc });
-
       resolve(createdDoc);
     } catch (error) {
       reject(error);
@@ -117,8 +118,7 @@ const signup = (email, password, full_name) => {
         const user = userCredential.user;
         // user registered and authenticated
 
-        console.log({ user });
-        console.log("hello user id", user.uid);
+        //   
 
         // get user UID
 
@@ -156,6 +156,7 @@ const login = (email, password) => {
         let { data } = await getDocById("users", user.uid);
         // store role and user email to context store
         //  setProfileHandler({data})
+        // console.log('big data', data);
 
         //
         resolve(data);
@@ -219,4 +220,5 @@ export {
   getDocById,
   updateDocWithId,
   snapShot,
+  _stateChange
 };

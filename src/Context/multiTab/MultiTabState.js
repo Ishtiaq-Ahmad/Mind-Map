@@ -66,12 +66,13 @@ const NodeState = (props) => {
     smartCorner: false,
     showSmartCustom: false,
     hideAllNodeNumber: false,
+    showNodeCustomization: false,
+    multiNodeName: [],
 
   };
 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {dataset,arrowWidth,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
-   
+  const {multiSelectNode,multiNodeName,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
    
    
   const onElementClickHandler = (element,treeDataUpdate) => {
@@ -432,11 +433,13 @@ dispatch({
   payload: {imageLoad}
 })
   }
-const multipleSelectNode = (multi) => {
+const multipleSelectNode = (multi, seletedElements) => {
  
+ let multiData = seletedElements.map((ele) => ele)
+
 dispatch({
   type:actionTypes.MULTI_NODE_ELEMENTS,
-  payload:{multi}
+  payload:{multi, multiData}
 })
 }
 const nodeSourcePositionHandler = (evt) => {

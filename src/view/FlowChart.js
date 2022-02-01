@@ -19,10 +19,11 @@ import ContainerData from '../Context/multiTab/MultiTabContext'
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
 import CustomNodeComponent from '../component/CustomNodeComponent';
-import {getDocById} from '../utils/helpers'
+import {getDocById, _stateChange} from '../utils/helpers'
 import { v4 as uuidv4 } from "uuid";
 import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
 import logo from '../assets/images/logo512.png'
+
 
 const nodeTypes = {
   special: CustomNodeComponent,
@@ -51,7 +52,9 @@ const FlowChart = (props) => {
   }, []);
   
   
-  
+  useEffect(() =>{
+      _stateChange()
+  }, [])
 
   const fetchData = async () => {
     try {
@@ -174,10 +177,13 @@ const FlowChart = (props) => {
     onElementClickHandler(element,  treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
+    
     if (seletedElements && seletedElements.length > 1) {
       if (seletedElements) {
-        const multi = seletedElements.map((item) => item.id);
-        multipleSelectNode(multi);
+        const multi = seletedElements.map((item) =>
+        { return item.id});
+        console.log('mu;ti', multi);
+        multipleSelectNode(multi, seletedElements);
       }
     }
   };

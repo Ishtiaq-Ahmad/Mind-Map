@@ -163,21 +163,21 @@ const dataset1 = dataset[0]
 
     console.log('pane is empty');
 }
-     
+    //  console.log('headers', headers);
       for (i = 1; i <= headers.length - 1; i++) {
+        
         const arr6 = headers[i];
         const arr7 = arr6.split(",");
       
         const preNodeId = _nodesId[i - 1];
         const preNodeXposition = node_xposition[i-1];
-        const preNodeYposition = node_yposition[i - 1];
+        const preNodeYposition = node_yposition[i -1];
         const preNodeType = node_type[i - 1];
 
         const csvNodeID = arr7[0]
     
         
         const indexNumber = arr7.find((element) => element > 0);
-        // console.log('element', element);
         _indexNumber.push(indexNumber);
       
         const arr8 = arr7.slice(2, 3);
@@ -228,9 +228,9 @@ const dataset1 = dataset[0]
  
   return <div>
        {/* <input type="file" accept=".csv" onChange={_csvFileHandler} /> */}
-       <ReactFileReader handleFiles ={_csvFileHandler} fileTypes={[".csv"]} >
+       {/* <ReactFileReader handleFiles ={_csvFileHandler} fileTypes={[".csv"]} >
              <Button fullWidth variant="outlined">Upload Csv File</Button>
-       </ReactFileReader>
+       </ReactFileReader> */}
        <ReactFileReader handleFiles ={uploadCsvHandler} fileTypes={[".csv"]} >
              <Button fullWidth variant="outlined">Upload CSV</Button>
        </ReactFileReader>

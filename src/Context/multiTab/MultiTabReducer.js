@@ -32,7 +32,9 @@ const authReducer = (state, action) => {
     case actionTypes.MULTI_NODE_ELEMENTS:
       return {
         ...state,
+        
         multiSelectNode: action.payload.multi,
+        multiNodeName : action.payload.multiData,
       };
     case actionTypes.LOAD_DATA_FROM_DB:
       return {
@@ -95,6 +97,7 @@ const authReducer = (state, action) => {
       return {
         ...state,
         dataset: [...drag],
+        showNodeCustomization: true,
         docID: state.docID ? state.docID : _docid,
       };
     case actionTypes.UPDATE_DATA_SET:
@@ -185,7 +188,6 @@ const authReducer = (state, action) => {
         _edge = targetEdgeLabelColor.map((el) => {
           console.log('ehis is ', el);
           if (el.id === state.selectedNode) {
-            // console.log('muct color', el.style);
             el.style = { ...el.style, backgroundColor: bgColor };
           }
           return el;
@@ -593,22 +595,51 @@ const authReducer = (state, action) => {
       };
     case actionTypes.HIDE_NODE:
       let { e: hideElement } = action.payload;
-      let targetHideElement = [...state.dataset[state.selectedTab]];
-      let nodeHideElement = "";
-      if (state.selectArrow) {
+    let nodeHideElement = "";
+      if (hideElement !== "" && state.multiSelectNode.length > 0) {
+        let clonedElements = [...state.dataset[state.selectedTab]];
+        clonedElements.map((multiple) => {
+          if (state.multiSelectNode.includes(multiple.id)) {
+            multiple["isHidden"] = { ...multiple["isHidden"] };
+            multiple["isHidden"] = hideElement;
+          }
+          return multiple;
+        });
+        nodeHideElement = [...clonedElements];
+      } else if (state.multiSelectNode !== "" && hideElement !== "") {
+        let targetHideElement = [...state.dataset[state.selectedTab]];
+        if (state.selectArrow) {
         nodeHideElement = targetHideElement.map((el) => {
           if (el.id === state.selectedArrow) {
             el.isHidden = hideElement;
           }
           return el;
         });
-      } else {
-        nodeHideElement = targetHideElement.map((el) => {
+        }else{
+           nodeHideElement = targetHideElement.map((el) => {
           if (el.id === state.selectedNode) {
             el.isHidden = hideElement;
           }
           return el;
-        });
+        })
+        }
+
+      // let targetHideElement = [...state.dataset[state.selectedTab]];
+      // let nodeHideElement = "";
+      // if (state.selectArrow) {
+      //   nodeHideElement = targetHideElement.map((el) => {
+      //     if (el.id === state.selectedArrow) {
+      //       el.isHidden = hideElement;
+      //     }
+      //     return el;
+      //   });
+      // } else {
+      //   nodeHideElement = targetHideElement.map((el) => {
+      //     if (el.id === state.selectedNode) {
+      //       el.isHidden = hideElement;
+      //     }
+      //     return el;
+      //   });
       }
 
       let cloneHideElement = [...state.dataset];

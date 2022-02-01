@@ -59,7 +59,8 @@ const EditNode = () => {
       _periodsValue,
       _hideAllNodes,
       selectedNode,
-      hideAllNodeNumber
+      hideAllNodeNumber,
+      showNodeCustomization
     },
     nodeNameHandler,
     periodsValueHandler,
@@ -90,16 +91,27 @@ const EditNode = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const textAreaRef = useRef(null);
   const copyToClipBoard = (e) =>{
+   
     textAreaRef.current.select();
   document.execCommand('copy');
    e.target.focus();
-    setCopySuccess('Copied!');
+    // setCopySuccess('Copied!');
+    if(copySuccess === 'Copied!'){
+      setCopySuccess('')
+    }
+    else{
+      setCopySuccess('Copied!')
+    }
 
   }
+ 
 
   return (
     <div>
-      <div className="text_bg">
+    {
+        showNodeCustomization ? (
+           <div className="text_bg">
+      
         <TextField
           className="node_label"
           value={nodeName}
@@ -136,18 +148,12 @@ const EditNode = () => {
                 <IconButton
                   aria-label="toggle password visibility"
                   onClick={copyToClipBoard}
-                  // onMouseDown={handleMouseDownPassword}
                 >
                   <ContentCopyIcon/>
                 </IconButton>
               </InputAdornment>
             }
     />
-    {/* <textarea
-            ref={(textarea) => textArea = textarea}
-            value={selectedNode}
-            readOnly
-          /> */}
         <Typography variant="overline" display="block" gutterBottom>
         {copySuccess}
       </Typography>
@@ -502,6 +508,9 @@ const EditNode = () => {
           />
         </div>
       </div>
+        ) : 'Drage Node to the page'
+      }
+     
     </div>
   );
 };

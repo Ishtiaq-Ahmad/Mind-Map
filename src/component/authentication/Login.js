@@ -11,8 +11,10 @@ import picGif from "../../assets/images/loginGif.gif";
 import EmailIcon from "@mui/icons-material/Email";
 import { login } from "../../utils/helpers";
 import NodeContext from "../../Context/auth/authContext";
+import { useNavigate } from 'react-router-dom';
 
 const Login = (props) => {
+    const navigate = useNavigate();
   const nodeContext = useContext(NodeContext);
   const { setProfileHandler } = nodeContext;
 
@@ -41,13 +43,14 @@ const Login = (props) => {
         let isLoggedIn = await login(email, password);
         if (isLoggedIn) {
           setProfileHandler({ isLoggedIn });
-          props.history.push("/home");
+          navigate('/home');
+          // props.history.push("/home");
         } else {
           alert("error");
         }
       } catch (error) {
         // console.log("oops error in user login", error);
-        alert("incorrect username and password");
+        alert(error);
       }
     }
   };

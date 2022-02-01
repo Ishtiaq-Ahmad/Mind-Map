@@ -5,17 +5,17 @@ import "./index.css";
 import App from "./App";
 import NodeContext from "./Context/auth/AuthState";
 import MultiTabState from "./Context/multiTab/MultiTabState";
+import { BrowserRouter } from "react-router-dom";
 
 
 ReactDOM.render(
-
-  <NodeContext>
-    <MultiTabState>
-   
-      <App />
-      
-    </MultiTabState>
-  </NodeContext>,
+  <BrowserRouter>
+    <NodeContext>
+      <MultiTabState>
+        <App />
+      </MultiTabState>
+    </NodeContext>
+  </BrowserRouter>,
 
   document.getElementById("root")
 );

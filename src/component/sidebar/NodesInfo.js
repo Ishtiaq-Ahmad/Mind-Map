@@ -5,10 +5,9 @@ import Divider from '@mui/material/Divider';
 
 const NodesInfo = () => {
   const multitabContext = useContext(MultiTabContext);
-  const [dataInfo, setDataInfo] = useState('Pane is empty')
-  const { dataset, selectedTab, selectedNode } = multitabContext.data;
+  const { dataset, selectedTab } = multitabContext.data;
   let myData = [ ];
-  let noData = ''
+ 
 
 try{
      myData = [...dataset[selectedTab]];   
@@ -21,19 +20,29 @@ try{
 
     <div>
       {myData.map((element, index) => (
+        
+       
         <div  key={element.id}>
-          
-          <Typography variant="caption" gutterBottom component="div">
-            <strong>Node Number:</strong> {index + 1}
+       { 
+       element.type === 'input' || element.type === 'output' || element.type === 'default' || element.type === 'special'? (
+         <>
+         <Typography variant="caption" gutterBottom component="div">
+            <strong>Node Number:</strong> { index + 1}
           </Typography>
           <Typography variant="caption" gutterBottom component="div">
-            <strong>Node ID:</strong> {element.id}
+            <strong>Node ID:</strong> { element.id}
           </Typography>
   
           <Typography variant="caption" gutterBottom component="div">
-            <strong>Node Name: </strong> {element.data.label}
+            {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
+           <strong>Node Name: </strong> { element.data.label}
+          
           </Typography>
           <Divider />
+          </>
+       ): null
+       }
+          
         </div>
       ))}
      

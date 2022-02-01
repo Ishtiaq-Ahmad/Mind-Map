@@ -42,18 +42,3 @@ div.page-footer {
   opacity: 0.9;
   page-break-after: always;
 }
-  /* html, body {
-    /* width: 210mm; */
-    /* height: 97mm; */
-  /* }  */
-  /* .watermark {
-    position: fixed;
-    top: 50vh;
-    z-index: 9;
-    width: 50vw;
-    page-break-after: always;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: .1;
-  } */
-/* } */

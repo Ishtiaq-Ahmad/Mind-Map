@@ -13,30 +13,34 @@ const NewUser = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [full_name, setFull_Name] = useState("");
-  const [passwordMatch, setPasswordMatch] = useState("");
+  const [confirmPassword, setConfirmPassowrd] = useState("");
+  const [errorState, setErrorState] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   const registerHandler = async (e) => {
     // e.prevent.default()
-    if (email && password && full_name) {
+    if(password !== confirmPassword){
+      // alert('Password do not match')
+      setErrorState(true)
+      setErrorText('Password do not match')
+    }else if (email && password && full_name) {
       try {
         const isUserCreated = await signup(email, password, full_name);
         console.log({ isUserCreated });
         props.setOpen(false);
       } catch (error) {
-        console.alert("oops error in user register", error);
+        alert("oops error in user register", error);
       }
-    } else {
+    }  else {
       alert("Please Provide valid user email and password");
     }
+    // if(password !== confirmPassword){
+    //     alert('Password do not match')
+    //     return;
+    // }
   };
  
-  const passwordMatchHandler = (e) => {
-    setPasswordMatch(e.target.value);
-
-    if (passwordMatch !== password) {
-      console.log("message error");
-    }
-  };
+ 
   return (
     <div>
       <Typography style={{ textAlign: "center" }} variant="h5" component="div">
@@ -82,6 +86,7 @@ const NewUser = (props) => {
           label="Password"
           type="password"
           placeholder="Password"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
           InputProps={{
             startAdornment: (
@@ -98,8 +103,11 @@ const NewUser = (props) => {
           id="input-with-icon-textfield"
           label="Confirm Password"
           type="password"
+          error={errorState}
+           helperText={errorText}
+          value={confirmPassword}
           placeholder="Confirm Password"
-          onChange={passwordMatchHandler}
+          onChange={(e) => setConfirmPassowrd(e.target.value)}
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
