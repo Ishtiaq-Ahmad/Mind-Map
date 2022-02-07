@@ -508,7 +508,7 @@ const EditNode = () => {
           />
         </div>
       </div>
-        ) : 'Drage Node to the page'
+        ) : 'Drag Node to the page'
       }
      
     </div>

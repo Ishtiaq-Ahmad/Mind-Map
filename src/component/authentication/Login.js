@@ -41,6 +41,7 @@ const Login = (props) => {
       // const isLoggedIn=''
       try {
         let isLoggedIn = await login(email, password);
+        console.log('isLoggedIn', isLoggedIn);
         if (isLoggedIn) {
           setProfileHandler({ isLoggedIn });
           navigate('/home');

@@ -92,6 +92,7 @@ const Header = (props) => {
       // alert("empty");
       // finalData = [...dataset[props.selectedTab]];
       finalData = [...dataset];
+    
       // const { data } = await getDocById("nodesData", docID);
       // console.log({ data });
       const serializedData = JSON.stringify({
@@ -115,22 +116,7 @@ const Header = (props) => {
     }
   };
   const signOutHandler =  () => {
-    // _signOut( history.push("/"))
     _signOut(navigate('/'))
-   
-    // await signOut(auth)
-    // console.log('signout')
-    // await _signOut();
-    // props.history.push('/login')
-    // try {
-    //    _signOut(
-    //      props.history.push('/login')
-    //    );
-
-    // } catch (error) {
-    //   alert("oops error in user login", error);
-    // }
-  
   };
   let multiUser = {
     transform:"scale(.9)"

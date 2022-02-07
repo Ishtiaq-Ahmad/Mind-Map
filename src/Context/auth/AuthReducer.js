@@ -5,7 +5,7 @@ import {
   FORMAT_NODE,
   MULTI_TAB,
   SET_PROFILE,
-  SHOW_CSV_DATA
+  AUTH_STATE_CHANGE
 } from "../types";
 
 const authReducer = (state, action) => {
@@ -46,7 +46,7 @@ const authReducer = (state, action) => {
       fullName: full_name
     }
 
-    
+   
     default:
       return state;
   }

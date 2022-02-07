@@ -174,7 +174,6 @@ const getAllData = async (_collection) => {
   let datalist = [];
   const query = collection(db, _collection);
   const querySnapshot = await getDocs(query);
-  console.log({ querySnapshot });
   datalist = querySnapshot.docs.map((doc) => doc.data());
   return datalist;
 };

@@ -233,6 +233,13 @@ export const defaultNodeSource = [
  
 
 ];
+export const _options = [
+  {
+     nodePadding: 10,
+     smartGrid: 10
+   
+  },
+];
 
 export const smartLineType = [
   {

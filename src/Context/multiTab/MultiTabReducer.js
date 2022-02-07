@@ -37,11 +37,33 @@ const authReducer = (state, action) => {
         multiNodeName : action.payload.multiData,
       };
     case actionTypes.LOAD_DATA_FROM_DB:
+    const{data, docid, status} = action.payload
+
+    // let aData = data
+    // let numbers
+    // aData.forEach(element => {
+    //    let numberOnly = (val) =>{
+    //   if(typeof(val) === 'object'){
+    //     return val;
+    //   }
+    // }
+    //  numbers = element.filter(numberOnly)
+    // });
+    //  numbers.map((ele) => {
+    //  ele.id = {...ele.id}
+    //  ele.type= {...ele.type}
+    //  ele.position = {...ele.position, x : ele.position.x , y: ele.position.y }
+    //  ele.data = {...ele.data, label: ele.data.label}
+    //  return ele
+    // });
+   
+  
       return {
         ...state,
-        dataset: action.payload.data,
-        docID: action.payload.docid,
-        isEmpty: action.payload.status,
+        showNodeCustomization: true,
+        dataset: data,
+        docID: docid,
+        isEmpty: status,
       };
     case actionTypes.ON_EDGE_DOUBLE_CLICK:
       return {
@@ -683,8 +705,7 @@ const authReducer = (state, action) => {
     //  ************Arrow Customization*********************
     case actionTypes.ARROW_TYPE:
       let { arrowTypeId } = action.payload;
-      console.log('hello tab', state.selectedTab);
-      console.log('chimpensi', state.dataset);
+      
       let targetArrowType = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowType.findIndex(
@@ -1189,7 +1210,8 @@ let cloneNodePositionUpdate
       let periodsFirstName =[...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
+          // targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
+targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNumber[i-1] + periodsFirstName[i-1] +  finalValue[i-1])}
          } 
       // }
       // else{
@@ -1225,7 +1247,7 @@ let cloneNodePositionUpdate
        const nodePeriodsData = targetPeriodsValue.map((element) => {
             if (element.id === state.selectedNode) {
           element.data ={...element.data, 
-          label :(<><strong>{state.hideAllNodeNumber? periodsIndexFinal: null}</strong>{periodsNameData}<strong> {periodsValue}</strong></>)}
+          label :(state.hideAllNodeNumber? periodsIndexFinal: '' + periodsNameData +  periodsValue )}
         }
         return element;
        })
@@ -1254,19 +1276,19 @@ let cloneNodePositionUpdate
       }
       case actionTypes.SMART_PADDING_HANDLER:
       const {evt: paddingValue} = action.payload;
-      console.log('yes', state.options);
-      let smartOption = [state.options];
+     
+      let smartOption = [...state.smartOptions];
+      console.log('smartOption',smartOption);
        let targetSmartPadding = [...state.dataset[state.selectedTab]];
+      
       const nodeSmartPadding = targetSmartPadding.map((el) => {
        if (el.id === state.selectArrow) {
-          smartOption.map((opt) => {
-          console.log('hey log', opt);
-          //  opt.options={...opt.options, nodePadding: paddingValue }
-          //  el.style = { ...el.style, borderStyle: "solid", borderWidth: width2 };
-          return opt
+        smartOption = smartOption.map((smart) => {
+           smart.nodePadding = paddingValue  
+           return smart
          })
-            
-          }
+       
+       }    
         return el;
       });
   
@@ -1333,7 +1355,7 @@ let nodeNumberData = state.periodsDataArray;
       let periodsNodeName =[...state.periodsFirstColum];
       let _periodsNodeNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetNodeNumber.length-1; i++){
-          targetNodeNumber[i].data = {...targetNodeNumber[i].data, label:(<><strong>{state.hideAllNodeNumber ? _periodsNodeNumber[i-1]: null}</strong>{periodsNodeName[i-1]}<strong> {_finalValue[i-1]}</strong></>)}
+          targetNodeNumber[i].data = {...targetNodeNumber[i].data, label: `${state.hideAllNodeNumber ? _periodsNodeNumber[i-1]: ''}` + periodsNodeName[i-1] +  _finalValue[i-1]}
          } 
       
       return{

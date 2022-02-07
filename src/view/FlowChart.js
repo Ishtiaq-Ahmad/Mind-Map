@@ -7,35 +7,61 @@ import ReactFlow, {
   getOutgoers,
   getConnectedEdges,
 } from "react-flow-renderer";
-import '../App.css';
+import "../App.css";
 import { Grid } from "@material-ui/core";
-import '../style/SideBar.css'
-import Header from '../component/Header'
-import MindMapSideBar from '../component/sidebar/SideBar'
-import MultiTab from '../component/MultiTab'
-import '../style/Header.css'
-import NodeContext from '../Context/auth/authContext'
-import ContainerData from '../Context/multiTab/MultiTabContext'
+import "../style/SideBar.css";
+import Header from "../component/Header";
+import MindMapSideBar from "../component/sidebar/SideBar";
+import MultiTab from "../component/MultiTab";
+import "../style/Header.css";
+import NodeContext from "../Context/auth/authContext";
+import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
-import CustomNodeComponent from '../component/CustomNodeComponent';
-import {getDocById, _stateChange} from '../utils/helpers'
+import CustomNodeComponent from "../component/CustomNodeComponent";
+import { getDocById, _stateChange } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
-import { SmartEdge, SmartEdgeProvider } from '@tisoap/react-flow-smart-edge';
-import logo from '../assets/images/logo512.png'
+import { SmartEdge, SmartEdgeProvider } from "@tisoap/react-flow-smart-edge";
+import logo from "../assets/images/logo512.png";
+import { db, app } from "../backend/firebase";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { _options } from "../component/FlowChartData";
+
+// let _smartOption
+// _options.map((opt) => {
+//   console.log('tu mer', opt.nodePadding);
+//   _smartOption =opt;
+// })
+
+const _smartOption = {
+  nodePadding: 100,
+  smartGrid: 100,
+};
 
 
 const nodeTypes = {
   special: CustomNodeComponent,
 };
-// let id = 0; 
+// let id = 0;
 // const getId = () => `node_${id++}`;
 
 const FlowChart = (props) => {
+  const auth = getAuth(app);
   const containerContext = useContext(ContainerData);
+  const nodeContext = useContext(NodeContext);
   // const [nodePadding , setNodePadding] = useState(20)
+
   const {
-    data: { dataset, docID, selectedTab, smartPadding, smartGrid, smartLine,smartCorner , specificData },
+    data: {
+      dataset,
+      docID,
+      selectedTab,
+      smartPadding,
+      smartGrid,
+      smartLine,
+      smartCorner,
+      specificData,
+    },
     updateDataSetHandler,
     onElementClickHandler,
     onDragHandler,
@@ -45,16 +71,26 @@ const FlowChart = (props) => {
     paneClickHandler,
     nodeDragIdHandler,
     nodeDragHandler,
+    loadDataHandler,
   } = containerContext;
+  const {
+    data: { tabs, nodeID, fullName, role },
+  } = nodeContext;
 
   useEffect(() => {
     fetchData();
   }, []);
-  
-  
-  useEffect(() =>{
-      _stateChange()
-  }, [])
+
+  // useEffect(() => {
+  //   onAuthStateChanged(auth, (user) => {
+  //     if (user) {
+  //       let userId = user.id;
+  //       // ...
+  //     } else {
+  //       console.log("logggggggg");
+  //     }
+  //   });
+  // }, []);
 
   const fetchData = async () => {
     try {
@@ -67,29 +103,27 @@ const FlowChart = (props) => {
         
       }
       
+
       if (_nodesData) {
         _nodesData = await JSON.parse(_nodesData.dumpData);
         docId = _nodesData.docId;
         _nodesData = _nodesData.data;
-        
+        //  _nodesData= _nodesData[0]
       }
-    
+
       let isCollectionEmpty = _nodesData ? false : true;
 
-      // if (!isCollectionEmpty) {
+      if (!isCollectionEmpty) {
+        let myData = _nodesData ? _nodesData : [];
+        myData.map((ele) => {});
+        let __self = new Array(myData.length);
+        __self.fill(8);
+        setCounter(__self);
 
-      //   let myData = _nodesData ? _nodesData : [];
-      //   console.log('aahhm',myData);
-      //   let __self = new Array(myData.length);
-
-      //   __self.fill(8);
-
-      //   setCounter(__self);
-
-      //   loadDataHandler(myData, docId, false);
-      // } else {
-      //   console.log("else part");
-      // }
+        loadDataHandler(myData, docId, false);
+      } else {
+        alert("else part");
+      }
     } catch (error) {
       console.log("new issue", { error });
     }
@@ -98,16 +132,10 @@ const FlowChart = (props) => {
   const reactFlowWrapper = useRef(null);
   const componentRef = useRef();
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-
-  // const [selectedTab, setSelectedTab] = useState(_selectedTab);
   const [uploadImage, setUploadImage] = useState([]);
-  const nodeContext = useContext(NodeContext);
-  // const [showArrow, setShowArrow] = useState(false);
   const [screenCapture, setScreenCapture] = useState("");
   const [counter, setCounter] = useState([]);
-  const {
-    data: { tabs, nodeID,  fullName,role},
-  } = nodeContext;
+
   const handleScreenCapture = (screenCapture) => {
     setScreenCapture(screenCapture);
   };
@@ -121,17 +149,29 @@ const FlowChart = (props) => {
   };
   let currentDate = new Date();
 
-  let date = currentDate.getFullYear() + '-' + (currentDate.getMonth() + 1) + '-' + currentDate.getDate();
-   let  time = currentDate.getHours() + ':' + currentDate.getMinutes() + ':' + currentDate.getSeconds();
+  let date =
+    currentDate.getFullYear() +
+    "-" +
+    (currentDate.getMonth() + 1) +
+    "-" +
+    currentDate.getDate();
+  let time =
+    currentDate.getHours() +
+    ":" +
+    currentDate.getMinutes() +
+    ":" +
+    currentDate.getSeconds();
   const handlePrint = useReactToPrint({
     content: () => {
       // const comre = componentRef.current
       const tableStat = componentRef.current.cloneNode(true);
-      const PrintElem = document.createElement('div');
-      const header = 
-        `${role !== 1 ?(`<img src="${logo}" alt="" class="watermark"/>`) : ''}` + 
-        `<div class="page-footer">Model Name: <strong>${window.location.hostname} </strong> Tab Name: <strong> Screen: ${selectedTab} </strong> 
-        Date <strong>${date + ' ' + time}</strong>  
+      const PrintElem = document.createElement("div");
+      const header =
+        `${role !== 1 ? `<img src="${logo}" alt="" class="watermark"/>` : ""}` +
+        `<div class="page-footer">Model Name: <strong>${
+          window.location.hostname
+        } </strong> Tab Name: <strong> Screen: ${selectedTab} </strong> 
+        Date <strong>${date + " " + time}</strong>  
         Period: <strong>${specificData}</strong> 
         User: <strong>${fullName}</strong>
         Software Owner: <strong>Fritz</strong>
@@ -149,7 +189,7 @@ const FlowChart = (props) => {
       elementsToRemove,
       dataset[selectedTab]
     );
-    removeElementHandler( deleteElement);
+    removeElementHandler(deleteElement);
   };
   const onConnect = (params) => {
     const generatedEdge = addEdge(
@@ -158,7 +198,6 @@ const FlowChart = (props) => {
         type: "buttonedge",
         label: "label",
         arrowHeadType: "arrowclosed",
-        
       },
       dataset[selectedTab]
     );
@@ -174,15 +213,14 @@ const FlowChart = (props) => {
     const edgesId = edgesConnect.map((item) => item.id);
     const hi = [...edgesId, element.id];
     treeDataUpdate = [...treeData, ...hi];
-    onElementClickHandler(element,  treeDataUpdate);
+    onElementClickHandler(element, treeDataUpdate);
   };
   const onSelectionChange = (seletedElements) => {
-    
     if (seletedElements && seletedElements.length > 1) {
       if (seletedElements) {
-        const multi = seletedElements.map((item) =>
-        { return item.id});
-        console.log('mu;ti', multi);
+        const multi = seletedElements.map((item) => {
+          return item.id;
+        });
         multipleSelectNode(multi, seletedElements);
       }
     }
@@ -247,30 +285,24 @@ const FlowChart = (props) => {
     //     data: finalData,
     //   });
     // }
-    onDragHandler( finalData, docID ? docID : DOCID, false);
+    onDragHandler(finalData, docID ? docID : DOCID, false);
   };
 
   const onEdgeDoubleClick = (event, edge) => {
-    // setShowArrow(true);
-    console.log({edge});
     onEdgeHandler(edge);
   };
 
   const onNodeDragStop = async (event, node) => {
     let nodePositionX = node.position.x;
     let nodePositionY = node.position.y;
-    nodeDragHandler( node, nodePositionX, nodePositionY);
+    nodeDragHandler(node, nodePositionX, nodePositionY);
   };
   const onNodeDragStart = (event, node) => {
     let nodeId = node.id;
 
-    nodeDragIdHandler( nodeId);
+    nodeDragIdHandler(nodeId);
   };
-  // const options = (event)=> {
-  //   // nodePadding : '400',
-  //   console.log('hello evetn', event);
 
-  // }
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -285,24 +317,13 @@ const FlowChart = (props) => {
             <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
-                  <MultiTab
-                    // selectedTab={selectedTab}
-                    // setSelectedTab={setSelectedTab}
-                    setCounter={setCounter}
-                    counter={counter}
-                  />
+                  <MultiTab setCounter={setCounter} counter={counter} />
                 </Grid>
               ) : null}
-              
-              <Grid
-                item
-                sm={tabs ? 8 : 10}
-                xs={12}
-              >
-                {/* <div>tab container ....# {selectedTab}</div> */}
+
+              <Grid item sm={tabs ? 8 : 10} xs={12}>
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
-                <SmartEdgeProvider options={{  nodePadding: smartPadding, gridRatio : smartGrid, lineType : smartLine, lessCorners : smartCorner }}>
-                {/* <SmartEdgeProvider options={options} > */}
+                  <SmartEdgeProvider options={{nodePadding : smartPadding, gridRatio: smartGrid, lineType: smartLine, lessCorners:smartCorner}} >
                   <ReactFlow
                     ref={componentRef}
                     elements={dataset[selectedTab]}
@@ -317,14 +338,15 @@ const FlowChart = (props) => {
                     onDrop={onDrop}
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
-                    edgeTypes={{ smart: SmartEdge }}
+                    edgeTypes={{smart: SmartEdge,
+                  
+                    }}
                     onNodeDragStop={onNodeDragStop}
                     onNodeDragStart={onNodeDragStart}
                     nodeTypes={nodeTypes}
                     onPaneClick={onPaneClick}
                     connectionMode="loose"
-                    arrowHeadColor= 'blue'
-                    
+                    arrowHeadColor="blue"
                   >
                     <Controls />
                     <Background color="#aaa" gap={16} />
@@ -332,7 +354,7 @@ const FlowChart = (props) => {
                   </SmartEdgeProvider>
                 </div>
               </Grid>
-              <Grid item  xs={2} className="sidebar">
+              <Grid item xs={2} className="sidebar">
                 <MindMapSideBar
                   uploadImage={uploadImage}
                   setUploadImage={setUploadImage}

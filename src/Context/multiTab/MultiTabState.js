@@ -2,6 +2,8 @@ import React, { useReducer, useRef } from "react";
 import * as actionTypes from "../types";
 import MultiTabContext from "./MultiTabContext";
 import MultiTabReducer from "./MultiTabReducer";
+import {_options} from '../../component/FlowChartData'
+// import type { SmartEdgeOptions } from './SmartEdge/context';
 
 // import { nodesData } from "../../component/FlowChartData";
 
@@ -9,7 +11,7 @@ import MultiTabReducer from "./MultiTabReducer";
 const NodeState = (props) => {
    const imageRef = useRef(null)
   const initialState = {
-    options: {},
+    smartOptions: _options,
     // dataset for each container
     dataset: [],
     elementData: '',
@@ -70,11 +72,11 @@ const NodeState = (props) => {
     multiNodeName: [],
 
   };
-
+ 
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {multiSelectNode,multiNodeName,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
+  const {dataset, multiSelectNode,multiNodeName,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
    
-   
+   console.log('state,',dataset);
   const onElementClickHandler = (element,treeDataUpdate) => {
   
     let currentFinalValue
@@ -157,7 +159,7 @@ const isEmptyHandler = ()=>{
 }
 
   const loadDataHandler= (data,docid,status)=>{
-    console.log({docid});
+   
   dispatch({
       type: actionTypes.LOAD_DATA_FROM_DB,
       payload:{data,docid,status}
