@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import MultiTabContext from "../../Context/multiTab/MultiTabContext";
 import Typography from "@mui/material/Typography";
 import Divider from '@mui/material/Divider';
+import "../../style/SideBar.css";
 
 const NodesInfo = () => {
   const multitabContext = useContext(MultiTabContext);

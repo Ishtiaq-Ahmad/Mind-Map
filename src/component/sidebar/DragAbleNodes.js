@@ -1,7 +1,7 @@
 import React from 'react'
 import '../../style/SideBar.css';
 import CsvFile from './CsvFile'
-
+import "../../style/SideBar.css";
 
 
 const DragAbleNodes = () => {

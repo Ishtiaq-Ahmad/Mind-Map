@@ -33,6 +33,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
+import "../../style/SideBar.css";
 
 const EditNode = () => {
   const multitabContext = useContext(MultiTabContext);

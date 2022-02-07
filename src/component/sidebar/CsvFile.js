@@ -3,7 +3,7 @@ import MultiTabContext from '../../Context/multiTab/MultiTabContext';
 import { v4 as uuidv4 } from "uuid";
 import ReactFileReader from 'react-file-reader';
 import Button from '@mui/material/Button';
-
+import '../../style/SideBar.css'
 const CsvFile = () => {
 
 const multitabContext = useContext(MultiTabContext);

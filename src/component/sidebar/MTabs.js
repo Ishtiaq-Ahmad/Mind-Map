@@ -12,6 +12,7 @@ import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 import EditNode from './EditNode';
 import EditEdge from './EditEdge';
 import NodesInfo from './NodesInfo'
+import "../../style/SideBar.css";
 
 const MTabs = () => {
      const [value, setValue] = React.useState('1');
