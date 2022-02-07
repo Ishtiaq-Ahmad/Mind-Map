@@ -73,9 +73,7 @@ const FlowChart = (props) => {
     nodeDragHandler,
     loadDataHandler,
   } = containerContext;
-  const {
-    data: { tabs, nodeID, fullName, role },
-  } = nodeContext;
+  const { data: { tabs, nodeID, fullName, role }} = nodeContext;
 
   useEffect(() => {
     fetchData();
@@ -122,7 +120,7 @@ const FlowChart = (props) => {
 
         loadDataHandler(myData, docId, false);
       } else {
-        alert("else part");
+        console.log('No data in database');
       }
     } catch (error) {
       console.log("new issue", { error });

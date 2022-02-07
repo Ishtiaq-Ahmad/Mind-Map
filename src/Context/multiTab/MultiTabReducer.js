@@ -1138,7 +1138,7 @@ let cloneNodePositionUpdate
  
     case actionTypes._CSV_FILE_LOADER:
     let {  _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
-      let _csvUpload = [...state.dataset[state.selectedTab]];
+      let _csvUpload = [...state.dataset];
       
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
@@ -1169,7 +1169,7 @@ let cloneNodePositionUpdate
 
       case actionTypes.CSV_FILE_UPLOADER:
       let { newCsvData} = action.payload;
-      let csvUpload = [...state.dataset];
+      let csvUpload = [...state.dataset[state.selectedTab]];
       if (csvUpload.length > 0) {
         // newly initialized dataset array
      csvUpload = csvUpload.map((element, index) => {
@@ -1331,7 +1331,6 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
         smartCorner: !state.smartCorner
       }
       case actionTypes.SHOW_SMART_CUSTOMIZATION:
-    
       return {
         ...state,
         showSmartCustom: true
@@ -1343,20 +1342,26 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
       }
       case actionTypes.HIDE_NODE_NUMBER:
       const {eve: _nodeNumber} = action.payload
-let nodeNumberData = state.periodsDataArray;  
+      let targetNodeNumber = [...state.dataset[state.selectedTab]]
+      try {
+        let nodeNumberData = state.periodsDataArray;  
        let _finalValue =[]
       nodeNumberData.forEach(element => {  
       let _value =state.periodsHeadData.findIndex(index => index === state.specificData);
       let secondValue = element[_value]
       _finalValue.push(secondValue)     
        });
-      let targetNodeNumber = [...state.dataset[state.selectedTab]]
+      
       
       let periodsNodeName =[...state.periodsFirstColum];
       let _periodsNodeNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetNodeNumber.length-1; i++){
           targetNodeNumber[i].data = {...targetNodeNumber[i].data, label: `${state.hideAllNodeNumber ? _periodsNodeNumber[i-1]: ''}` + periodsNodeName[i-1] +  _finalValue[i-1]}
          } 
+      } catch (error) {
+        console.log('periods value not selected');
+      }
+
       
       return{
         ...state,

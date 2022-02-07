@@ -76,7 +76,7 @@ const NodeState = (props) => {
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
   const {dataset, multiSelectNode,multiNodeName,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
    
-   console.log('state,',dataset);
+   
   const onElementClickHandler = (element,treeDataUpdate) => {
   
     let currentFinalValue
