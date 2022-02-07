@@ -43,7 +43,7 @@ const MindMapSideBar = (props) => {
 
  
   return (
-    <div style={{background: '#ffff'}}>
+    <div style={{background: 'yellow'}}>
       <Tabs/>
       <img className="captureImage" src={props.screenCapture} />
       {props.screenCapture && (
