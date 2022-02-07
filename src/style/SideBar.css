@@ -341,28 +341,27 @@
 
 
 .css-13xfq8m-MuiTabPanel-root{
-padding: 0px !important;
-
+ padding: 0px !important;
 }
 /* .css-ybol96-MuiButtonBase-root-MuiTab-root{
 min-width: 0px !important;
 padding: 0px !important;
 } */
 .css-1t4lqmc-MuiButtonBase-root-MuiTab-root{
-min-width: 0px !important;
-padding: 0px !important;
-min-height: 0px !important;
+min-width: 0px !important; 
+padding: 0px !important; 
+min-height: 0px !important; 
 }
 .css-heg063-MuiTabs-flexContainer{
 display: flex !important;
-justify-content: space-between !important;
+justify-content: space-between !important; 
 }
 .css-76q8hu-MuiTabs-root {
-  min-height: 28px !important;
+   min-height: 28px !important;
   
 }
 .MuiOutlinedInput-input{
-  padding: 8.5px !important;
+   padding: 8.5px !important;
   /* padding: 12px !important; */
 }
 

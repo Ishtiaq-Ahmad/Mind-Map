@@ -1,14 +1,11 @@
-import React,{useContext} from 'react'
+import React from 'react'
 import '../../style/SideBar.css';
 import CsvFile from './CsvFile'
 
 
 
 const DragAbleNodes = () => {
- 
-  
-
-    const onDragStart = (event, nodeType) => {
+   const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
         event.dataTransfer.effectAllowed = 'move';
       };
