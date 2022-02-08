@@ -12,13 +12,14 @@ const NodeState = (props) => {
     tabs:false,
     email:'',
     role:'',
-    userId: false,
+    userId: '',
     nodeID:null,
     fullName:''
   
   };
 
   const [state, dispatch] = useReducer(AuthReducer, initialState);
+   
 
   const editNode = () => {
     dispatch({ type: EDIT_THE_NODE });

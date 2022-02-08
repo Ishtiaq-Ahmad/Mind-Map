@@ -29,6 +29,7 @@ import NodeContext from '../Context/auth/authContext'
 const ProtectedRoute = () => {
     const authContext = useContext(NodeContext);
     const {data:{userId}}= authContext;
+    console.log('woni', userId);
     //  this auth shuld be controled through authorized user. it is true for now
     const auth = userId;
     return auth ? <Outlet /> : <Login/>;

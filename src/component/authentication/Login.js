@@ -16,7 +16,9 @@ import { useNavigate } from 'react-router-dom';
 const Login = (props) => {
     const navigate = useNavigate();
   const nodeContext = useContext(NodeContext);
-  const { setProfileHandler } = nodeContext;
+  const { data: {userId},setProfileHandler } = nodeContext;
+
+  // const {data:{userId}}= authContext;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +43,7 @@ const Login = (props) => {
       // const isLoggedIn=''
       try {
         let isLoggedIn = await login(email, password);
+  
         if (isLoggedIn) {
           setProfileHandler({ isLoggedIn });
           navigate('/home');

@@ -37,10 +37,11 @@ const authReducer = (state, action) => {
     }
     case SET_PROFILE:
     let{email, role, uid,nodeID,full_name}= action.payload
-    localStorage.setItem('user', uid)
+
     return{
       ...state,
-      email, role,
+      email, 
+      role,
       userId: uid,
       nodeID,
       full_name,
