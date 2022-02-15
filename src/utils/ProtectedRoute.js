@@ -31,7 +31,7 @@ const ProtectedRoute = () => {
     const {data:{userId}}= authContext;
     console.log('woni', userId);
     //  this auth shuld be controled through authorized user. it is true for now
-    const auth = userId;
+    const auth = true;
     return auth ? <Outlet /> : <Login/>;
 }
 export default ProtectedRoute

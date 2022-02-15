@@ -124,7 +124,7 @@ const EditNode = () => {
           size="small"
           variant="outlined"
         />
-        <TextField
+        {/* <TextField
           className="node_label"
           value={_periodsValue}
           onChange={(evt) => {
@@ -134,7 +134,7 @@ const EditNode = () => {
           placeholder='Periods Value'
           size="small"
           variant="standard"
-        />
+        /> */}
         <TextareaAutosize
       aria-label="empty textarea"
       placeholder="Node ID"
@@ -476,7 +476,7 @@ const EditNode = () => {
           />
         </div>
         <div className="hideElements">
-          <label>Hide Node:</label>
+          <label>Hide Group Node:</label>
           <Switch
             checked={nodeHide}
             onChange={(evt) => hideNodeHandler(evt.target.checked)}
@@ -486,7 +486,7 @@ const EditNode = () => {
             inputProps={{ "aria-label": "primary checkbox" }}
           />
         </div>
-        <div className="hideElements">
+        {/* <div className="hideElements">
           <label>Hide a Tree:</label>
           <Switch
             checked={hideTree}
@@ -496,7 +496,7 @@ const EditNode = () => {
             className="switchHide"
             inputProps={{ "aria-label": "primary checkbox" }}
           />
-        </div>
+        </div> */}
          <div className="hideElements">
           <label>Hide Node Number:</label>
           <Switch

@@ -168,7 +168,7 @@ const {
           // data: { label: headers[i].replace(/,/g, ' ')},
           data: {
             label: 
-             (   nodesNumber + nodesName + periodsNodesData
+             (   nodesNumber   + nodesName + periodsNodesData
 
               //  <> <strong>{nodesNumber}</strong>  
               //   {nodesName} 

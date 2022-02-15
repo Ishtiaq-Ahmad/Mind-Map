@@ -30,11 +30,32 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.MULTI_NODE_ELEMENTS:
+    const {multiId, seletedElements} = action.payload
+    let selectedNodes = []
+    
+      // let arr = [...state.multiNodeName]
+      // seletedElements.forEach(element => {
+      //   arr.push(element)
+    // if(!state.multiNodeName.length){
+    //    selectedNodes.push(seletedElements)
+
+    //   console.log('empty sate ', seletedElements);
+    // }
+    // else {
+    //   let arr = [...state.multiNodeName]
+    //   seletedElements.forEach(element => {
+    //     arr.push(element)
+    //   });
+      
+      
+    //   console.log('helop', arr);
+    // })
+    
       return {
         ...state,
-        
-        multiSelectNode: action.payload.multi,
-        multiNodeName : action.payload.multiData,
+        multiSelectNode: multiId,
+        multiNodeData : seletedElements,
+   
       };
     case actionTypes.LOAD_DATA_FROM_DB:
     const{data, docid, status} = action.payload
@@ -1362,14 +1383,47 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
         console.log('periods value not selected');
       }
 
-      
       return{
         ...state,
         hideAllNodeNumber: !state.hideAllNodeNumber,
         dataset: [targetNodeNumber]
       }
 
-     
+     case actionTypes.SHOW_MODAL_NAME_HANDLER:
+     return {
+       ...state,
+       showModalName: !state.showModalName
+     }
+     case actionTypes.SHOW_TAB_NAME_HANDLER:
+     return{
+       ...state,
+       showTabName: !state.showTabName
+     }
+      case actionTypes.SHOW_DATE_HANDLER:
+     return{
+       ...state,
+       showDate: !state.showDate,
+     }
+      case actionTypes.SHOW_PERIOD_HANDLER:
+     return{
+       ...state,
+       showPeriod: !state.showPeriod
+     }
+      case actionTypes.SHOW_SOFTWARE_OWNER_HANDLER:
+     return{
+       ...state,
+       showSoftwareOwner: !state.showSoftwareOwner
+     }
+      case actionTypes.SHOW_SOFTWARE_DEVELOPER_HANDLER:
+     return{
+       ...state,
+       showSoftwareDeveloper: !state.showSoftwareDeveloper
+     }
+      case actionTypes.SHOW_USER_HANDLER:
+     return{
+       ...state,
+       showUser: !state.showUser
+     }
 
     default:
       return state;

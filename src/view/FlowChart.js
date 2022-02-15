@@ -61,6 +61,14 @@ const FlowChart = (props) => {
       smartLine,
       smartCorner,
       specificData,
+      multiNodeData,
+      showModalName,
+      showTabName,
+       showDate,
+      showPeriod,
+      showUser,
+      showSoftwareOwner,
+      showSoftwareDeveloper
     },
     updateDataSetHandler,
     onElementClickHandler,
@@ -161,20 +169,18 @@ const FlowChart = (props) => {
     currentDate.getSeconds();
   const handlePrint = useReactToPrint({
     content: () => {
-      // const comre = componentRef.current
       const tableStat = componentRef.current.cloneNode(true);
       const PrintElem = document.createElement("div");
       const header =
         `${role !== 1 ? `<img src="${logo}" alt="" class="watermark"/>` : ""}` +
-        `<div class="page-footer">Model Name: <strong>${
-          window.location.hostname
-        } </strong> Tab Name: <strong> Screen: ${selectedTab} </strong> 
-        Date <strong>${date + " " + time}</strong>  
-        Period: <strong>${specificData}</strong> 
-        User: <strong>${fullName}</strong>
-        Software Owner: <strong>Fritz</strong>
-        Software Developer: <strong>Ishtiaq Ahmad</strong>
-
+        `<div class="page-footer">
+        ${showModalName ?  `Model Name: <strong>${window.location.hostname} </strong>`: ''}
+        ${showTabName ? `Tab Name: <strong> Screen: ${selectedTab} </strong> `: '' }
+        ${showDate ? `Date <strong>${date + " " + time}</strong>  `:''}
+        ${showPeriod ? `Period: <strong>${specificData}</strong> `:''}
+        ${showUser ? `User: <strong>${fullName}</strong>`:''}
+        ${showSoftwareOwner ? `Software Owner: <strong>Fritz</strong>`:''}
+        ${showSoftwareDeveloper ? ` Software Developer: <strong>Ishtiaq Ahmad</strong>`:''}
         </div>`;
       PrintElem.innerHTML = header;
       PrintElem.appendChild(tableStat);
@@ -213,15 +219,30 @@ const FlowChart = (props) => {
     treeDataUpdate = [...treeData, ...hi];
     onElementClickHandler(element, treeDataUpdate);
   };
+
   const onSelectionChange = (seletedElements) => {
+    let arr = [];
+    if (multiNodeData) {
+      arr = [...multiNodeData]
+      arr.push(seletedElements);
+    } else {
+      arr = [seletedElements];
+    }
+    console.log("arr", arr);
+  
+    let multiId
     if (seletedElements && seletedElements.length > 1) {
       if (seletedElements) {
-        const multi = seletedElements.map((item) => {
+         multiId = seletedElements.map((item) => {
+           console.log('item.id', item.id);
           return item.id;
         });
-        multipleSelectNode(multi, seletedElements);
       }
+      multipleSelectNode(multiId, seletedElements);
     }
+
+    
+    
   };
   const onPaneClick = (event) => {
     paneClickHandler(event);
@@ -312,18 +333,17 @@ const FlowChart = (props) => {
               // selectedTab={selectedTab}
               {...props}
             />
-            <Grid container spacing={12}>
+            <Grid container spacing={12} >
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
                   <MultiTab setCounter={setCounter} counter={counter} />
                 </Grid>
               ) : null}
 
-              <Grid item sm={tabs ? 8 : 10} xs={12}>
+              <Grid item sm={tabs ? 8 : 10} xs={12}  ref={componentRef} >
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
                   <SmartEdgeProvider options={{nodePadding : smartPadding, gridRatio: smartGrid, lineType: smartLine, lessCorners:smartCorner}} >
                   <ReactFlow
-                    ref={componentRef}
                     elements={dataset[selectedTab]}
                     onElementClick={onElementClick}
                     onLoad={onLoad}
@@ -336,9 +356,8 @@ const FlowChart = (props) => {
                     onDrop={onDrop}
                     onEdgeDoubleClick={onEdgeDoubleClick}
                     onSelectionChange={onSelectionChange}
-                    edgeTypes={{smart: SmartEdge,
-                  
-                    }}
+                    edgeTypes={{smart: SmartEdge}}
+                    // multiSelectionKeyCode ={multiSelectionKeyCode }
                     onNodeDragStop={onNodeDragStop}
                     onNodeDragStart={onNodeDragStart}
                     nodeTypes={nodeTypes}

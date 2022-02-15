@@ -69,12 +69,20 @@ const NodeState = (props) => {
     showSmartCustom: false,
     hideAllNodeNumber: false,
     showNodeCustomization: false,
-    multiNodeName: [],
+    showModalName : true,
+    showTabName: true,
+     showDate: true,
+      showPeriod: true,
+      showUser:true,
+      showSoftwareOwner: true,
+      showSoftwareDeveloper: true,
+    multiNodeData: [],
+   
 
   };
  
   const [state, dispatch] = useReducer(MultiTabReducer, initialState);
-  const {dataset, multiSelectNode,multiNodeName,arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState,selectArrow} = state;
+  const {arrowType, borderRadios,borderWidth,nodeFont,nodeSize,previousState} = state;
    
    
   const onElementClickHandler = (element,treeDataUpdate) => {
@@ -435,13 +443,11 @@ dispatch({
   payload: {imageLoad}
 })
   }
-const multipleSelectNode = (multi, seletedElements) => {
- 
- let multiData = seletedElements.map((ele) => ele)
+const multipleSelectNode = (multiId, seletedElements) => {
 
 dispatch({
   type:actionTypes.MULTI_NODE_ELEMENTS,
-  payload:{multi, multiData}
+  payload:{multiId, seletedElements}
 })
 }
 const nodeSourcePositionHandler = (evt) => {
@@ -578,6 +584,49 @@ const hideNodeNumber = (eve) =>{
     payload: {eve}
   })
 }
+const showModalNameHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_MODAL_NAME_HANDLER,
+    payload: {eve}
+  })
+}
+const showTabNameHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_TAB_NAME_HANDLER,
+    payload: {eve}
+  })
+}
+const showDateHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_DATE_HANDLER,
+    payload: {eve}
+  })
+}
+const showPeriodHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_PERIOD_HANDLER,
+    payload: {eve}
+  })
+}
+const showSoftwareOwnerHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_SOFTWARE_OWNER_HANDLER,
+    payload: {eve}
+  })
+}
+const showSoftwareDevHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_SOFTWARE_DEVELOPER_HANDLER,
+    payload: {eve}
+  })
+}
+const showUserHandler = (eve) => {
+  dispatch({
+    type: actionTypes.SHOW_USER_HANDLER,
+    payload: {eve}
+  })
+}
+
 
   return (
     <MultiTabContext.Provider
@@ -644,7 +693,14 @@ const hideNodeNumber = (eve) =>{
           showSmoothCustomization,
           arrowWidthHandler,
           nodeSizeHandler,
-          hideNodeNumber
+          hideNodeNumber,
+          showModalNameHandler,
+          showTabNameHandler,
+          showDateHandler,
+          showPeriodHandler,
+          showUserHandler,
+          showSoftwareOwnerHandler,
+          showSoftwareDevHandler
       }}
     >
       {props.children}
