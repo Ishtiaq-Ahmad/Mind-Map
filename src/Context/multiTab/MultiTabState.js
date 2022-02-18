@@ -83,6 +83,13 @@ const NodeState = (props) => {
       createGroup:'',
       _showGroupList: false,
     multiNodeData: [],
+    showCopyButton: false,
+    copyNode:'',
+    _nodesNumber:'',
+    _nodesName:'',
+    _periodsNodesData:''
+
+
    
 
   };
@@ -492,10 +499,10 @@ type: actionTypes.NODE_SIZE_HANDLER,
 payload: {evt}
  })
 }
-const loaderFile = ( _newCsvData,_indexNumber, valuesData, arr4,arr10) =>{
+const loaderFile = ( _newCsvData,_indexNumber, valuesData, arr4,arr10, nodesNumber, nodesName,periodsNodesData) =>{
   dispatch({
     type: actionTypes._CSV_FILE_LOADER,
-    payload :{ _newCsvData,_indexNumber, valuesData, arr4,arr10}
+    payload :{ _newCsvData,_indexNumber, valuesData, arr4,arr10, nodesNumber, nodesName,periodsNodesData}
   })
 }
 const myCsvFileHandler = ( newCsvData) =>{
@@ -656,7 +663,17 @@ dispatch({
 const showGroupList = () => {
   dispatch({type: actionTypes.SHOW_GROUP_LIST})
 }
-
+const copyNodeHandler = () => {
+  dispatch({
+    type:actionTypes.COPY_NODE_HANDLER
+  })
+}
+const pasteNodeFileHandler = (pasteNodeData) => {
+  dispatch({
+    type: actionTypes.PASTE_NODE_FILE_HANDLER,
+    payload:{pasteNodeData}
+  })
+}
   return (
     <MultiTabContext.Provider
       value={{
@@ -734,7 +751,9 @@ const showGroupList = () => {
           handleClose,
           fetchedGroupData,
           createGroupHandler,
-          showGroupList
+          showGroupList,
+          copyNodeHandler,
+          pasteNodeFileHandler
       }}
     >
       {props.children}

@@ -14,7 +14,7 @@ const DragAbleNodes = () => {
   const multiTabContext = useContext(MultiTabContext);
   const authNodeContext = useContext(AuthNodeContext)
   const { data: { role, userId, email, full_name }} = authNodeContext;
-  const {data: {multiNodeData, docID, fetchData, createGroup },handleOpen ,fetchedGroupData} = multiTabContext;
+  const {data: {dataset,selectedTab,multiNodeData, showCopyButton, copyNode, elementData, _nodesNumber,_nodesName,_periodsNodesData },handleOpen, pasteNodeFileHandler } = multiTabContext;
 
    const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
@@ -23,6 +23,7 @@ const DragAbleNodes = () => {
 
       const groupDataHandler = async () => {
         handleOpen();
+
       //   let multiNodeSize = multiNodeData.length;
       //   if(fetchData){
       //    let finalData = [...fetchData, ...multiNodeData];
@@ -44,8 +45,34 @@ const DragAbleNodes = () => {
       //        })
       //      })
       //   }
-           
+     
+       
       };
+       const _copyNodeHandler =() =>{
+        // copyNodeHandler()
+        console.log("copy",elementData);
+      }
+      const pasteNodeHandler = () => {
+        const{id: copiedNodeId, type: copiedTypeId, data} = elementData;
+        try {
+           const xNumber = Math.floor(Math.random() * 100 + 1);
+        const yNumber = Math.floor(Math.random() * 100 + 1);
+            let pasteNode = {
+          id: copiedNodeId,
+          type: copiedTypeId,
+          position: { x: xNumber, y: yNumber },
+          data: { label: data.label},
+        };
+         
+      let pasteNodeData = [...dataset[selectedTab], pasteNode];
+        pasteNodeFileHandler(pasteNodeData,);
+        } catch (error) {
+          console.log('paste option not working');
+        }
+       
+      }
+  
+      
     return (
         <div>
         <div className="description">You can drag these nodes to the pane on the right.</div>
@@ -65,7 +92,8 @@ const DragAbleNodes = () => {
       <div style={{marginTop:'6px'}}>
         {multiNodeData.length > 1 ?(<Button variant="contained" fullWidth onClick={groupDataHandler}>Create a Group</Button>) : null}
       </div>
-     
+      {showCopyButton ? <Button fullWidth variant="contained" onClick={_copyNodeHandler} >Copy</Button> : null} 
+      <Button fullWidth style={{marginTop:"10px"}} variant="contained" onClick={pasteNodeHandler} >Paste</Button>
         </div>
     )
 }

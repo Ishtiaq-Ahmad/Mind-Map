@@ -26,7 +26,8 @@ const authReducer = (state, action) => {
         nodeName: action.payload._nodeName,
         nodeSize: state.nodeSize,
         periodFinalData: action.payload.currentFinalValue,
-        _periodsValue: action.payload._nodeName
+        _periodsValue: action.payload._nodeName,
+        showCopyButton: true
       };
 
     case actionTypes.MULTI_NODE_ELEMENTS:
@@ -1158,7 +1159,7 @@ let cloneNodePositionUpdate
       };
  
     case actionTypes._CSV_FILE_LOADER:
-    let {  _newCsvData,_indexNumber, valuesData, arr4,arr10} = action.payload;
+    let {  _newCsvData,_indexNumber, valuesData, arr4,arr10, nodesNumber, nodesName,periodsNodesData} = action.payload;
       let _csvUpload = [...state.dataset];
       
       if (_csvUpload.length > 0) {
@@ -1184,6 +1185,10 @@ let cloneNodePositionUpdate
         periodsDataArray: valuesData,
         periodsHeadData: arr4,
         periodsFirstColum: arr10,
+        _nodesNumber: nodesNumber,
+        _nodesName:nodesName,
+        _periodsNodesData:periodsNodesData,
+
         
 
         }
@@ -1232,7 +1237,7 @@ let cloneNodePositionUpdate
       let _periodIndexNumber = [...state.periodIndexNumber]
       for(let i = 0; i <= targetCsvDataSet.length-1; i++){
           // targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
-targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNumber[i-1] + periodsFirstName[i-1] +  finalValue[i-1])}
+targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:`${ _periodIndexNumber[i-1]+ ' ' + periodsFirstName[i-1] +' '+  finalValue[i-1]}`}
          } 
       // }
       // else{
@@ -1268,7 +1273,7 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
        const nodePeriodsData = targetPeriodsValue.map((element) => {
             if (element.id === state.selectedNode) {
           element.data ={...element.data, 
-          label :(state.hideAllNodeNumber? periodsIndexFinal: '' + periodsNameData +  periodsValue )}
+          label :`${state.hideAllNodeNumber? periodsIndexFinal: ' ' +  periodsNameData + ' '+ periodsValue }`}
         }
         return element;
        })
@@ -1452,6 +1457,27 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
       ...state,
       _showGroupList: true
     }
+    case actionTypes.COPY_NODE_HANDLER:
+    return {
+      ...state,
+      copyNode: state.elementData
+
+    }
+    case actionTypes.PASTE_NODE_FILE_HANDLER:
+    const {pasteNodeData} = action.payload;
+      let _pasteNodeData = [...state.dataset];
+     _pasteNodeData = _pasteNodeData.map((element, index) => {
+          if (state.selectedTab === index) {
+            return pasteNodeData;
+          }
+          return element;
+        });
+      
+    return {
+      ...state,
+      dataset: [..._pasteNodeData],
+    }
+
     default:
       return state;
   }

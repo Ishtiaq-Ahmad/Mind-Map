@@ -208,6 +208,7 @@ const FlowChart = (props) => {
   };
 
   const onElementClick = (event, element, edge) => {
+    console.log('elemet', element);
     const _data = getOutgoers(element, dataset);
     const treeData = _data.map((item) => item.id);
     let __edges = dataset.filter((item) => item.source && item.target);

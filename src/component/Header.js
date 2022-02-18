@@ -65,7 +65,7 @@ const Header = (props) => {
       specificData,
       periodsData,
       groupHandle,
-      _showGroupList
+      _showGroupList,
     },
     nodeSourcePositionHandler,
     isEmptyHandler,

@@ -167,14 +167,13 @@ const {
           position: { x: preNodeXposition, y: preNodeYposition },
           // data: { label: headers[i].replace(/,/g, ' ')},
           data: {
-            label: 
-             (   nodesNumber   + nodesName + periodsNodesData
+            label: `${nodesNumber + ' ' + nodesName +' '+ periodsNodesData}`
 
               //  <> <strong>{nodesNumber}</strong>  
               //   {nodesName} 
               //   <strong>{periodsNodesData}</strong>
               //   </>
-            ),
+            // ,
           },
         };
         arr.push(_csvNode);
@@ -186,7 +185,7 @@ const {
         } else {
           _newCsvData = [...arr];
         }
-        loaderFile(_newCsvData, _indexNumber, valuesData, arr4, arr10);
+        loaderFile(_newCsvData, _indexNumber, valuesData, arr4, arr10, nodesNumber, nodesName,periodsNodesData);
 
         }else{ 
 
