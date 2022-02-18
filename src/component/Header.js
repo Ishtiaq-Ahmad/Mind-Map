@@ -19,8 +19,9 @@ import { TextField } from "@material-ui/core";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import { _signOut } from "../utils/helpers";
-import {nodeSourcePosition,defaultNodeSource} from "./FlowChartData";
+import { nodeSourcePosition, defaultNodeSource } from "./FlowChartData";
 import { useNavigate, Link } from "react-router-dom";
+import PrintLegends from './PrintLegends';
 import {
   getAllData,
   createDocWithID,
@@ -31,13 +32,15 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { signOut, getAuth } from "firebase/auth";
 import Switch from "@mui/material/Switch";
+import GroupNode from './GroupNode';
+import GroupList from './sidebar/GroupList'
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 500,
   bgcolor: "#F8F8FF",
   border: "2px solid #ADD8E6",
   borderRadius: "13px",
@@ -50,10 +53,7 @@ const Header = (props) => {
   const navigate = useNavigate();
   const nodeContext = useContext(NodeContext);
   const nodeMultiContext = useContext(MultiTabContext);
-  const {
-    data: { role, userId, email, full_name },
-    multiTabHandler,
-  } = nodeContext;
+  const { data: { role, userId, email, full_name },multiTabHandler } = nodeContext;
   const {
     data: {
       dataset,
@@ -64,32 +64,22 @@ const Header = (props) => {
       showSourcePosition,
       specificData,
       periodsData,
-      multiNodeData,
-      showModalName,
-      showTabName,
-      showDate,
-      showPeriod,
-      showUser,
-      showSoftwareOwner,
-      showSoftwareDeveloper,
+      groupHandle,
+      _showGroupList
     },
     nodeSourcePositionHandler,
     isEmptyHandler,
     specificDataHandler,
-    showModalNameHandler,
-    showTabNameHandler,
-    showDateHandler,
-    showPeriodHandler,
-    showUserHandler,
-    showSoftwareOwnerHandler,
-    showSoftwareDevHandler,
+    handleOpen,
+    handleClose,
+    fetchedGroupData
   } = nodeMultiContext;
-  const [open, setOpen] = useState(false);
   const [openPrint, setOpenPrint] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [groupList, setGroupList]  = useState(false)
   const printHandleOpen = () => setOpenPrint(true);
   const printHandleClose = () => setOpenPrint(false);
+ 
+  const groupListhandleClose = () => setGroupList(false);
   const handlePrintInfo = () => {
     props.handlePrint();
     setOpenPrint(false);
@@ -147,6 +137,16 @@ const Header = (props) => {
   let multiUser = {
     transform: "scale(.9)",
   };
+
+     const showGroupListHandler = async() => {
+       setGroupList(true)
+       //   let multiNodeSize = multiNodeData.length;
+             await getDocById("groupNodes", docID).then((value) => {
+               console.log('value', value);
+                const {groupName, nodeData} = value.data;
+                fetchedGroupData(groupName, nodeData)
+             })
+       };
 
   return (
     <div>
@@ -257,7 +257,12 @@ const Header = (props) => {
             >
               Save
             </Button>
+            {
+              _showGroupList ? <Button variant="contained" onClick={showGroupListHandler} >Show group list</Button> : null
+             
+            }
           </Stack>
+         
           <label htmlFor="icon-button-file">
             <IconButton
               color="primary"
@@ -286,29 +291,13 @@ const Header = (props) => {
               <LogoutIcon />
             </IconButton>
           </label>
-          <Modal open={open} onClose={handleClose}>
-            <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                Group Nodes:
-              </Typography>
-
-              {multiNodeData.map((item, index) => (
-                <fragment key={item.map}>
-                  <Typography variant="caption" gutterBottom component="div">
-                    <strong>Node Number:</strong> {index + 1}
-                  </Typography>
-                  <Typography variant="caption" gutterBottom component="div">
-                    <strong>Node ID:</strong> {item.id}
-                  </Typography>
-
-                  <Typography variant="caption" gutterBottom component="div">
-                    {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
-                    <strong>Node Name: </strong> {item.data.label}
-                  </Typography>
-                  <Divider />
-                </fragment>
-              ))}
-            </Box>
+          <Modal open={groupHandle} onClose={handleClose}>
+            {/* <Box sx={style}> */}
+            <GroupNode/>
+            {/* </Box> */}
+          </Modal>
+          <Modal open={groupList} onClose={groupListhandleClose}>
+            <GroupList/>
           </Modal>
           <Modal
             open={openPrint}
@@ -317,184 +306,7 @@ const Header = (props) => {
             aria-describedby="modal-modal-description"
           >
             <Box sx={style}>
-              <Typography
-                id="modal-modal-title"
-                variant="h6"
-                component="h2"
-                style={{ textAlign: "center" }}
-              >
-                Select Legends
-              </Typography>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Show Modal Name:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showModalName}
-                  onChange={(evt) => showModalNameHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Tab Name:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showTabName}
-                  onChange={(evt) => showTabNameHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Date:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showDate}
-                  onChange={(evt) => showDateHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Period:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showPeriod}
-                  onChange={(evt) => showPeriodHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  User:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showUser}
-                  onChange={(evt) => showUserHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Software Owner:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showSoftwareOwner}
-                  onChange={(evt) =>
-                    showSoftwareOwnerHandler(evt.target.checked)
-                  }
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-              <Divider />
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  textAlign: "center",
-                }}
-              >
-                <Typography
-                  id="modal-modal-title"
-                  variant="body1"
-                  component="h2"
-                >
-                  Software Developer:
-                </Typography>
-                <Switch
-                  size="small"
-                  checked={showSoftwareDeveloper}
-                  onChange={(evt) => showSoftwareDevHandler(evt.target.checked)}
-                  color="primary"
-                  name="checkedB"
-                  inputProps={{ "aria-label": "primary checkbox" }}
-                />
-              </div>
-
+            <PrintLegends/>
               <Button
                 variant="contained"
                 size="small"

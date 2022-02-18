@@ -464,7 +464,7 @@ const EditNode = () => {
             id="0px"
           />
         </div>
-        <div className="hideElements">
+        {/* <div className="hideElements">
           <label>Hide all Nodes:</label>
           <Switch
             checked={_hideAllNodes}
@@ -474,8 +474,8 @@ const EditNode = () => {
             className="switchHide"
             inputProps={{ "aria-label": "primary checkbox" }}
           />
-        </div>
-        <div className="hideElements">
+        </div> */}
+        {/* <div className="hideElements">
           <label>Hide Group Node:</label>
           <Switch
             checked={nodeHide}
@@ -485,7 +485,7 @@ const EditNode = () => {
             className="switchHide"
             inputProps={{ "aria-label": "primary checkbox" }}
           />
-        </div>
+        </div> */}
         {/* <div className="hideElements">
           <label>Hide a Tree:</label>
           <Switch

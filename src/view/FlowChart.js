@@ -19,24 +19,12 @@ import ContainerData from "../Context/multiTab/MultiTabContext";
 import { ScreenCapture } from "react-screen-capture";
 import { useReactToPrint } from "react-to-print";
 import CustomNodeComponent from "../component/CustomNodeComponent";
-import { getDocById, _stateChange } from "../utils/helpers";
+import { getDocById } from "../utils/helpers";
 import { v4 as uuidv4 } from "uuid";
 import { SmartEdge, SmartEdgeProvider } from "@tisoap/react-flow-smart-edge";
 import logo from "../assets/images/logo512.png";
-import { db, app } from "../backend/firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { _options } from "../component/FlowChartData";
-
-// let _smartOption
-// _options.map((opt) => {
-//   console.log('tu mer', opt.nodePadding);
-//   _smartOption =opt;
-// })
-
-const _smartOption = {
-  nodePadding: 100,
-  smartGrid: 100,
-};
+import { app } from "../backend/firebase";
+import { getAuth } from "firebase/auth";
 
 
 const nodeTypes = {
@@ -61,14 +49,13 @@ const FlowChart = (props) => {
       smartLine,
       smartCorner,
       specificData,
-      multiNodeData,
       showModalName,
       showTabName,
-       showDate,
+      showDate,
       showPeriod,
       showUser,
       showSoftwareOwner,
-      showSoftwareDeveloper
+      showSoftwareDeveloper,
     },
     updateDataSetHandler,
     onElementClickHandler,
@@ -81,7 +68,9 @@ const FlowChart = (props) => {
     nodeDragHandler,
     loadDataHandler,
   } = containerContext;
-  const { data: { tabs, nodeID, fullName, role }} = nodeContext;
+  const {
+    data: { tabs, nodeID, fullName, role },
+  } = nodeContext;
 
   useEffect(() => {
     fetchData();
@@ -106,9 +95,7 @@ const FlowChart = (props) => {
       if (nodeID) {
         const { data: _nodesDataa } = await getDocById("nodesData", nodeID);
         _nodesData = _nodesDataa;
-        
       }
-      
 
       if (_nodesData) {
         _nodesData = await JSON.parse(_nodesData.dumpData);
@@ -128,10 +115,10 @@ const FlowChart = (props) => {
 
         loadDataHandler(myData, docId, false);
       } else {
-        console.log('No data in database');
+        console.log("No data in database");
       }
     } catch (error) {
-      console.log("new issue", { error });
+      console.log("No data fetch", { error });
     }
   };
 
@@ -174,13 +161,25 @@ const FlowChart = (props) => {
       const header =
         `${role !== 1 ? `<img src="${logo}" alt="" class="watermark"/>` : ""}` +
         `<div class="page-footer">
-        ${showModalName ?  `Model Name: <strong>${window.location.hostname} </strong>`: ''}
-        ${showTabName ? `Tab Name: <strong> Screen: ${selectedTab} </strong> `: '' }
-        ${showDate ? `Date <strong>${date + " " + time}</strong>  `:''}
-        ${showPeriod ? `Period: <strong>${specificData}</strong> `:''}
-        ${showUser ? `User: <strong>${fullName}</strong>`:''}
-        ${showSoftwareOwner ? `Software Owner: <strong>Fritz</strong>`:''}
-        ${showSoftwareDeveloper ? ` Software Developer: <strong>Ishtiaq Ahmad</strong>`:''}
+        ${
+          showModalName
+            ? `Model Name: <strong>${window.location.hostname} </strong>`
+            : ""
+        }
+        ${
+          showTabName
+            ? `Tab Name: <strong> Screen: ${selectedTab} </strong> `
+            : ""
+        }
+        ${showDate ? `Date <strong>${date + " " + time}</strong>  ` : ""}
+        ${showPeriod ? `Period: <strong>${specificData}</strong> ` : ""}
+        ${showUser ? `User: <strong>${fullName}</strong>` : ""}
+        ${showSoftwareOwner ? `Software Owner: <strong>Fritz</strong>` : ""}
+        ${
+          showSoftwareDeveloper
+            ? ` Software Developer: <strong>DIGIT SOLUTION</strong>`
+            : ""
+        }
         </div>`;
       PrintElem.innerHTML = header;
       PrintElem.appendChild(tableStat);
@@ -221,28 +220,14 @@ const FlowChart = (props) => {
   };
 
   const onSelectionChange = (seletedElements) => {
-    let arr = [];
-    if (multiNodeData) {
-      arr = [...multiNodeData]
-      arr.push(seletedElements);
-    } else {
-      arr = [seletedElements];
-    }
-    console.log("arr", arr);
-  
-    let multiId
     if (seletedElements && seletedElements.length > 1) {
       if (seletedElements) {
-         multiId = seletedElements.map((item) => {
-           console.log('item.id', item.id);
+        const multiId = seletedElements.map((item) => {
           return item.id;
         });
+        multipleSelectNode(multiId, seletedElements);
       }
-      multipleSelectNode(multiId, seletedElements);
     }
-
-    
-    
   };
   const onPaneClick = (event) => {
     paneClickHandler(event);
@@ -330,44 +315,49 @@ const FlowChart = (props) => {
             <Header
               onStartCapture={onStartCapture}
               handlePrint={handlePrint}
-              // selectedTab={selectedTab}
               {...props}
             />
-            <Grid container spacing={12} >
+            <Grid container spacing={12}>
               {tabs ? (
                 <Grid item lg={2} md={2} sm={2} xs={12} className="sidebar">
                   <MultiTab setCounter={setCounter} counter={counter} />
                 </Grid>
               ) : null}
 
-              <Grid item sm={tabs ? 8 : 10} xs={12}  ref={componentRef} >
+              <Grid item sm={tabs ? 8 : 10} xs={12} ref={componentRef}>
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
-                  <SmartEdgeProvider options={{nodePadding : smartPadding, gridRatio: smartGrid, lineType: smartLine, lessCorners:smartCorner}} >
-                  <ReactFlow
-                    elements={dataset[selectedTab]}
-                    onElementClick={onElementClick}
-                    onLoad={onLoad}
-                    onElementsRemove={onElementsRemove}
-                    onConnect={onConnect}
-                    deleteKeyCode={8}
-                    zoomOnDoubleClick={false}
-                    key="edges"
-                    onDragOver={onDragOver}
-                    onDrop={onDrop}
-                    onEdgeDoubleClick={onEdgeDoubleClick}
-                    onSelectionChange={onSelectionChange}
-                    edgeTypes={{smart: SmartEdge}}
-                    // multiSelectionKeyCode ={multiSelectionKeyCode }
-                    onNodeDragStop={onNodeDragStop}
-                    onNodeDragStart={onNodeDragStart}
-                    nodeTypes={nodeTypes}
-                    onPaneClick={onPaneClick}
-                    connectionMode="loose"
-                    arrowHeadColor="blue"
+                  <SmartEdgeProvider
+                    options={{
+                      nodePadding: smartPadding,
+                      gridRatio: smartGrid,
+                      lineType: smartLine,
+                      lessCorners: smartCorner,
+                    }}
                   >
-                    <Controls />
-                    <Background color="#aaa" gap={16} />
-                  </ReactFlow>
+                    <ReactFlow
+                      elements={dataset[selectedTab]}
+                      onElementClick={onElementClick}
+                      onLoad={onLoad}
+                      onElementsRemove={onElementsRemove}
+                      onConnect={onConnect}
+                      deleteKeyCode={8}
+                      zoomOnDoubleClick={false}
+                      key="edges"
+                      onDragOver={onDragOver}
+                      onDrop={onDrop}
+                      onEdgeDoubleClick={onEdgeDoubleClick}
+                      onSelectionChange={onSelectionChange}
+                      edgeTypes={{ smart: SmartEdge }}
+                      onNodeDragStop={onNodeDragStop}
+                      onNodeDragStart={onNodeDragStart}
+                      nodeTypes={nodeTypes}
+                      onPaneClick={onPaneClick}
+                      connectionMode="loose"
+                      arrowHeadColor="blue"
+                    >
+                      <Controls />
+                      <Background color="#aaa" gap={16} />
+                    </ReactFlow>
                   </SmartEdgeProvider>
                 </div>
               </Grid>

@@ -1424,7 +1424,34 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:( _periodIndexNum
        ...state,
        showUser: !state.showUser
      }
-
+     case actionTypes.HANDLE_OPEN:
+     return{
+       ...state,
+       groupHandle: true,
+     }
+    case actionTypes.HANDLE_CLOSE:
+    return{
+      ...state,
+      groupHandle : false,
+    }
+    case actionTypes.FETCH_GROUP_DATA:
+    
+    return{
+      ...state,
+      fetchData: action.payload.nodeData,
+      groupName: action.payload.groupName,
+    }
+    case actionTypes.CREATE_GROUP_DATA:
+    const {evt: _evt} = action.payload;
+    return {
+      ...state,
+      createGroup : _evt
+    }
+    case actionTypes.SHOW_GROUP_LIST:
+    return {
+      ...state,
+      _showGroupList: true
+    }
     default:
       return state;
   }

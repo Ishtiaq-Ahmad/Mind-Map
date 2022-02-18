@@ -76,6 +76,12 @@ const NodeState = (props) => {
       showUser:true,
       showSoftwareOwner: true,
       showSoftwareDeveloper: true,
+      groupHandle:false,
+      groupList:false,
+      fetchData:'',
+      groupName: '',
+      createGroup:'',
+      _showGroupList: false,
     multiNodeData: [],
    
 
@@ -159,10 +165,8 @@ const NodeState = (props) => {
 
 
 const isEmptyHandler = ()=>{
-
   dispatch({
       type: actionTypes.IS_EMPTY,
-      
     })
 }
 
@@ -626,7 +630,32 @@ const showUserHandler = (eve) => {
     payload: {eve}
   })
 }
-
+const handleOpen = () => {
+  dispatch({
+    type: actionTypes.HANDLE_OPEN
+  })
+}
+const handleClose = () => {
+  dispatch({
+    type: actionTypes.HANDLE_CLOSE
+  })
+}
+const fetchedGroupData = (groupName, nodeData) => {
+  dispatch({
+    type: actionTypes.FETCH_GROUP_DATA,
+    payload: {groupName, nodeData}
+  })
+}
+const createGroupHandler = (evt) =>{
+  // let evtData = evt.target.value
+dispatch({
+  type: actionTypes.CREATE_GROUP_DATA,
+  payload: {evt}
+})
+}
+const showGroupList = () => {
+  dispatch({type: actionTypes.SHOW_GROUP_LIST})
+}
 
   return (
     <MultiTabContext.Provider
@@ -700,7 +729,12 @@ const showUserHandler = (eve) => {
           showPeriodHandler,
           showUserHandler,
           showSoftwareOwnerHandler,
-          showSoftwareDevHandler
+          showSoftwareDevHandler,
+          handleOpen,
+          handleClose,
+          fetchedGroupData,
+          createGroupHandler,
+          showGroupList
       }}
     >
       {props.children}
