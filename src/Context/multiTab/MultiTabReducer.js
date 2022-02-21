@@ -27,7 +27,8 @@ const authReducer = (state, action) => {
         nodeSize: state.nodeSize,
         periodFinalData: action.payload.currentFinalValue,
         _periodsValue: action.payload._nodeName,
-        showCopyButton: true
+        showCopyButton: true,
+        copyText:'copy'
       };
 
     case actionTypes.MULTI_NODE_ELEMENTS:
@@ -642,6 +643,15 @@ const authReducer = (state, action) => {
     let nodeHideElement = "";
       if (hideElement !== "" && state.multiSelectNode.length > 0) {
         let clonedElements = [...state.dataset[state.selectedTab]];
+        // let cloneFetchData = [...state.fetchData]
+        // // let add1 = 
+        // cloneFetchData.map((fetch) => {
+        //  const add1 = fetch.nodeData
+        //    add1.map((ele) => {
+        //   console.log('id', ele.id);
+        // }) 
+        // })
+         
         clonedElements.map((multiple) => {
           if (state.multiSelectNode.includes(multiple.id)) {
             multiple["isHidden"] = { ...multiple["isHidden"] };
@@ -667,23 +677,6 @@ const authReducer = (state, action) => {
           return el;
         })
         }
-
-      // let targetHideElement = [...state.dataset[state.selectedTab]];
-      // let nodeHideElement = "";
-      // if (state.selectArrow) {
-      //   nodeHideElement = targetHideElement.map((el) => {
-      //     if (el.id === state.selectedArrow) {
-      //       el.isHidden = hideElement;
-      //     }
-      //     return el;
-      //   });
-      // } else {
-      //   nodeHideElement = targetHideElement.map((el) => {
-      //     if (el.id === state.selectedNode) {
-      //       el.isHidden = hideElement;
-      //     }
-      //     return el;
-      //   });
       }
 
       let cloneHideElement = [...state.dataset];
@@ -1440,11 +1433,15 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:`${ _periodIndexN
       groupHandle : false,
     }
     case actionTypes.FETCH_GROUP_DATA:
+    const {_finalData ,myData} = action.payload
     
     return{
       ...state,
-      fetchData: action.payload.nodeData,
-      groupName: action.payload.groupName,
+      level: myData,
+      fetchData: _finalData,
+      // groupName: action.payload.groupName,
+       
+      
     }
     case actionTypes.CREATE_GROUP_DATA:
     const {evt: _evt} = action.payload;
@@ -1460,7 +1457,10 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:`${ _periodIndexN
     case actionTypes.COPY_NODE_HANDLER:
     return {
       ...state,
-      copyNode: state.elementData
+      showPasteButton: true,
+      copyNode: state.elementData,
+      copyText:'copied',
+
 
     }
     case actionTypes.PASTE_NODE_FILE_HANDLER:
@@ -1472,12 +1472,20 @@ targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:`${ _periodIndexN
           }
           return element;
         });
-      
+        
     return {
-      ...state,
-      dataset: [..._pasteNodeData],
-    }
 
+      ...state,
+      
+      dataset: [..._pasteNodeData],
+      copyText:'copy',
+      showPasteButton:!state.showPasteButton,
+    }
+  case actionTypes.FETCH_GROUP_STATUS_HANDLER:
+  return {
+    ...state,
+    fetchGroup: action.payload.fetchGroupStatus
+  }
     default:
       return state;
   }

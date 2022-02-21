@@ -142,9 +142,9 @@ const Header = (props) => {
        setGroupList(true)
        //   let multiNodeSize = multiNodeData.length;
              await getDocById("groupNodes", docID).then((value) => {
-               console.log('value', value);
-                const {groupName, nodeData} = value.data;
-                fetchedGroupData(groupName, nodeData)
+             console.log(value.data.finalData);
+                const _finalData = value.data.finalData;
+                fetchedGroupData(_finalData)
              })
        };
 
@@ -258,7 +258,7 @@ const Header = (props) => {
               Save
             </Button>
             {
-              _showGroupList ? <Button variant="contained" onClick={showGroupListHandler} >Show group list</Button> : null
+               <Button variant="contained" onClick={showGroupListHandler} >group list</Button> 
              
             }
           </Stack>

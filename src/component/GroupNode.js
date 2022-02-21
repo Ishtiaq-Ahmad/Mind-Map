@@ -28,47 +28,39 @@ const GroupNode = () => {
   const multiTabContext = useContext(MultiTabContext);
 //   const [createGroup, setCreateGroup] = useState('')
   const {
-    data: { multiNodeData , fetchData,docID, nodeHide, multiNodeLength, groupName, createGroup, multiNodeSize },hideNodeHandler, createGroupHandler, fetchedGroupData, handleClose, showGroupList
+    data: { multiNodeData , fetchData,docID, createGroup },fetchGroupStatusHandler, createGroupHandler, handleClose, showGroupList
   } = multiTabContext;
 
 //   let array1= [...fetchData]
 //   let dataLength = array1.splice(array1.length-multiNodeLength, multiNodeLength )
 
-// let arr = [...fetchData]
 
 const saveGroupHandler = async () => {
-
-  if (fetchData) {
-      
-    let arrrr = {
-         nodeData: fetchData,
-      groupName: createGroup 
-    }
-    let arrrr123 = {
-         nodeData: multiNodeData,
-      groupName: createGroup, 
-    }
     
-    let finalData = [arrrr , arrrr123];
-    // let finalGroupName = [groupName,createGroup ]
-    // const multiGroupData = {
-    //     // groupNodeId: docID,
-    //   nodeData: finalData,
-    //   groupName: createGroup,
-    // };
-    updateDocWithId("groupNodes", docID, {finalData});
-  } else { 
-      const myDocId = uuidv4();
-    const multiGroupData = {
-    //   groupNodeId: myDocId,
+    
+  if (fetchData) {
+    let arrrr123 = {
       nodeData: multiNodeData,
       groupName: createGroup,
-    };
-    await createDocWithID("groupNodes", docID, multiGroupData);
-  }
-  showGroupList()
-  handleClose();
+       visible: true
 
+      //   buttonCheck:true
+    };
+
+    let finalData = [...fetchData, arrrr123];
+    updateDocWithId("groupNodes", docID, { finalData });
+  
+    
+  } else {
+    const multiGroupData = {
+      nodeData: multiNodeData,
+      groupName: createGroup,
+      visible: true
+    };
+    await createDocWithID("groupNodes", docID, { finalData: [multiGroupData] });
+  }
+  showGroupList();
+  handleClose();
 };
   
   return (
@@ -84,14 +76,6 @@ const saveGroupHandler = async () => {
      <Typography id="modal-modal-title" variant="body1" component="h2">
        <strong> {createGroup}</strong>
       </Typography>
-       {/* <Switch
-            checked={nodeHide}
-            onChange={(evt) => hideNodeHandler(evt.target.checked)}
-            color="primary"
-            // name="checkedB"
-            className="switchHide"
-            inputProps={{ "aria-label": "primary checkbox" }}
-          /> */}
           </div>
       {multiNodeData.map((item, index) => (
         <fragment key={item.id}>

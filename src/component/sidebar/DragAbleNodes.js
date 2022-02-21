@@ -14,7 +14,7 @@ const DragAbleNodes = () => {
   const multiTabContext = useContext(MultiTabContext);
   const authNodeContext = useContext(AuthNodeContext)
   const { data: { role, userId, email, full_name }} = authNodeContext;
-  const {data: {dataset,selectedTab,multiNodeData, showCopyButton, copyNode, elementData, _nodesNumber,_nodesName,_periodsNodesData },handleOpen, pasteNodeFileHandler } = multiTabContext;
+  const {data: {dataset,selectedTab,multiNodeData, showPasteButton, showCopyButton, copyNode, elementData, _nodesNumber,_nodesName,_periodsNodesData, copyText },handleOpen, pasteNodeFileHandler, copyNodeHandler } = multiTabContext;
 
    const onDragStart = (event, nodeType) => {
         event.dataTransfer.setData('application/reactflow', nodeType);
@@ -49,11 +49,11 @@ const DragAbleNodes = () => {
        
       };
        const _copyNodeHandler =() =>{
-        // copyNodeHandler()
-        console.log("copy",elementData);
+        copyNodeHandler()
+        // console.log("copy",elementData);
       }
       const pasteNodeHandler = () => {
-        const{id: copiedNodeId, type: copiedTypeId, data} = elementData;
+        const{id: copiedNodeId, type: copiedTypeId, data} = copyNode;
         try {
            const xNumber = Math.floor(Math.random() * 100 + 1);
         const yNumber = Math.floor(Math.random() * 100 + 1);
@@ -90,10 +90,10 @@ const DragAbleNodes = () => {
       </div>
       <CsvFile/>
       <div style={{marginTop:'6px'}}>
-        {multiNodeData.length > 1 ?(<Button variant="contained" fullWidth onClick={groupDataHandler}>Create a Group</Button>) : null}
+        {multiNodeData.length > 1 ?(<Button variant="contained" fullWidth style={{marginBottom:"10px"}} onClick={groupDataHandler}>Create a Group</Button>) : null}
       </div>
-      {showCopyButton ? <Button fullWidth variant="contained" onClick={_copyNodeHandler} >Copy</Button> : null} 
-      <Button fullWidth style={{marginTop:"10px"}} variant="contained" onClick={pasteNodeHandler} >Paste</Button>
+      {showCopyButton ? <Button fullWidth variant="contained" onClick={_copyNodeHandler} >{copyText}</Button> : null} 
+      {showPasteButton ? <Button fullWidth style={{marginTop:"10px"}} variant="contained" onClick={pasteNodeHandler} >Paste</Button> : null}
         </div>
     )
 }

@@ -80,6 +80,7 @@ const NodeState = (props) => {
       groupList:false,
       fetchData:'',
       groupName: '',
+      groupData:'',
       createGroup:'',
       _showGroupList: false,
     multiNodeData: [],
@@ -87,7 +88,11 @@ const NodeState = (props) => {
     copyNode:'',
     _nodesNumber:'',
     _nodesName:'',
-    _periodsNodesData:''
+    _periodsNodesData:'',
+    showPasteButton:false,
+    copyText:'copy',
+    level: " ",
+    fetchGroup: ''
 
 
    
@@ -364,9 +369,9 @@ const nodeNameHandler = (evt) => {
     });
   };
   const hideNodeHandler = (e) => {
-      dispatch({ type: actionTypes.HIDE_NODE, payload: { e } });
-  }
-    const hideTreeHandler = (e) => {
+    dispatch({ type: actionTypes.HIDE_NODE, payload: { e } });
+  };
+  const hideTreeHandler = (e) => {
     dispatch({
       type: actionTypes.HIDE_ALL_TREE,
       payload: { e },
@@ -647,10 +652,15 @@ const handleClose = () => {
     type: actionTypes.HANDLE_CLOSE
   })
 }
-const fetchedGroupData = (groupName, nodeData) => {
+const fetchedGroupData = (_finalData) => {
+  let myData
+   _finalData.map((ele) =>{
+      myData = ele._groupIdentiy
+   })
+
   dispatch({
     type: actionTypes.FETCH_GROUP_DATA,
-    payload: {groupName, nodeData}
+    payload: {_finalData, myData}
   })
 }
 const createGroupHandler = (evt) =>{
@@ -672,6 +682,12 @@ const pasteNodeFileHandler = (pasteNodeData) => {
   dispatch({
     type: actionTypes.PASTE_NODE_FILE_HANDLER,
     payload:{pasteNodeData}
+  })
+}
+const fetchGroupStatusHandler = (fetchGroupStatus) => {
+  dispatch({
+    type:actionTypes.FETCH_GROUP_STATUS_HANDLER,
+    payload: {fetchGroupStatus}
   })
 }
   return (
@@ -753,7 +769,8 @@ const pasteNodeFileHandler = (pasteNodeData) => {
           createGroupHandler,
           showGroupList,
           copyNodeHandler,
-          pasteNodeFileHandler
+          pasteNodeFileHandler,
+          fetchGroupStatusHandler
       }}
     >
       {props.children}
