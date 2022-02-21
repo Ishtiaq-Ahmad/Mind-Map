@@ -69,12 +69,13 @@ const GroupList = () => {
                 <strong>{item.groupName.toUpperCase()}</strong>
               </Typography>
               <Switch
-                checked={nodeHide}
+                checked={item["visible"]}
                 // name={item._groupIdentiy}
+               
                 onChange={(evt) => 
                 { console.log({item}, {index})
 
-                    // hideNodeHandler(evt.target.checked)
+                    hideNodeHandler(evt.target.checked,index)
                     }}
                   
                 //   item.visible = !item.visible;

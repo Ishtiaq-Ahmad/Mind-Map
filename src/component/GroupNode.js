@@ -49,6 +49,7 @@ const saveGroupHandler = async () => {
 
     let finalData = [...fetchData, arrrr123];
     updateDocWithId("groupNodes", docID, { finalData });
+    // issue an event to context to clear the grouped nodes for group creation
   
     
   } else {

@@ -368,8 +368,8 @@ const nodeNameHandler = (evt) => {
       payload: { e },
     });
   };
-  const hideNodeHandler = (e) => {
-    dispatch({ type: actionTypes.HIDE_NODE, payload: { e } });
+  const hideNodeHandler = (e,checkedGroup) => {
+    dispatch({ type: actionTypes.HIDE_NODE, payload: { e,checkedGroup } });
   };
   const hideTreeHandler = (e) => {
     dispatch({

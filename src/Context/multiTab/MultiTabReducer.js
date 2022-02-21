@@ -28,59 +28,56 @@ const authReducer = (state, action) => {
         periodFinalData: action.payload.currentFinalValue,
         _periodsValue: action.payload._nodeName,
         showCopyButton: true,
-        copyText:'copy'
+        copyText: "copy",
       };
 
     case actionTypes.MULTI_NODE_ELEMENTS:
-    const {multiId, seletedElements} = action.payload
-    let selectedNodes = []
-    
+      const { multiId, seletedElements } = action.payload;
+      let selectedNodes = [];
+
       // let arr = [...state.multiNodeName]
       // seletedElements.forEach(element => {
       //   arr.push(element)
-    // if(!state.multiNodeName.length){
-    //    selectedNodes.push(seletedElements)
+      // if(!state.multiNodeName.length){
+      //    selectedNodes.push(seletedElements)
 
-    //   console.log('empty sate ', seletedElements);
-    // }
-    // else {
-    //   let arr = [...state.multiNodeName]
-    //   seletedElements.forEach(element => {
-    //     arr.push(element)
-    //   });
-      
-      
-    //   console.log('helop', arr);
-    // })
-    
+      //   console.log('empty sate ', seletedElements);
+      // }
+      // else {
+      //   let arr = [...state.multiNodeName]
+      //   seletedElements.forEach(element => {
+      //     arr.push(element)
+      //   });
+
+      //   console.log('helop', arr);
+      // })
+
       return {
         ...state,
         multiSelectNode: multiId,
-        multiNodeData : seletedElements,
-   
+        multiNodeData: seletedElements,
       };
     case actionTypes.LOAD_DATA_FROM_DB:
-    const{data, docid, status} = action.payload
+      const { data, docid, status } = action.payload;
 
-    // let aData = data
-    // let numbers
-    // aData.forEach(element => {
-    //    let numberOnly = (val) =>{
-    //   if(typeof(val) === 'object'){
-    //     return val;
-    //   }
-    // }
-    //  numbers = element.filter(numberOnly)
-    // });
-    //  numbers.map((ele) => {
-    //  ele.id = {...ele.id}
-    //  ele.type= {...ele.type}
-    //  ele.position = {...ele.position, x : ele.position.x , y: ele.position.y }
-    //  ele.data = {...ele.data, label: ele.data.label}
-    //  return ele
-    // });
-   
-  
+      // let aData = data
+      // let numbers
+      // aData.forEach(element => {
+      //    let numberOnly = (val) =>{
+      //   if(typeof(val) === 'object'){
+      //     return val;
+      //   }
+      // }
+      //  numbers = element.filter(numberOnly)
+      // });
+      //  numbers.map((ele) => {
+      //  ele.id = {...ele.id}
+      //  ele.type= {...ele.type}
+      //  ele.position = {...ele.position, x : ele.position.x , y: ele.position.y }
+      //  ele.data = {...ele.data, label: ele.data.label}
+      //  return ele
+      // });
+
       return {
         ...state,
         showNodeCustomization: true,
@@ -106,7 +103,6 @@ const authReducer = (state, action) => {
         dataset: [...state.dataset, nodesData],
       };
     case actionTypes.REMOVE_TAB:
-
       let tabToBeRemoved = [...state.dataset];
       tabToBeRemoved.splice(state.selectedTab, 1);
       return {
@@ -125,11 +121,11 @@ const authReducer = (state, action) => {
         isEmpty: false,
       };
     case actionTypes.ON_DRAG_NODE:
-      let {  updatedNodeData, _docid } = action.payload;
+      let { updatedNodeData, _docid } = action.payload;
       let drag = [...state.dataset];
       if (drag.length > 0) {
         // newly initialized dataset array
-     drag = drag.map((element, index) => {
+        drag = drag.map((element, index) => {
           if (state.selectedTab === index) {
             return updatedNodeData;
           }
@@ -160,7 +156,7 @@ const authReducer = (state, action) => {
         dataset: [...clonedData],
       };
     case actionTypes.DELETE_ELEMENT:
-      let {  deleteElement } = action.payload;
+      let { deleteElement } = action.payload;
       let cloneDelete = [...state.dataset];
       cloneDelete = cloneDelete.map((element, index) => {
         if (state.selectedTab === index) {
@@ -231,7 +227,7 @@ const authReducer = (state, action) => {
       } else if (state.multiSelectNode !== "" && bgColor !== "") {
         let targetEdgeLabelColor = [...state.dataset[state.selectedTab]];
         _edge = targetEdgeLabelColor.map((el) => {
-          console.log('ehis is ', el);
+          console.log("ehis is ", el);
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, backgroundColor: bgColor };
           }
@@ -268,7 +264,11 @@ const authReducer = (state, action) => {
         let targetBorder = [...state.dataset[state.selectedTab]];
         borderChange = targetBorder.map((el) => {
           if (el.id === state.selectedNode) {
-            el.style = { ...el.style, borderStyle: 'solid',  borderColor: updatedColor };
+            el.style = {
+              ...el.style,
+              borderStyle: "solid",
+              borderColor: updatedColor,
+            };
           }
           return el;
         });
@@ -288,8 +288,7 @@ const authReducer = (state, action) => {
         borderColor: updatedColor,
       };
     case actionTypes.CHANGE_NODE_FONT_COLOR:
-      let { updatedColor: updateFontColor } =
-        action.payload;
+      let { updatedColor: updateFontColor } = action.payload;
       let textColorChange = "";
       if (updateFontColor !== "" && state.multiSelectNode.length > 0) {
         let clonedElements = [...state.dataset[state.selectedTab]];
@@ -324,8 +323,7 @@ const authReducer = (state, action) => {
         nodeFontColor: updateFontColor,
       };
     case actionTypes.TRANSPARENT_NODE:
-      let { updatedColor: updateTransparentNode } =
-        action.payload;
+      let { updatedColor: updateTransparentNode } = action.payload;
       let nodeTransparentChange = "";
       if (updateTransparentNode !== "" && state.multiSelectNode.length > 0) {
         let clonedElements = [...state.dataset[state.selectedTab]];
@@ -361,7 +359,7 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.BORDER_RADIOS_INCREASE:
-      let {  radiosInc } = action.payload;
+      let { radiosInc } = action.payload;
       let nodeBorderRadios = "";
       if (radiosInc !== "" && state.multiSelectNode.length > 0) {
         let clonedElements = [...state.dataset[state.selectedTab]];
@@ -409,7 +407,9 @@ const authReducer = (state, action) => {
         });
         nodeBorderRadiosDecrease = [...clonedElements];
       } else if (state.multiSelectNode !== "" && radiosDec !== "") {
-        let targetNodeBorderRadiosDecrease = [...state.dataset[state.selectedTab]];
+        let targetNodeBorderRadiosDecrease = [
+          ...state.dataset[state.selectedTab],
+        ];
         nodeBorderRadiosDecrease = targetNodeBorderRadiosDecrease.map((el) => {
           if (el.id === state.selectedNode) {
             el.style = { ...el.style, borderRadius: radiosDec };
@@ -435,7 +435,7 @@ const authReducer = (state, action) => {
         dataset: [...clonedNodeDataRadiosDecrease],
       };
     case actionTypes.BORDER_WIDTH_INCREASE:
-      let {  width: width1 } = action.payload;
+      let { width: width1 } = action.payload;
       let targetBorderWidth = [...state.dataset[state.selectedTab]];
       const nodeBorderWidth = targetBorderWidth.map((el) => {
         if (el.id === state.selectedNode) {
@@ -479,7 +479,7 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeWidthDecrease],
       };
     case actionTypes.FONT_SIZE_INCREASE:
-      let {  nodeTextInc } = action.payload;
+      let { nodeTextInc } = action.payload;
       let targetFontSize = [...state.dataset[state.selectedTab]];
       const nodeFontSize = targetFontSize.map((el) => {
         if (el.id === state.selectedNode) {
@@ -523,7 +523,7 @@ const authReducer = (state, action) => {
         dataset: [...clonedNodeFontSize],
       };
     case actionTypes.NODE_BORDER_STYLE:
-      let {  nodeBorderStyle } = action.payload;
+      let { nodeBorderStyle } = action.payload;
       let targetNodeBorderStyle = [...state.dataset[state.selectedTab]];
       const _nodeBorderStyle = targetNodeBorderStyle.map((el) => {
         if (el.id === state.selectedNode) {
@@ -544,7 +544,7 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeBorderStyle],
       };
     case actionTypes.NODE_FONT_STYLE:
-      let {  fontStyle } = action.payload;
+      let { fontStyle } = action.payload;
       let targetNodeFontStyle = [...state.dataset[state.selectedTab]];
       const nodeFontStyle = targetNodeFontStyle.map((el) => {
         if (el.id === state.selectedNode) {
@@ -639,50 +639,103 @@ const authReducer = (state, action) => {
         dataset: [...cloneHideAllNode],
       };
     case actionTypes.HIDE_NODE:
-      let { e: hideElement } = action.payload;
-    let nodeHideElement = "";
-      if (hideElement !== "" && state.multiSelectNode.length > 0) {
-        let clonedElements = [...state.dataset[state.selectedTab]];
-        // let cloneFetchData = [...state.fetchData]
-        // // let add1 = 
-        // cloneFetchData.map((fetch) => {
-        //  const add1 = fetch.nodeData
-        //    add1.map((ele) => {
-        //   console.log('id', ele.id);
-        // }) 
-        // })
-         
-        clonedElements.map((multiple) => {
-          if (state.multiSelectNode.includes(multiple.id)) {
-            multiple["isHidden"] = { ...multiple["isHidden"] };
-            multiple["isHidden"] = hideElement;
-          }
-          return multiple;
-        });
-        nodeHideElement = [...clonedElements];
-      } else if (state.multiSelectNode !== "" && hideElement !== "") {
-        let targetHideElement = [...state.dataset[state.selectedTab]];
-        if (state.selectArrow) {
-        nodeHideElement = targetHideElement.map((el) => {
-          if (el.id === state.selectedArrow) {
-            el.isHidden = hideElement;
-          }
-          return el;
-        });
-        }else{
-           nodeHideElement = targetHideElement.map((el) => {
-          if (el.id === state.selectedNode) {
-            el.isHidden = hideElement;
-          }
-          return el;
-        })
-        }
-      }
+      let { e: hideElement, checkedGroup } = action.payload;
 
+      //  index of the selected group 'checkedGroup'
+      // handle checkbox
+
+      let clonedElements = [...state.dataset[state.selectedTab]];
+      let cloneFetchData = [...state.fetchData];
+      // let add1 =
+      cloneFetchData.map((fetch, index) => {
+        if (index === checkedGroup && hideElement === true) {
+          fetch["visible"] = true;
+          // get specific index data from fetch data
+
+          cloneFetchData[index].nodeData.forEach((CFelement) => {
+            clonedElements.map((cEInner) => {
+              if (cEInner.id === CFelement.id) {
+                cEInner["isHidden"] = true;
+              }
+            });
+          });
+        } else if (index === checkedGroup && hideElement === false) {
+          fetch["visible"] = false;
+          cloneFetchData[index].nodeData.forEach((CFelement) => {
+            clonedElements.map((cEInner) => {
+              if (cEInner.id === CFelement.id) {
+                cEInner["isHidden"] = false;
+              }
+            });
+          });
+        }
+      });
+
+      // get the nodes data (all nodes on canvas)
+
+      // get the fetched grouped data
+
+      // clonedElements.map(cE=>{
+
+      //   cloneFetchData.forEach
+
+      // })
+
+      //
+
+      let nodeHideElement = "";
+      // if (hideElement !== "" && state.multiSelectNode.length > 0) {
+      //   let clonedElements = [...state.dataset[state.selectedTab]];
+      //   // let cloneFetchData = [...state.fetchData]
+      //   // // let add1 =
+      //   // cloneFetchData.map((fetch) => {
+      //   //  const add1 = fetch.nodeData
+      //   //    add1.map((ele) => {
+      //   //   console.log('id', ele.id);
+      //   // })
+      //   // })
+
+      //   clonedElements.map((multiple) => {
+      //     if (state.multiSelectNode.includes(multiple.id)) {
+      //       multiple["isHidden"] = { ...multiple["isHidden"] };
+      //       multiple["isHidden"] = hideElement;
+      //     }
+      //     return multiple;
+      //   });
+      //   nodeHideElement = [...clonedElements];
+      // } else if (state.multiSelectNode !== "" && hideElement !== "") {
+      //   let targetHideElement = [...state.dataset[state.selectedTab]];
+      //   if (state.selectArrow) {
+      //     nodeHideElement = targetHideElement.map((el) => {
+      //       if (el.id === state.selectedArrow) {
+      //         el.isHidden = hideElement;
+      //       }
+      //       return el;
+      //     });
+      //   } else {
+      //     nodeHideElement = targetHideElement.map((el) => {
+      //       if (el.id === state.selectedNode) {
+      //         el.isHidden = hideElement;
+      //       }
+      //       return el;
+      //     });
+      //   }
+      // }
+
+      //
+      // let targetHideElement = [...state.dataset[state.selectedTab]];
+
+      // nodeHideElement = targetHideElement.map((el) => {
+      //   if (el.id === state.selectedNode) {
+      //     el.isHidden = hideElement;
+      //   }
+      //   return el;
+      // });
+      //
       let cloneHideElement = [...state.dataset];
       cloneHideElement = cloneHideElement.map((tab, index) => {
         if (state.selectedTab === index) {
-          return nodeHideElement;
+          return clonedElements;
         } else {
           return tab;
         }
@@ -690,8 +743,9 @@ const authReducer = (state, action) => {
 
       return {
         ...state,
-        nodeHide: hideElement,
+        // nodeHide: hideElement,
         dataset: [...cloneHideElement],
+        fetchData:cloneFetchData
       };
 
     case actionTypes.HIDE_ALL_TREE:
@@ -720,7 +774,7 @@ const authReducer = (state, action) => {
     //  ************Arrow Customization*********************
     case actionTypes.ARROW_TYPE:
       let { arrowTypeId } = action.payload;
-      
+
       let targetArrowType = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowType.findIndex(
@@ -837,7 +891,7 @@ const authReducer = (state, action) => {
         dataset: [...cloneEdgeLabelColor],
       };
     case actionTypes.EDGE_ARROW_COLOR:
-      let { bgColor: arrowColor} = action.payload;
+      let { bgColor: arrowColor } = action.payload;
       let targetArrowColor = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowColor.findIndex(
@@ -938,9 +992,9 @@ const authReducer = (state, action) => {
     //     arrowWidth: arrowDec,
     //     dataset: [...cloneArrowSizeDecrease],
     //   };
-      case actionTypes.ARROW_WIDTH_HANDLER:
-    const {evt: _arrowWidth } = action.payload;
-     let targetArrowDecrease = [...state.dataset[state.selectedTab]];
+    case actionTypes.ARROW_WIDTH_HANDLER:
+      const { evt: _arrowWidth } = action.payload;
+      let targetArrowDecrease = [...state.dataset[state.selectedTab]];
       if (state.selectArrow) {
         const index = targetArrowDecrease.findIndex(
           (item) => item.id === state.selectArrow
@@ -964,7 +1018,7 @@ const authReducer = (state, action) => {
         ...state,
         arrowWidth: _arrowWidth,
         dataset: [...cloneArrowSizeDecrease],
-      }
+      };
     case actionTypes.ADD_PNG_IMAGE:
       let { imageLoad } = action.payload;
       let targetNodeImage = [...state.dataset[state.selectedTab]];
@@ -1023,18 +1077,17 @@ const authReducer = (state, action) => {
         if (el.id === state.selectedNode) {
           if (state._nodeType === "input") {
             el.sourcePosition = nodeSourceEvt;
-            } else if (state._nodeType === "output") {
+          } else if (state._nodeType === "output") {
             el.targetPosition = nodeSourceEvt;
-            } else if (state._nodeType === "default") {
+          } else if (state._nodeType === "default") {
             if (nodeSourceEvt === "Right & Left") {
               el.sourcePosition = "right";
               el.targetPosition = "left";
-            }
-            else if (nodeSourceEvt === "Top & Bottom") {
+            } else if (nodeSourceEvt === "Top & Bottom") {
               el.targetPosition = "top";
               el.sourcePosition = "bottom";
             }
-          }   
+          }
         }
         return el;
       });
@@ -1052,7 +1105,7 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodePosition],
       };
     case actionTypes.NODE_SIZE_INCREASE:
-      let {  nodeSizeInc } = action.payload;
+      let { nodeSizeInc } = action.payload;
       let targetNodeSizeInc = [...state.dataset[state.selectedTab]];
       const nodeWidthSize = targetNodeSizeInc.map((el) => {
         if (el.id === state.selectedNode) {
@@ -1096,13 +1149,13 @@ const authReducer = (state, action) => {
         dataset: [...cloneNodeSizeDec],
       };
 
-      case actionTypes.NODE_SIZE_HANDLER:
-      const {evt: _nodeSize} = action.payload;
-      
+    case actionTypes.NODE_SIZE_HANDLER:
+      const { evt: _nodeSize } = action.payload;
+
       let _targetNodeSize = [...state.dataset[state.selectedTab]];
       const _nodeWidthSize = _targetNodeSize.map((el) => {
         if (el.id === state.selectedNode) {
-          el.style = { ...el.style, width:  _nodeSize};
+          el.style = { ...el.style, width: _nodeSize };
         }
         return el;
       });
@@ -1121,21 +1174,21 @@ const authReducer = (state, action) => {
       };
 
     case actionTypes.NODE_DRAG_ID_HANDLER:
-    return{
-      ...state,
-      nodeDragId: action.payload.nodeId
-    }
-     case actionTypes.NODE_DRAG_HANDLER:
-      let { nodePositionX, nodePositionY} = action.payload;
+      return {
+        ...state,
+        nodeDragId: action.payload.nodeId,
+      };
+    case actionTypes.NODE_DRAG_HANDLER:
+      let { nodePositionX, nodePositionY } = action.payload;
       let targetNodePosition = [...state.dataset[state.selectedTab]];
       let snode = state.nodeDragId;
-    
-let cloneNodePositionUpdate 
-        let nodePositionChange = targetNodePosition.map((el) => {
+
+      let cloneNodePositionUpdate;
+      let nodePositionChange = targetNodePosition.map((el) => {
         if (el.id === snode) {
-          el.position = { ...el.position, x: nodePositionX, y:nodePositionY};
+          el.position = { ...el.position, x: nodePositionX, y: nodePositionY };
         }
-       return el; 
+        return el;
       });
 
       cloneNodePositionUpdate = [...state.dataset];
@@ -1150,48 +1203,52 @@ let cloneNodePositionUpdate
         ...state,
         dataset: cloneNodePositionUpdate,
       };
- 
+
     case actionTypes._CSV_FILE_LOADER:
-    let {  _newCsvData,_indexNumber, valuesData, arr4,arr10, nodesNumber, nodesName,periodsNodesData} = action.payload;
+      let {
+        _newCsvData,
+        _indexNumber,
+        valuesData,
+        arr4,
+        arr10,
+        nodesNumber,
+        nodesName,
+        periodsNodesData,
+      } = action.payload;
       let _csvUpload = [...state.dataset];
-      
+
       if (_csvUpload.length > 0) {
         // newly initialized dataset array
-     
-     _csvUpload = _csvUpload.map((element, index) => {
+
+        _csvUpload = _csvUpload.map((element, index) => {
           if (state.selectedTab === index) {
-       
             return _newCsvData;
           }
           return element;
         });
       } else {
-        
         _csvUpload = [_newCsvData];
       }
 
       return {
         ...state,
-        _csvData :_newCsvData,
+        _csvData: _newCsvData,
         dataset: [..._csvUpload],
-        periodIndexNumber : _indexNumber,
+        periodIndexNumber: _indexNumber,
         periodsDataArray: valuesData,
         periodsHeadData: arr4,
         periodsFirstColum: arr10,
         _nodesNumber: nodesNumber,
-        _nodesName:nodesName,
-        _periodsNodesData:periodsNodesData,
+        _nodesName: nodesName,
+        _periodsNodesData: periodsNodesData,
+      };
 
-        
-
-        }
-
-      case actionTypes.CSV_FILE_UPLOADER:
-      let { newCsvData} = action.payload;
+    case actionTypes.CSV_FILE_UPLOADER:
+      let { newCsvData } = action.payload;
       let csvUpload = [...state.dataset[state.selectedTab]];
       if (csvUpload.length > 0) {
         // newly initialized dataset array
-     csvUpload = csvUpload.map((element, index) => {
+        csvUpload = csvUpload.map((element, index) => {
           if (state.selectedTab === index) {
             return newCsvData;
           }
@@ -1204,288 +1261,298 @@ let cloneNodePositionUpdate
       return {
         ...state,
         dataset: [...csvUpload],
-        
       };
-      case actionTypes.ACTION_PERIODS_DATA:
-      
+    case actionTypes.ACTION_PERIODS_DATA:
       return {
         ...state,
-        periodsData: action.payload.arr5
-      }
+        periodsData: action.payload.arr5,
+      };
 
-      case actionTypes.SPECIFIC_DATA_HANDLER:
-      const{evt: specificDataEvent} = action.payload
-      
+    case actionTypes.SPECIFIC_DATA_HANDLER:
+      const { evt: specificDataEvent } = action.payload;
+
       let periodsValueData = state.periodsDataArray;
-      let targetCsvDataSet
+      let targetCsvDataSet;
       // if(state.elementData.data.label.props ){
-        let finalValue =[]
-      periodsValueData.forEach(element => {  
-      let _value =state.periodsHeadData.findIndex(index => index === specificDataEvent);
-      let secondValue = element[_value]
-      finalValue.push(secondValue)     
-       });
-       targetCsvDataSet = [...state.dataset[state.selectedTab]]
-      let periodsFirstName =[...state.periodsFirstColum];
-      let _periodIndexNumber = [...state.periodIndexNumber]
-      for(let i = 0; i <= targetCsvDataSet.length-1; i++){
-          // targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
-targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:`${ _periodIndexNumber[i-1]+ ' ' + periodsFirstName[i-1] +' '+  finalValue[i-1]}`}
-         } 
+      let finalValue = [];
+      periodsValueData.forEach((element) => {
+        let _value = state.periodsHeadData.findIndex(
+          (index) => index === specificDataEvent
+        );
+        let secondValue = element[_value];
+        finalValue.push(secondValue);
+      });
+      targetCsvDataSet = [...state.dataset[state.selectedTab]];
+      let periodsFirstName = [...state.periodsFirstColum];
+      let _periodIndexNumber = [...state.periodIndexNumber];
+      for (let i = 0; i <= targetCsvDataSet.length - 1; i++) {
+        // targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
+        targetCsvDataSet[i].data = {
+          ...targetCsvDataSet[i].data,
+          label: `${
+            _periodIndexNumber[i - 1] +
+            " " +
+            periodsFirstName[i - 1] +
+            " " +
+            finalValue[i - 1]
+          }`,
+        };
+      }
       // }
       // else{
       //   console.log('i am other data');
       // }
-      
-      return{
+
+      return {
         ...state,
         specificData: specificDataEvent,
-        dataset: [targetCsvDataSet]
-      }
-      case actionTypes.PERIODS_VALUE_HANDLER:
-      const {evt: periodsValue}= action.payload;
-      let allCsvData = [...state._csvData]
-      let periodsNameData
+        dataset: [targetCsvDataSet],
+      };
+    case actionTypes.PERIODS_VALUE_HANDLER:
+      const { evt: periodsValue } = action.payload;
+      let allCsvData = [...state._csvData];
+      let periodsNameData;
       // console.log('state.hideAllNodeNumber', state.hideAllNodeNumber);
-      allCsvData.map((elem) =>{
-        if(elem.id === state.selectedNode){
-           periodsNameData =  elem.data.label.props.children[1];   
+      allCsvData.map((elem) => {
+        if (elem.id === state.selectedNode) {
+          periodsNameData = elem.data.label.props.children[1];
         }
-      })
-      let periodsIndexFinal
-      allCsvData.map((elem) =>{
-        if(elem.id === state.selectedNode){
-          let periodsIndex =  elem.data.label.props.children[0];  
-           const{children: indexData} = periodsIndex.props;
-           periodsIndexFinal = indexData
+      });
+      let periodsIndexFinal;
+      allCsvData.map((elem) => {
+        if (elem.id === state.selectedNode) {
+          let periodsIndex = elem.data.label.props.children[0];
+          const { children: indexData } = periodsIndex.props;
+          periodsIndexFinal = indexData;
         }
-      })
-      
+      });
 
-       let targetPeriodsValue = [...state.dataset[state.selectedTab]]
-       const nodePeriodsData = targetPeriodsValue.map((element) => {
-            if (element.id === state.selectedNode) {
-          element.data ={...element.data, 
-          label :`${state.hideAllNodeNumber? periodsIndexFinal: ' ' +  periodsNameData + ' '+ periodsValue }`}
+      let targetPeriodsValue = [...state.dataset[state.selectedTab]];
+      const nodePeriodsData = targetPeriodsValue.map((element) => {
+        if (element.id === state.selectedNode) {
+          element.data = {
+            ...element.data,
+            label: `${
+              state.hideAllNodeNumber
+                ? periodsIndexFinal
+                : " " + periodsNameData + " " + periodsValue
+            }`,
+          };
         }
         return element;
-       })
-       let clonePeriodData = [...state.dataset];
-       clonePeriodData = clonePeriodData.map((tab, index) => {
+      });
+      let clonePeriodData = [...state.dataset];
+      clonePeriodData = clonePeriodData.map((tab, index) => {
         if (state.selectedTab === index) {
           return nodePeriodsData;
         } else {
           return tab;
         }
       });
-      return{
+      return {
         ...state,
         _periodsValue: periodsValue,
-        dataset:[...clonePeriodData]
-      }
-      case actionTypes.SELECTED_TAB_HANDLER:
-       return {
+        dataset: [...clonePeriodData],
+      };
+    case actionTypes.SELECTED_TAB_HANDLER:
+      return {
         ...state,
-        selectedTab: action.payload.index
-      }
-      case actionTypes.SHOW_CSV_DATA:
-      return{
+        selectedTab: action.payload.index,
+      };
+    case actionTypes.SHOW_CSV_DATA:
+      return {
         ...state,
-        showCsv: !state.showCsv
-      }
-      case actionTypes.SMART_PADDING_HANDLER:
-      const {evt: paddingValue} = action.payload;
-     
+        showCsv: !state.showCsv,
+      };
+    case actionTypes.SMART_PADDING_HANDLER:
+      const { evt: paddingValue } = action.payload;
+
       let smartOption = [...state.smartOptions];
-      console.log('smartOption',smartOption);
-       let targetSmartPadding = [...state.dataset[state.selectedTab]];
-      
+      console.log("smartOption", smartOption);
+      let targetSmartPadding = [...state.dataset[state.selectedTab]];
+
       const nodeSmartPadding = targetSmartPadding.map((el) => {
-       if (el.id === state.selectArrow) {
-        smartOption = smartOption.map((smart) => {
-           smart.nodePadding = paddingValue  
-           return smart
-         })
-       
-       }    
+        if (el.id === state.selectArrow) {
+          smartOption = smartOption.map((smart) => {
+            smart.nodePadding = paddingValue;
+            return smart;
+          });
+        }
         return el;
       });
-  
-    
+
       let cloneSmartPadding = [...state.dataset];
 
       cloneSmartPadding = cloneSmartPadding.map((tab, index) => {
-        if(state.selectedTab === index){
-          return nodeSmartPadding
+        if (state.selectedTab === index) {
+          return nodeSmartPadding;
+        } else {
+          return tab;
         }
-        else {
-          return tab
-        }
-
-      })
+      });
 
       return {
         ...state,
         smartPadding: paddingValue,
         dataset: [...cloneSmartPadding],
-
-      }
-      case actionTypes.SMART_GRID_HANDLER:
-      const {evt: _smartGrid} = action.payload
+      };
+    case actionTypes.SMART_GRID_HANDLER:
+      const { evt: _smartGrid } = action.payload;
       return {
         ...state,
-        smartGrid : _smartGrid
-      }
-      case actionTypes.SMART_LINE_TYPE_HANDLER:
-      const {evt: _smartLineType} = action.payload
+        smartGrid: _smartGrid,
+      };
+    case actionTypes.SMART_LINE_TYPE_HANDLER:
+      const { evt: _smartLineType } = action.payload;
       return {
         ...state,
-        smartLine: _smartLineType
-        
-      }
-      case actionTypes.SMART_LESS_CORNER:
-      const {evt: _smartLessCorner} = action.payload;
+        smartLine: _smartLineType,
+      };
+    case actionTypes.SMART_LESS_CORNER:
+      const { evt: _smartLessCorner } = action.payload;
       return {
         ...state,
-        smartCorner: !state.smartCorner
-      }
-      case actionTypes.SHOW_SMART_CUSTOMIZATION:
+        smartCorner: !state.smartCorner,
+      };
+    case actionTypes.SHOW_SMART_CUSTOMIZATION:
       return {
         ...state,
-        showSmartCustom: true
-      }
-      case actionTypes.SHOW_SMOOTH_CUSTOMIZATION:
-      return{
+        showSmartCustom: true,
+      };
+    case actionTypes.SHOW_SMOOTH_CUSTOMIZATION:
+      return {
         ...state,
-        showSmartCustom: false
-      }
-      case actionTypes.HIDE_NODE_NUMBER:
-      const {eve: _nodeNumber} = action.payload
-      let targetNodeNumber = [...state.dataset[state.selectedTab]]
+        showSmartCustom: false,
+      };
+    case actionTypes.HIDE_NODE_NUMBER:
+      const { eve: _nodeNumber } = action.payload;
+      let targetNodeNumber = [...state.dataset[state.selectedTab]];
       try {
-        let nodeNumberData = state.periodsDataArray;  
-       let _finalValue =[]
-      nodeNumberData.forEach(element => {  
-      let _value =state.periodsHeadData.findIndex(index => index === state.specificData);
-      let secondValue = element[_value]
-      _finalValue.push(secondValue)     
-       });
-      
-      
-      let periodsNodeName =[...state.periodsFirstColum];
-      let _periodsNodeNumber = [...state.periodIndexNumber]
-      for(let i = 0; i <= targetNodeNumber.length-1; i++){
-          targetNodeNumber[i].data = {...targetNodeNumber[i].data, label: `${state.hideAllNodeNumber ? _periodsNodeNumber[i-1]: ''}` + periodsNodeName[i-1] +  _finalValue[i-1]}
-         } 
+        let nodeNumberData = state.periodsDataArray;
+        let _finalValue = [];
+        nodeNumberData.forEach((element) => {
+          let _value = state.periodsHeadData.findIndex(
+            (index) => index === state.specificData
+          );
+          let secondValue = element[_value];
+          _finalValue.push(secondValue);
+        });
+
+        let periodsNodeName = [...state.periodsFirstColum];
+        let _periodsNodeNumber = [...state.periodIndexNumber];
+        for (let i = 0; i <= targetNodeNumber.length - 1; i++) {
+          targetNodeNumber[i].data = {
+            ...targetNodeNumber[i].data,
+            label:
+              `${state.hideAllNodeNumber ? _periodsNodeNumber[i - 1] : ""}` +
+              periodsNodeName[i - 1] +
+              _finalValue[i - 1],
+          };
+        }
       } catch (error) {
-        console.log('periods value not selected');
+        console.log("periods value not selected");
       }
 
-      return{
+      return {
         ...state,
         hideAllNodeNumber: !state.hideAllNodeNumber,
-        dataset: [targetNodeNumber]
-      }
+        dataset: [targetNodeNumber],
+      };
 
-     case actionTypes.SHOW_MODAL_NAME_HANDLER:
-     return {
-       ...state,
-       showModalName: !state.showModalName
-     }
-     case actionTypes.SHOW_TAB_NAME_HANDLER:
-     return{
-       ...state,
-       showTabName: !state.showTabName
-     }
-      case actionTypes.SHOW_DATE_HANDLER:
-     return{
-       ...state,
-       showDate: !state.showDate,
-     }
-      case actionTypes.SHOW_PERIOD_HANDLER:
-     return{
-       ...state,
-       showPeriod: !state.showPeriod
-     }
-      case actionTypes.SHOW_SOFTWARE_OWNER_HANDLER:
-     return{
-       ...state,
-       showSoftwareOwner: !state.showSoftwareOwner
-     }
-      case actionTypes.SHOW_SOFTWARE_DEVELOPER_HANDLER:
-     return{
-       ...state,
-       showSoftwareDeveloper: !state.showSoftwareDeveloper
-     }
-      case actionTypes.SHOW_USER_HANDLER:
-     return{
-       ...state,
-       showUser: !state.showUser
-     }
-     case actionTypes.HANDLE_OPEN:
-     return{
-       ...state,
-       groupHandle: true,
-     }
+    case actionTypes.SHOW_MODAL_NAME_HANDLER:
+      return {
+        ...state,
+        showModalName: !state.showModalName,
+      };
+    case actionTypes.SHOW_TAB_NAME_HANDLER:
+      return {
+        ...state,
+        showTabName: !state.showTabName,
+      };
+    case actionTypes.SHOW_DATE_HANDLER:
+      return {
+        ...state,
+        showDate: !state.showDate,
+      };
+    case actionTypes.SHOW_PERIOD_HANDLER:
+      return {
+        ...state,
+        showPeriod: !state.showPeriod,
+      };
+    case actionTypes.SHOW_SOFTWARE_OWNER_HANDLER:
+      return {
+        ...state,
+        showSoftwareOwner: !state.showSoftwareOwner,
+      };
+    case actionTypes.SHOW_SOFTWARE_DEVELOPER_HANDLER:
+      return {
+        ...state,
+        showSoftwareDeveloper: !state.showSoftwareDeveloper,
+      };
+    case actionTypes.SHOW_USER_HANDLER:
+      return {
+        ...state,
+        showUser: !state.showUser,
+      };
+    case actionTypes.HANDLE_OPEN:
+      return {
+        ...state,
+        groupHandle: true,
+      };
     case actionTypes.HANDLE_CLOSE:
-    return{
-      ...state,
-      groupHandle : false,
-    }
+      return {
+        ...state,
+        groupHandle: false,
+      };
     case actionTypes.FETCH_GROUP_DATA:
-    const {_finalData ,myData} = action.payload
-    
-    return{
-      ...state,
-      level: myData,
-      fetchData: _finalData,
-      // groupName: action.payload.groupName,
-       
-      
-    }
+      const { _finalData, myData } = action.payload;
+
+      return {
+        ...state,
+        level: myData,
+        fetchData: _finalData,
+        // groupName: action.payload.groupName,
+      };
     case actionTypes.CREATE_GROUP_DATA:
-    const {evt: _evt} = action.payload;
-    return {
-      ...state,
-      createGroup : _evt
-    }
+      const { evt: _evt } = action.payload;
+      return {
+        ...state,
+        createGroup: _evt,
+      };
     case actionTypes.SHOW_GROUP_LIST:
-    return {
-      ...state,
-      _showGroupList: true
-    }
+      return {
+        ...state,
+        _showGroupList: true,
+      };
     case actionTypes.COPY_NODE_HANDLER:
-    return {
-      ...state,
-      showPasteButton: true,
-      copyNode: state.elementData,
-      copyText:'copied',
-
-
-    }
+      return {
+        ...state,
+        showPasteButton: true,
+        copyNode: state.elementData,
+        copyText: "copied",
+      };
     case actionTypes.PASTE_NODE_FILE_HANDLER:
-    const {pasteNodeData} = action.payload;
+      const { pasteNodeData } = action.payload;
       let _pasteNodeData = [...state.dataset];
-     _pasteNodeData = _pasteNodeData.map((element, index) => {
-          if (state.selectedTab === index) {
-            return pasteNodeData;
-          }
-          return element;
-        });
-        
-    return {
+      _pasteNodeData = _pasteNodeData.map((element, index) => {
+        if (state.selectedTab === index) {
+          return pasteNodeData;
+        }
+        return element;
+      });
 
-      ...state,
-      
-      dataset: [..._pasteNodeData],
-      copyText:'copy',
-      showPasteButton:!state.showPasteButton,
-    }
-  case actionTypes.FETCH_GROUP_STATUS_HANDLER:
-  return {
-    ...state,
-    fetchGroup: action.payload.fetchGroupStatus
-  }
+      return {
+        ...state,
+
+        dataset: [..._pasteNodeData],
+        copyText: "copy",
+        showPasteButton: !state.showPasteButton,
+      };
+    case actionTypes.FETCH_GROUP_STATUS_HANDLER:
+      return {
+        ...state,
+        fetchGroup: action.payload.fetchGroupStatus,
+      };
     default:
       return state;
   }
