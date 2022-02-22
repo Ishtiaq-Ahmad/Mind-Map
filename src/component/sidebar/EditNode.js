@@ -124,7 +124,7 @@ const EditNode = () => {
           size="small"
           variant="outlined"
         />
-        {/* <TextField
+        <TextField
           className="node_label"
           value={_periodsValue}
           onChange={(evt) => {
@@ -134,7 +134,7 @@ const EditNode = () => {
           placeholder='Periods Value'
           size="small"
           variant="standard"
-        /> */}
+        />
         <TextareaAutosize
       aria-label="empty textarea"
       placeholder="Node ID"

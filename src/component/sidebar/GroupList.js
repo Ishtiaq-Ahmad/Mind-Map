@@ -21,24 +21,8 @@ const style = {
 };
 const GroupList = () => {
     const multiTabContext  = useContext(MultiTabContext);
-    const {data: {groupName, fetchData,nodeHide,level},hideNodeHandler} = multiTabContext;
+    const {data: {groupName, fetchData,},hideNodeHandler} = multiTabContext;
     let arr = [...fetchData]
-    let arr1 = [...fetchData]
-    let identifierData 
-    arr1.map((_data) => {
-        identifierData = _data._groupIdentiy
-    })
-    
-    const _hideNodeHandler = (evt) => {
-// console.log('evt', evt);
-  console.log('yaa',evt.target);
-    //   if (level === identifierData) {
-        // hideNodeHandler(evt.target.checked);
-    //   } else {
-    //     console.log("name data not matched");
-    //   }
-    };
-   
   return (
     <div>
       <Box sx={style}>
@@ -70,13 +54,7 @@ const GroupList = () => {
               </Typography>
               <Switch
                 checked={item["visible"]}
-                // name={item._groupIdentiy}
-               
-                onChange={(evt) => 
-                { console.log({item}, {index})
-
-                    hideNodeHandler(evt.target.checked,index)
-                    }}
+                onChange={(evt) => {hideNodeHandler(evt.target.checked,index)}}
                   
                 //   item.visible = !item.visible;
                 //   let newArr = [...fetchData];

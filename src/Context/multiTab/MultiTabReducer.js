@@ -1282,21 +1282,15 @@ const authReducer = (state, action) => {
         let secondValue = element[_value];
         finalValue.push(secondValue);
       });
-      targetCsvDataSet = [...state.dataset[state.selectedTab]];
+         targetCsvDataSet = [...state.dataset[state.selectedTab]];
+      // targetCsvDataSet = [...state.dataset];
       let periodsFirstName = [...state.periodsFirstColum];
       let _periodIndexNumber = [...state.periodIndexNumber];
       for (let i = 0; i <= targetCsvDataSet.length - 1; i++) {
         // targetCsvDataSet[i].data = {...targetCsvDataSet[i].data, label:(<><strong>{ _periodIndexNumber[i-1]}</strong>{periodsFirstName[i-1]}<strong> {finalValue[i-1]}</strong></>)}
         targetCsvDataSet[i].data = {
-          ...targetCsvDataSet[i].data,
-          label: `${
-            _periodIndexNumber[i - 1] +
-            " " +
-            periodsFirstName[i - 1] +
-            " " +
-            finalValue[i - 1]
-          }`,
-        };
+          ...targetCsvDataSet[i].data, label: `${ _periodIndexNumber[i - 1] + " " + periodsFirstName[i - 1] + " " + finalValue[i - 1] }`,
+           };
       }
       // }
       // else{
