@@ -394,10 +394,11 @@ margin-top: 10px;
   padding: 0px !important;
 }
 .css-nt05bc{
-max-width: 0px !important;
+/* max-width: 0px !important; */
 min-width: 0px !important;
 }
-.tab_data{
-  display: flex !important;
-  justify-content: space-between !important
+
+.css-k008qs{
+  display: flex ;
+  justify-content: space-between !important; 
 }
