@@ -30,10 +30,7 @@ try{
          <Typography variant="caption" gutterBottom >
             <strong>{ index + 1}</strong> 
           </Typography><br/>
-          {/* <Typography variant="caption" gutterBottom component="div">
-            <strong>{ element.id}</strong> 
-          </Typography> */}
-  
+     
           <Typography variant="caption" gutterBottom >
             {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
            <strong>{ element.data.label} </strong> 
