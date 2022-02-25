@@ -398,6 +398,6 @@ max-width: 0px !important;
 min-width: 0px !important;
 }
 .tab_data{
-  display: flex;
-  justify-content: space-between;
+  display: flex !important;
+  justify-content: space-between !important;
 }
