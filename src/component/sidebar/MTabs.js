@@ -23,18 +23,16 @@ const MTabs = () => {
   return <div>
       {/* <Box sx={{ width: '100%' }}> */}
       <TabContext value={value}>
-        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
-        <div style={{borderBottom: '1px solid #bebfc0'}}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example"  sx={{display:'flex',justifyContent:"space-between"}}>
-          AddBoxIcon
       
+        <div style={{borderBottom: '1px solid #bebfc0'}}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example" className='tab_data'  sx={{display:'flex',justifyContent:"space-between"}}>
             <Tab icon={<AddBoxIcon />} value="1" />
             <Tab icon={<ListAltIcon />} value="2" /> 
             <Tab icon={<ColorLensIcon />}  value="3" />
             <Tab icon={<FormatPaintIcon />}  value="4" />
          
           </TabList>
-        {/* </Box> */}
+      
         </div>
         <TabPanel value="1">{<DragAbleNodes/> }</TabPanel>
         <TabPanel value="2">{<NodesInfo/>}</TabPanel>

@@ -353,8 +353,8 @@ padding: 0px !important;
 min-height: 0px !important; 
 }
 .css-heg063-MuiTabs-flexContainer{
-display: flex !important;
-justify-content: space-between !important; 
+display: flex ;
+justify-content: space-between ; 
 }
 .css-76q8hu-MuiTabs-root {
    min-height: 28px !important;
@@ -392,4 +392,12 @@ margin-top: 10px;
 }
 .css-19kzrtu{
   padding: 0px !important;
+}
+.css-nt05bc{
+max-width: 0px !important;
+min-width: 0px !important;
+}
+.tab_data{
+  display: flex;
+  justify-content: space-between;
 }
