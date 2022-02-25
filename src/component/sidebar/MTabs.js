@@ -25,7 +25,7 @@ const MTabs = () => {
       <TabContext value={value}>
         {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}> */}
         <div style={{borderBottom: '1px solid #bebfc0'}}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example" sx={{display:'flex',justifyContent:"space-between"}}>
+          <TabList onChange={handleChange} aria-label="lab API tabs example"  sx={{display:'flex',justifyContent:"space-between"}}>
           AddBoxIcon
           {/* <div style={{display:"flex", justifyContent: 'space-between'}}> */}
             <Tab icon={<AddBoxIcon />} value="1" />
