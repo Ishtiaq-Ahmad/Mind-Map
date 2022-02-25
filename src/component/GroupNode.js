@@ -93,9 +93,7 @@ const GroupNode = () => {
             gutterBottom
             component="div"
           ></Typography>
-          {/* <Typography variant="caption" gutterBottom component="div">
-            <strong>Node ID:</strong> {item.id}
-          </Typography> */}
+         
 
           <Typography variant="caption" gutterBottom component="div">
             {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
