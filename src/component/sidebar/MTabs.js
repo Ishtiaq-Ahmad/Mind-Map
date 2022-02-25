@@ -27,12 +27,12 @@ const MTabs = () => {
         <div style={{borderBottom: '1px solid #bebfc0'}}>
           <TabList onChange={handleChange} aria-label="lab API tabs example"  sx={{display:'flex',justifyContent:"space-between"}}>
           AddBoxIcon
-          {/* <div style={{display:"flex", justifyContent: 'space-between'}}> */}
+      
             <Tab icon={<AddBoxIcon />} value="1" />
             <Tab icon={<ListAltIcon />} value="2" /> 
             <Tab icon={<ColorLensIcon />}  value="3" />
             <Tab icon={<FormatPaintIcon />}  value="4" />
-          {/* </div> */}
+         
           </TabList>
         {/* </Box> */}
         </div>
