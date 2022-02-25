@@ -71,9 +71,9 @@ const GroupList = () => {
             {/* <strong>Node Name: </strong> {element.source === undefined && element.target === undefined ? element.data.label: ''} */}
             {item.nodeData.map((element, index) => (
               <div key={index}>
-                <Typography variant="caption" gutterBottom component="div">
+                {/* <Typography variant="caption" gutterBottom component="div">
                   <strong>Node ID:</strong> {element.id}
-                </Typography>
+                </Typography> */}
                 <Typography variant="caption" gutterBottom component="div">
                   <strong>Node Name:</strong> {element.data.label}
                 </Typography>
