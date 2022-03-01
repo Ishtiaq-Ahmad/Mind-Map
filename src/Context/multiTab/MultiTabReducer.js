@@ -1547,6 +1547,11 @@ const authReducer = (state, action) => {
         ...state,
         fetchGroup: action.payload.fetchGroupStatus,
       };
+      case actionTypes.SHOW_SIDEBAR_HANDLER:
+      return {
+        ...state,
+        showSideBar: !state.showSideBar,
+      }
     default:
       return state;
   }

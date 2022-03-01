@@ -92,7 +92,8 @@ const NodeState = (props) => {
     showPasteButton:false,
     copyText:'copy',
     level: " ",
-    fetchGroup: ''
+    fetchGroup: '',
+    showSideBar: true
 
 
    
@@ -690,6 +691,11 @@ const fetchGroupStatusHandler = (fetchGroupStatus) => {
     payload: {fetchGroupStatus}
   })
 }
+const showSideBarHandler = () => {
+  dispatch({
+    type:actionTypes.SHOW_SIDEBAR_HANDLER
+  })
+}
   return (
     <MultiTabContext.Provider
       value={{
@@ -770,7 +776,8 @@ const fetchGroupStatusHandler = (fetchGroupStatus) => {
           showGroupList,
           copyNodeHandler,
           pasteNodeFileHandler,
-          fetchGroupStatusHandler
+          fetchGroupStatusHandler,
+          showSideBarHandler
       }}
     >
       {props.children}

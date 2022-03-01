@@ -22,6 +22,8 @@ import { _signOut } from "../utils/helpers";
 import { nodeSourcePosition, defaultNodeSource } from "./FlowChartData";
 import { useNavigate, Link } from "react-router-dom";
 import PrintLegends from './PrintLegends';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import {
   getAllData,
   createDocWithID,
@@ -65,6 +67,7 @@ const Header = (props) => {
       specificData,
       periodsData,
       groupHandle,
+      showSideBar,
       _showGroupList,
     },
     nodeSourcePositionHandler,
@@ -72,7 +75,8 @@ const Header = (props) => {
     specificDataHandler,
     handleOpen,
     handleClose,
-    fetchedGroupData
+    fetchedGroupData,
+    showSideBarHandler
   } = nodeMultiContext;
   const [openPrint, setOpenPrint] = useState(false);
   const [groupList, setGroupList]  = useState(false)
@@ -264,6 +268,17 @@ const Header = (props) => {
           </Stack>
          
           <label htmlFor="icon-button-file">
+          <IconButton
+              color="primary"
+              aria-label="upload picture"
+              component="span"
+              onClick={showSideBarHandler}
+            >{
+              showSideBar ? <VisibilityIcon color="#616161" />:  <VisibilityOffIcon color="#616161"/>
+            }
+              
+             
+            </IconButton>
             <IconButton
               color="primary"
               aria-label="upload picture"

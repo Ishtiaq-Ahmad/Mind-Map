@@ -56,6 +56,7 @@ const FlowChart = (props) => {
       showUser,
       showSoftwareOwner,
       showSoftwareDeveloper,
+      showSideBar
     },
     updateDataSetHandler,
     onElementClickHandler,
@@ -307,7 +308,16 @@ const FlowChart = (props) => {
 
     nodeDragIdHandler(nodeId);
   };
-
+// switch(showSideBar) {
+//   case tabs:
+//     const x = 10
+//     break;
+//   case :
+//     // code block
+//     break;
+//   default:
+//     // code block
+// }
   return (
     <div>
       <ScreenCapture onEndCapture={handleScreenCapture}>
@@ -325,7 +335,7 @@ const FlowChart = (props) => {
                 </Grid>
               ) : null}
 
-              <Grid item sm={tabs ? 8 : 10} xs={12} ref={componentRef}>
+          <Grid item xs={tabs ? 8 : 10   }  ref={componentRef}>
                 <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
                   <SmartEdgeProvider
                     options={{
@@ -362,7 +372,9 @@ const FlowChart = (props) => {
                   </SmartEdgeProvider>
                 </div>
               </Grid>
-              <Grid item xs={2} className="sidebar">
+              {
+                showSideBar ? (
+                  <Grid item xs={2} className="sidebar">
                 <MindMapSideBar
                   uploadImage={uploadImage}
                   setUploadImage={setUploadImage}
@@ -370,6 +382,9 @@ const FlowChart = (props) => {
                   screenCapture={screenCapture}
                 />
               </Grid>
+                ) : null
+              }
+              
             </Grid>
           </div>
         )}
