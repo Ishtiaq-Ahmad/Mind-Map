@@ -367,7 +367,7 @@ const FlowChart = (props) => {
                       arrowHeadColor="blue"
                     >
                       <Controls />
-                      <Background color="#aaa" gap={16} />
+                      <Background color='#aaa' gap={16} />
                     </ReactFlow>
                   </SmartEdgeProvider>
                 </div>
