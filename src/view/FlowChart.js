@@ -336,7 +336,7 @@ const FlowChart = (props) => {
               ) : null}
 
           <Grid item xs={tabs ? 8 : 10   }  ref={componentRef}>
-                <div style={{ height: "93vh" }} ref={reactFlowWrapper}>
+                <div style={{ height: '93vh' }} ref={reactFlowWrapper}>
                   <SmartEdgeProvider
                     options={{
                       nodePadding: smartPadding,
