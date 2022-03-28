@@ -20,31 +20,64 @@ const CustomNodeComponent = ({ data, isConnectable}) => {
   
   return (
     <div >
-      <Handle
-        type="target"
-        position="left"
-        isConnectable={isConnectable}
-        id='a'
-      />
-      <div >{data.label}</div>
-      <Handle
+    <Handle
         type="source"
-        position="right"
-        id="b"
+        position="top"
+        id="a"
+        style={{ right: 60, left:"auto", background: '#FF0072' }}
         isConnectable={isConnectable}
       />
       <Handle
         type="target"
         position="top"
-        id="c"
+        id="b"
+        style={{ left:70,  background: ' #009900' }}
         isConnectable={isConnectable}
       />
        <Handle
         type="source"
-        position="bottom"
-        id="d"
+        position="left"
+        id="c"
+        style={{ top: 12, background: '#FF0072' }}
         isConnectable={isConnectable}
       />
+      <Handle
+        type="target"
+        position="left"
+        id="d"
+        style={{ bottom: 5, top: 'auto', background: ' #009900' }}
+        isConnectable={isConnectable}
+      />
+      <div >{data.label}</div>
+      <Handle
+        type="source"
+        position="right"
+        id="e"
+        style={{ top: 12, background: '#FF0072' }}
+        isConnectable={isConnectable}
+      />
+      <Handle
+        type="target"
+        position="right"
+        id="f"
+        style={{ bottom: 5, top: 'auto', background: '#009900' }}
+        isConnectable={isConnectable}
+      />
+        <Handle
+        type="source"
+        position="bottom"
+        id="g"
+        style={{ right: 60, left:"auto", background: '#FF0072' }}
+        isConnectable={isConnectable}
+      />
+      <Handle
+        type="target"
+        position="bottom"
+        id="h"
+        style={{ left:70,  background: '#009900' }}
+        isConnectable={isConnectable}
+      />
+
     </div>
   );
 };
